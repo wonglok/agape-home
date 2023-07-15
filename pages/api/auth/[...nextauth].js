@@ -3,7 +3,7 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-export const PREFIX = `PASSWORD_`
+export const PREFIX = `${process.env.PREFIX_USER}`
 
 export let authOptions = {
   // adapter: MongoDBAdapter(clientPromise),
@@ -11,7 +11,7 @@ export let authOptions = {
 
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'Developer Admin Login',
 
       credentials: {
         username: { label: 'Username', type: 'text', placeholder: 'admin' },
@@ -19,11 +19,12 @@ export let authOptions = {
       },
 
       async authorize(credentials) {
-        if (process.env[PREFIX + credentials.username] === credentials.password) {
+        if (process.env[PREFIX + '_' + credentials.username] === credentials.password) {
           return {
             id: credentials.username,
             name: credentials.username,
             username: credentials.username,
+            role: 'devroot',
           }
         } else {
           return null

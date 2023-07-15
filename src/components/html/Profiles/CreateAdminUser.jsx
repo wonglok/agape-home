@@ -2,13 +2,13 @@ import { useProfiles } from './useProfiles'
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
-export function CreateVisitor() {
+export function CreateAdminUser() {
   //
 
   let router = useRouter()
   let displayName = useRef()
   let username = useRef()
-  let website = useRef()
+  let password = useRef()
 
   let [st, setSt] = useState('')
   let [obj, setObj] = useState('')
@@ -18,15 +18,15 @@ export function CreateVisitor() {
         <div className='mb-6 md:flex md:items-center'>
           <div className='md:w-1/3'>
             <label className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right' htmlFor='inline-full-name'>
-              Business Name
+              Display Name
             </label>
           </div>
           <div className='md:w-2/3'>
             <input
+              required
               className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
               type='text'
               ref={displayName}
-              placeholder='Meta Chicken'
             />
           </div>
         </div>
@@ -50,14 +50,14 @@ export function CreateVisitor() {
         <div className='mb-6 md:flex md:items-center'>
           <div className='md:w-1/3'>
             <label className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right' htmlFor='inline-full-name'>
-              Website
+              Password
             </label>
           </div>
           <div className='md:w-2/3'>
             <input
               className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
-              type='text'
-              ref={website}
+              type='password'
+              ref={password}
               placeholder='mybusiness.com'
             />
           </div>
@@ -71,7 +71,7 @@ export function CreateVisitor() {
                 let data = await useProfiles.getState().createProfile({
                   displayName: displayName.current.value,
                   username: username.current.value,
-                  website: website.current.value,
+                  password: password.current.value,
 
                   // holoJsonUrl: form.holoJsonUrl || '',
                   // holoPosterUrl: form.holoPosterUrl || '',
@@ -81,7 +81,7 @@ export function CreateVisitor() {
                   // readyPlayerMeUrl: '',
                 })
 
-                console.log(data)
+                // console.log(data)
 
                 setSt('✅')
                 setObj(data)
@@ -96,7 +96,7 @@ export function CreateVisitor() {
             {obj && (
               <button
                 onClick={async () => {
-                  router.push(`/admin/profile/${obj._id}`)
+                  router.push(`/admin/user/${obj._id}`)
                 }}
                 className='focus:shadow-outline rounded bg-green-500 px-4 py-2 font-bold text-white shadow hover:bg-green-400 focus:outline-none'
               >

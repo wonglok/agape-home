@@ -1,5 +1,5 @@
 import { AdminGate } from '../AdminLayout/AdminGate'
-import { CreateVisitor } from '../Profiles/CreateVisitor'
+import { CreateAdminUser } from '../Profiles/CreateAdminUser'
 
 export function MyProfileCreate() {
   // let sess = useSession()
@@ -8,8 +8,8 @@ export function MyProfileCreate() {
     <>
       {/*  */}
       <AdminGate>
-        <h1 className='daysfont mb-3 text-2xl'>Create New Visitor Profile</h1>
-        <CreateVisitor></CreateVisitor>
+        <h1 className='daysfont mb-3 text-2xl'>Create New Admin User</h1>
+        <CreateAdminUser></CreateAdminUser>
         {/* <ListOfProfiles></ListOfProfiles> */}
         {/* <Login></Login> */}
       </AdminGate>

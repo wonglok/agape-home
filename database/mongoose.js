@@ -6,27 +6,24 @@ const uri = process.env.MONGODB_URI
 
 mongoose.connect(uri)
 
-delete mongoose.models.ClientProfile
-if (!mongoose.models.ClientProfile) {
-  mongoose.model('ClientProfile', {
+delete mongoose.models.UserProfile
+if (!mongoose.models.UserProfile) {
+  mongoose.model('UserProfile', {
     //
     displayName: String,
     username: {
       type: String,
       unique: true,
     },
-    website: String,
+    passwordHash: String,
 
-    holoJsonUrl: {},
-    holoPosterUrl: {},
-    holoVideoUrl: {},
-    holoGUIUrl: {},
+    profilePicS3: {},
 
     readyPlayerMeUrl: String,
   })
 }
 
-export const ClientProfile = mongoose.models.ClientProfile
+export const UserProfile = mongoose.models.UserProfile
 
 // const kitty = new Cat({ name: 'Zildjian' })
 // kitty.save().then(() => console.log('meow'))

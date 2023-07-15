@@ -17,7 +17,7 @@ export const useProfiles = create((set, get) => {
               payload: {
                 displayName: profile.displayName,
                 username: profile.username,
-                website: profile.website,
+                password: profile.password,
               },
             }),
             withCredentials: true,

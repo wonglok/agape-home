@@ -32,26 +32,26 @@ export default async function API(req, res) {
   let action = bodyData.action || {}
 
   if (action === 'signFile') {
-    //FILE_S3_AWS_ACCESS_KEY
-    //FILE_S3_AWS_ACCESS_KEY_SECRET
-    //FILE_S3_AWS_REGION
-    //FILE_S3_AWS_BUCKET
-    //FILE_S3_AWS_ENDPOINT
+    //FILE_S3_STORAGE_ACCESS_KEY
+    //FILE_S3_STORAGE_ACCESS_KEY_SECRET
+    //FILE_S3_STORAGE_REGION
+    //FILE_S3_STORAGE_BUCKET
+    //FILE_S3_STORAGE_ENDPOINT
 
     const s3Client = new S3Client({
       // // endpoint: process.env.LOK_S3_ENDPOINT,
       // sslEnabled: true,
       // s3ForcePathStyle: false,
-      region: process.env.FILE_S3_AWS_REGION,
+      region: process.env.FILE_S3_STORAGE_REGION,
       credentials: {
-        accessKeyId: process.env.FILE_S3_AWS_ACCESS_KEY,
-        secretAccessKey: process.env.FILE_S3_AWS_ACCESS_KEY_SECRET,
+        accessKeyId: process.env.FILE_S3_STORAGE_ACCESS_KEY,
+        secretAccessKey: process.env.FILE_S3_STORAGE_ACCESS_KEY_SECRET,
       },
     })
 
     await s3Client.send(
       new PutBucketCorsCommand({
-        Bucket: `${process.env.FILE_S3_AWS_BUCKET}`,
+        Bucket: `${process.env.FILE_S3_STORAGE_BUCKET}`,
         CORSConfiguration: {
           CORSRules: [
             {
@@ -65,9 +65,9 @@ export default async function API(req, res) {
       }),
     )
 
-    let folder = `${process.env.FILE_S3_AWS_FOLDER_ROOT}/${payload.username}`
+    let folder = `${process.env.FILE_S3_STORAGE_FOLDER_ROOT}/${payload.username}`
     let post = await createPresignedPost(s3Client, {
-      Bucket: `${process.env.FILE_S3_AWS_BUCKET}`,
+      Bucket: `${process.env.FILE_S3_STORAGE_BUCKET}`,
       Key: `${folder}/${payload.fileName}`,
       Fields: {
         acl: 'public-read',
@@ -79,7 +79,7 @@ export default async function API(req, res) {
       ],
     })
 
-    post.baseURL = `${process.env.FILE_S3_AWS_ENDPOINT}`
+    post.baseURL = `${process.env.FILE_S3_STORAGE_ENDPOINT}`
     post.downloadURL = `/${folder}/${payload.fileName}`
 
     return res.status(200).json({
@@ -90,10 +90,10 @@ export default async function API(req, res) {
 
   if (action === 'deleteFile') {
     const s3Client = new S3Client({
-      region: process.env.FILE_S3_AWS_REGION,
+      region: process.env.FILE_S3_STORAGE_REGION,
       credentials: {
-        accessKeyId: process.env.FILE_S3_AWS_ACCESS_KEY,
-        secretAccessKey: process.env.FILE_S3_AWS_ACCESS_KEY_SECRET,
+        accessKeyId: process.env.FILE_S3_STORAGE_ACCESS_KEY,
+        secretAccessKey: process.env.FILE_S3_STORAGE_ACCESS_KEY_SECRET,
       },
     })
 

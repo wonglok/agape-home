@@ -1,21 +1,19 @@
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useProfiles } from './useProfiles'
 import { S3Store } from './S3Store'
-import { Canvas } from '@react-three/fiber'
-import { HologramV7WrapperProfile } from '@/components/Hologram/HologramV7'
-import { Box, OrbitControls } from '@react-three/drei'
+// import { Canvas } from '@react-three/fiber'
+// import { HologramV7WrapperProfile } from '@/components/Hologram/HologramV7'
+// import { Box, OrbitControls } from '@react-three/drei'
 
-export function EditVisitor({ profile }) {
+export function EditAdminUser({ profile }) {
   let displayName = useRef()
   let username = useRef()
-  let website = useRef()
 
   let [_, reload] = useState(0)
 
   useEffect(() => {
     displayName.current.value = profile.displayName
     username.current.value = profile.username
-    website.current.value = profile.website
   }, [profile])
 
   //
@@ -54,38 +52,22 @@ export function EditVisitor({ profile }) {
           </div>
         </div>
 
-        <div className='mb-6 md:flex md:items-center'>
-          <div className='md:w-1/3'>
-            <label className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right' htmlFor='inline-full-name'>
-              Website
-            </label>
-          </div>
-          <div className='md:w-2/3'>
-            <input
-              className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
-              type='text'
-              ref={website}
-              placeholder='mybusiness.com'
-            />
-          </div>
-        </div>
-
         <div className='mb-6 md:flex md:items-start'>
-          <div className='md:w-1/3'>
+          <div className='mt-5 md:w-1/3'>
             <label className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right' htmlFor='inline-full-name'>
-              Hologram Upload
+              Profile Pic Upload
             </label>
           </div>
           <div className='md:w-2/3'>
             <UploadFile
-              text='Camera Metadata'
+              text='Profile Picture'
               username={profile.username}
-              data={profile.holoJsonUrl}
+              data={profile.profilePicS3}
               onDone={async ({ url, result }) => {
                 if (result) {
                   result.url = url
                 }
-                profile.holoJsonUrl = result
+                profile.profilePicS3 = result
 
                 let data = await useProfiles.getState().updateProfile({
                   profile: profile,
@@ -98,82 +80,6 @@ export function EditVisitor({ profile }) {
                 //
               }}
             ></UploadFile>
-
-            <UploadFile
-              text='Hologram Poster'
-              username={profile.username}
-              data={profile.holoPosterUrl}
-              onDone={async ({ url, result }) => {
-                if (result) {
-                  result.url = url
-                }
-                profile.holoPosterUrl = result
-
-                let data = await useProfiles.getState().updateProfile({
-                  profile: profile,
-                })
-
-                console.log(data)
-                reload((x) => x + 1)
-
-                // console.log(url, result)
-                //
-              }}
-            ></UploadFile>
-
-            <UploadFile
-              text='Video Source'
-              username={profile.username}
-              data={profile.holoVideoUrl}
-              onDone={async ({ url, result }) => {
-                if (result) {
-                  result.url = url
-                }
-
-                profile.holoVideoUrl = result
-
-                let data = await useProfiles.getState().updateProfile({
-                  profile: profile,
-                })
-
-                reload((x) => x + 1)
-                console.log(data)
-                // console.log(url, result)
-                //
-              }}
-            ></UploadFile>
-
-            <UploadFile
-              text='GUI Settings'
-              username={profile.username}
-              data={profile.holoGUIUrl}
-              onDone={async ({ url, result }) => {
-                if (result) {
-                  result.url = url
-                }
-                profile.holoGUIUrl = result
-
-                let data = await useProfiles.getState().updateProfile({
-                  profile: profile,
-                })
-
-                console.log(data)
-                reload((x) => x + 1)
-                // console.log(url, result)
-                //
-              }}
-            ></UploadFile>
-
-            <div>
-              <a
-                download={'gui.json'}
-                href={`/assets/2023-05-16-b/andrew/gui.json`}
-                className='underline'
-                target='_blank'
-              >
-                Get Default GUI Settings
-              </a>
-            </div>
           </div>
         </div>
 
@@ -184,7 +90,6 @@ export function EditVisitor({ profile }) {
               onClick={async () => {
                 profile.displayName = displayName.current.value
                 profile.username = username.current.value
-                profile.website = website.current.value
 
                 let data = await useProfiles.getState().updateProfile({
                   profile: profile,
@@ -212,12 +117,13 @@ function UploadFile({
 }) {
   let [result, setState] = useState(data)
 
+  let loading = useRef()
   return (
     <>
       <div
         className={
           (result ? `border-green-200 bg-green-200 ` : `border-blue-200 bg-blue-200 `) +
-          ` mb-2 flex w-full appearance-none rounded-full border-2 px-4 py-2 text-left leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none`
+          ` mb-2 flex w-full items-center appearance-none rounded-full border-2 px-4 py-2 text-left leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none`
         }
       >
         <button
@@ -237,9 +143,11 @@ function UploadFile({
             //
             let upload = async (acceptedFiles = []) => {
               // let totalFilesToUpload = acceptedFiles.length
-
+              loading.current.innerText = 'Uploading...'
               for (let myFile of acceptedFiles) {
                 try {
+                  loading.current.innerText = 'Preparing U...'
+
                   let res = await S3Store.signFile({
                     username: username,
                     file: myFile,
@@ -254,6 +162,8 @@ function UploadFile({
                   }
                   formdata.append('file', myFile)
 
+                  loading.current.innerText = 'Uploading...'
+
                   await fetch(`${res.result.url}`, {
                     mode: 'cors',
                     method: 'POST',
@@ -265,11 +175,15 @@ function UploadFile({
                     })
                     .then((r) => {
                       console.log('successfully uploaded', r)
+                      loading.current.innerText = 'Successfully uploaded...'
                     })
 
                   onDone({
                     result: res.result,
                   })
+                  setTimeout(() => {
+                    loading.current.innerText = ''
+                  }, 1000)
                   setState(res.result)
                 } catch (e) {
                   console.log(e)
@@ -281,6 +195,8 @@ function UploadFile({
         >
           {`${text}`} {result ? '✅' : ''}
         </button>
+
+        <span ref={loading}></span>
 
         {result && (
           <button

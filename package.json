@@ -36,6 +36,7 @@
     "@tensorflow/tfjs-core": "^4.8.0",
     "@tensorflow/tfjs-node": "^4.8.0",
     "animejs": "^3.2.1",
+    "bcryptjs": "^2.4.3",
     "canvas": "^2.11.2",
     "copy-to-clipboard": "^3.3.3",
     "face-api.js": "^0.22.2",

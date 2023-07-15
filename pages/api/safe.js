@@ -1,5 +1,5 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { ClientProfile, getID } from 'database/mongoose'
+import { UserProfile, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 export default async function API(req, res) {
   const session = await getServerSession(req, res)

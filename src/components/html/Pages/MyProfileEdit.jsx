@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { AdminGate } from '../AdminLayout/AdminGate'
-import { EditVisitor } from '../Profiles/EditVisitor'
+import { EditAdminUser } from '../Profiles/EditAdminUser'
 import { useEffect, useState } from 'react'
 import { useProfiles } from '../Profiles/useProfiles'
 
@@ -30,9 +30,9 @@ export function MyProfileEdit() {
     <>
       {/*  */}
       <AdminGate>
-        <h1 className='daysfont mb-3 text-2xl'>Visitor Profile</h1>
+        <h1 className='daysfont mb-3 text-2xl'>AdminUser Profile</h1>
 
-        {st && <EditVisitor profile={st}></EditVisitor>}
+        {st && <EditAdminUser profile={st}></EditAdminUser>}
         {/* <Login></Login> */}
       </AdminGate>
       {/*  */}

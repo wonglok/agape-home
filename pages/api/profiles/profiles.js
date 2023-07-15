@@ -1,8 +1,10 @@
-import { ClientProfile, getID } from 'database/mongoose'
+import { UserProfile, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth'
-
+import bcrypt from 'bcryptjs'
 export default async function Profiles(req, res) {
   let session = await getServerSession(req, res)
+
+  console.log(session)
 
   if (!session) {
     return res.status(406).json({
@@ -23,10 +25,13 @@ export default async function Profiles(req, res) {
   let payload = bodyData.payload || {}
 
   if (bodyData.action === 'createProfile') {
-    let item = await ClientProfile.create({
+    let salt = bcrypt.genSaltSync(10)
+    let hash = bcrypt.hashSync(payload.password, salt)
+
+    let item = await UserProfile.create({
       displayName: payload.displayName || '',
       username: payload.username || '',
-      website: payload.website || '',
+      passwordHash: hash,
       holoJsonUrl: '',
       holoPosterUrl: '',
       holoVideoUrl: '',
@@ -40,7 +45,7 @@ export default async function Profiles(req, res) {
   }
 
   if (bodyData.action === 'loadProfiles') {
-    let list = await ClientProfile.find({})
+    let list = await UserProfile.find({}, { passwordHash: 0 })
 
     return res.json({
       data: list,
@@ -48,18 +53,19 @@ export default async function Profiles(req, res) {
   }
 
   if (bodyData.action === 'loadOneProfile') {
-    let data = await ClientProfile.findOne({ _id: payload._id })
+    let data = await UserProfile.findOne({ _id: payload._id }, { passwordHash: 0 })
     return res.json({
       data: data,
     })
   }
 
   if (bodyData.action === 'updateProfile') {
-    await ClientProfile.findByIdAndUpdate(payload.profile._id, payload.profile)
-    let data = await ClientProfile.findOne({ _id: payload.profile._id })
+    let data = await UserProfile.findOne({ _id: payload.profile._id })
+    await UserProfile.findByIdAndUpdate(payload.profile._id, { ...data, ...payload.profile })
+    let data2 = await UserProfile.findOne({ _id: payload.profile._id }, { passwordHash: 0 })
 
     return res.json({
-      data: data,
+      data: data2,
     })
   }
 
@@ -68,7 +74,7 @@ export default async function Profiles(req, res) {
   if (bodyData.action === 'removeProfile') {
     let _id = payload._id
 
-    await ClientProfile.deleteOne({ _id })
+    await UserProfile.deleteOne({ _id })
 
     return res.json({
       op: 'ok',

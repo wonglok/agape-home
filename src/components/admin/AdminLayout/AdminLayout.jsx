@@ -141,6 +141,9 @@ export function AdminLayout({ user, children }) {
                   </div>
                 </div>
               </div> */}
+              <button aria-label='component' className=''>
+                {user?.name}
+              </button>
               <div className='dropdown-left dropdown'>
                 <div tabIndex='0'>
                   <button
@@ -167,6 +170,8 @@ export function AdminLayout({ user, children }) {
                     </div>
                   </button>
                 </div>
+
+                {/*  */}
                 <div tabIndex='0' className='dropdown-content translate-x-12 translate-y-12 py-2'>
                   <div className='compact card rounded-box w-72 bg-neutral-focus text-neutral-content shadow-xl'>
                     <div className='card-body'>

@@ -12,7 +12,6 @@ export function ListOfProfiles() {
     useProfiles.getState().loadProfiles()
   }, [])
 
-  //
   return (
     <>
       {profiles.map((r) => {
@@ -27,27 +26,16 @@ export function ListOfProfiles() {
             >
               Edit
             </button>
-            {/*  */}
+
             <button
               className='mb-3 mr-3 rounded-lg bg-red-300 p-3'
-              onClick={() => {
+              onClick={async () => {
                 if (!window.confirm('Delete?')) {
                   return
                 }
 
-                // console.log(r)
-
-                S3Store.deleteFile({
-                  file: r.holoGUIUrl,
-                })
-                S3Store.deleteFile({
-                  file: r.holoJsonUrl,
-                })
-                S3Store.deleteFile({
-                  file: r.holoPosterUrl,
-                })
-                S3Store.deleteFile({
-                  file: r.holoVideoUrl,
+                await S3Store.deleteFile({
+                  file: r.profilePicS3,
                 })
 
                 useProfiles.getState().removeProfile(r._id)

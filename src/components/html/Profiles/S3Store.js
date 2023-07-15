@@ -24,13 +24,16 @@ S3Store.signFile = ({ username, file }) => {
 }
 
 S3Store.deleteFile = ({ file }) => {
+  if (!file) {
+    return
+  }
   return fetch(`/api/profiles/file`, {
     method: 'post',
     mode: `same-origin`,
     body: JSON.stringify({
       action: 'deleteFile',
       payload: {
-        fields: file.fields,
+        fields: file?.fields,
       },
     }),
   }).then(processResponse)

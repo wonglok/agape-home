@@ -1,5 +1,5 @@
 // import clientPromise from './mongo'
-import mongoose from 'mongoose'
+import mongoose, { Schema, Types } from 'mongoose'
 // import clientPromise from './mongo'
 
 const uri = process.env.MONGODB_URI

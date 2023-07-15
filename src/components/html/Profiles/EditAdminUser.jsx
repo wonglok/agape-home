@@ -113,6 +113,7 @@ function UploadFile({
   onDone = (v) => {
     console.log(v)
   },
+  accept = 'image/*',
   text = '',
 }) {
   let [result, setState] = useState(data)
@@ -131,6 +132,7 @@ function UploadFile({
             //
             let fileInput = document.createElement('input')
             fileInput.type = 'file'
+            fileInput.accept = accept
             fileInput.multiple = false
 
             fileInput.onchange = () => {
@@ -146,7 +148,7 @@ function UploadFile({
               loading.current.innerText = 'Uploading...'
               for (let myFile of acceptedFiles) {
                 try {
-                  loading.current.innerText = 'Preparing U...'
+                  loading.current.innerText = 'Preparing...'
 
                   let res = await S3Store.signFile({
                     username: username,

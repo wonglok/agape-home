@@ -96,7 +96,7 @@ export function CreateAdminUser() {
             {obj && (
               <button
                 onClick={async () => {
-                  router.push(`/admin/user/${obj._id}`)
+                  router.push(`/developer/user/${obj._id}`)
                 }}
                 className='focus:shadow-outline rounded bg-green-500 px-4 py-2 font-bold text-white shadow hover:bg-green-400 focus:outline-none'
               >

@@ -1,14 +1,14 @@
 import Link from 'next/link'
-import { AdminGate } from '../AdminLayout/AdminGate'
+import { DeveloperGate } from '../AdminLayout/DeveloperGate'
 
-export function MyAdmin() {
+export function MyDeveloper() {
   // sess?.data?.user?.name
   return (
     <>
       {/*  */}
       {/*  */}
 
-      <AdminGate>
+      <DeveloperGate>
         <h2 className='daysfont text-2xl underline'>Welcome to AGAPE Backend</h2>
         <Link href={`/developer/user-create`}>
           <button className='my-3 mr-3 bg-gray-200 p-3'>Create Admin User</button>
@@ -16,7 +16,7 @@ export function MyAdmin() {
         <Link href={`/developer/user`}>
           <button className='my-3 mr-3 bg-gray-200 p-3'>View All Admin User</button>
         </Link>
-      </AdminGate>
+      </DeveloperGate>
     </>
   )
 }

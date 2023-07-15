@@ -1,8 +1,6 @@
-import Link from 'next/link'
 import { AdminGate } from '../AdminLayout/AdminGate'
 
 export function MyAdmin() {
-  // sess?.data?.user?.name
   return (
     <>
       {/*  */}

@@ -17,7 +17,7 @@ export function AdminGate({ children }) {
         </>
       )}
 
-      {sess.status === 'authenticated' && <AdminLayout>{children}</AdminLayout>}
+      {sess.status === 'authenticated' && <AdminLayout user={sess?.data?.user}>{children}</AdminLayout>}
 
       {sess.status === 'unauthenticated' && (
         <>

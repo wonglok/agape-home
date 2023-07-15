@@ -3,7 +3,7 @@ import { Menu } from '../Menu/Menu'
 import { MenuItems } from '../Menu/MenuItems'
 import { useRouter } from 'next/router'
 
-export function AdminLayout({ children }) {
+export function AdminLayout({ user, children }) {
   let router = useRouter()
   let route = router.asPath
 

@@ -6,10 +6,8 @@ export function MyAdmin() {
   return (
     <>
       {/*  */}
-      {/*  */}
-
       <AdminGate>
-        <h2 className='daysfont text-2xl underline'>Welcome to AGAPE Backend</h2>
+        <h2 className='daysfont text-2xl underline'>Welcome to Developer Backend</h2>
         <Link href={`/developer/user-create`}>
           <button className='my-3 mr-3 bg-gray-200 p-3'>Create Admin User</button>
         </Link>

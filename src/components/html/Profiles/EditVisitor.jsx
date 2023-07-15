@@ -197,22 +197,6 @@ export function EditVisitor({ profile }) {
             </button>
           </div>
         </div>
-
-        <div className='mb-4 md:flex md:items-start'>
-          <div className='flex justify-end md:w-1/3'>Preview Box</div>
-          <div className='md:w-2/3'>
-            {(profile.holoJsonUrl && profile.holoPosterUrl && profile.holoVideoUrl && profile.holoGUIUrl && (
-              <Canvas className='border'>
-                <OrbitControls position={[0, 5, 10]} target={[0, 1, 0]}></OrbitControls>
-                <HologramV7WrapperProfile profile={profile}></HologramV7WrapperProfile>
-              </Canvas>
-            )) || (
-              <>
-                <div className='border p-3'>Please Upload all the required files</div>
-              </>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   )

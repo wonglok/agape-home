@@ -20,6 +20,11 @@ export default async function API(req, res) {
       msg: 'bad auth',
     })
   }
+  if (session?.user?.role !== 'devroot') {
+    return res.status(406).json({
+      msg: 'bad auth',
+    })
+  }
 
   if (req.method !== 'POST') {
     return res.status(405).json({

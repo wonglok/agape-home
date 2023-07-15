@@ -10,16 +10,15 @@ export default async function Profiles(req, res) {
       msg: 'bad auth',
     })
   }
+  if (session?.user?.role !== 'devroot') {
+    return res.status(406).json({
+      msg: 'bad auth',
+    })
+  }
 
   if (req.method !== 'POST') {
     return res.status(405).json({
       msg: 'method not allowed',
-    })
-  }
-  if (session?.user?.role === 'devroot') {
-  } else {
-    return res.status(406).json({
-      msg: 'bad auth',
     })
   }
 

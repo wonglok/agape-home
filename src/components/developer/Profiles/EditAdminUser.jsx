@@ -76,7 +76,6 @@ export function EditAdminUser({ profile }) {
                 console.log(data)
 
                 reload((x) => x + 1)
-                // console.log(url, result)
               }}
             ></UploadFile>
           </div>

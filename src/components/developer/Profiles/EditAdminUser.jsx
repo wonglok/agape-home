@@ -77,7 +77,6 @@ export function EditAdminUser({ profile }) {
 
                 reload((x) => x + 1)
                 // console.log(url, result)
-                //
               }}
             ></UploadFile>
           </div>
@@ -177,7 +176,7 @@ function UploadFile({
                     })
                     .then((r) => {
                       console.log('successfully uploaded', r)
-                      loading.current.innerText = 'Successfully uploaded...'
+                      loading.current.innerText = 'Done!'
                     })
 
                   onDone({
@@ -197,8 +196,6 @@ function UploadFile({
         >
           {`${text}`} {result ? '✅' : ''}
         </button>
-
-        <span ref={loading}></span>
 
         {result && (
           <button
@@ -221,6 +218,8 @@ function UploadFile({
             Remove
           </button>
         )}
+
+        <span ref={loading}></span>
       </div>
     </>
   )

@@ -68,25 +68,33 @@ export function CreateAdminUser() {
           <div className='md:w-2/3'>
             <button
               onClick={async () => {
-                let data = await useProfiles.getState().createProfile({
-                  displayName: displayName.current.value,
-                  username: username.current.value,
-                  password: password.current.value,
+                try {
+                  let data = await useProfiles.getState().createProfile({
+                    displayName: displayName.current.value,
+                    username: username.current.value,
+                    password: password.current.value,
 
-                  // holoJsonUrl: form.holoJsonUrl || '',
-                  // holoPosterUrl: form.holoPosterUrl || '',
-                  // holoVideoUrl: form.holoVideoUrl || '',
-                  // holoGUIConfig: form.holoGUIConfig || holoGUIConfig,
+                    // holoJsonUrl: form.holoJsonUrl || '',
+                    // holoPosterUrl: form.holoPosterUrl || '',
+                    // holoVideoUrl: form.holoVideoUrl || '',
+                    // holoGUIConfig: form.holoGUIConfig || holoGUIConfig,
 
-                  // readyPlayerMeUrl: '',
-                })
+                    // readyPlayerMeUrl: '',
+                  })
 
-                // console.log(data)
+                  // console.log(data)
 
-                setSt('✅')
-                setObj(data)
+                  setSt('✅')
+                  setObj(data)
+                } catch (e) {
+                  setSt(' ❌ ')
+                  setTimeout(() => {
+                    setSt('')
+                  }, 1500)
+                  // console.log(e)
+                }
               }}
-              className=' focus:shadow-outline mb-3 mr-3 rounded bg-purple-500 px-4 py-2 font-bold text-white shadow hover:bg-purple-400 focus:outline-none'
+              className=' focus:shadow-outline mb-3 mr-3 rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
             >
               Create {st}
             </button>
@@ -100,7 +108,7 @@ export function CreateAdminUser() {
                 }}
                 className='focus:shadow-outline rounded bg-green-500 px-4 py-2 font-bold text-white shadow hover:bg-green-400 focus:outline-none'
               >
-                Upload Hologram
+                Edit User
               </button>
             )}
           </div>

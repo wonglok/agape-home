@@ -1,3 +1,3 @@
-import { MyDeveloper } from '@/components/html/Pages/MyDeveloper'
+import { MyDeveloper } from '@/components/developer/Pages/MyDeveloper'
 
 export default MyDeveloper

@@ -1,4 +1,4 @@
-import { AdminGate } from '../AdminLayout/AdminGate'
+import { DeveloperGate } from '../AdminLayout/DeveloperGate'
 import { CreateAdminUser } from '../Profiles/CreateAdminUser'
 
 export function MyProfileCreate() {
@@ -7,12 +7,10 @@ export function MyProfileCreate() {
   return (
     <>
       {/*  */}
-      <AdminGate>
+      <DeveloperGate>
         <h1 className='daysfont mb-3 text-2xl'>Create New Admin User</h1>
         <CreateAdminUser></CreateAdminUser>
-        {/* <ListOfProfiles></ListOfProfiles> */}
-        {/* <Login></Login> */}
-      </AdminGate>
+      </DeveloperGate>
       {/*  */}
     </>
   )

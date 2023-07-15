@@ -1,3 +1,3 @@
-import { MyProfileEdit } from '@/components/html/Pages/MyProfileEdit'
+import { MyProfileEdit } from '@/components/developer/Pages/MyProfileEdit'
 
 export default MyProfileEdit

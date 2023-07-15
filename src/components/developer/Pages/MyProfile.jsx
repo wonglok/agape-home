@@ -1,4 +1,4 @@
-import { AdminGate } from '../AdminLayout/AdminGate'
+import { DeveloperGate } from '../AdminLayout/DeveloperGate'
 import { ListOfProfiles } from '../Profiles/ListOfProfiles'
 // import animate from 'animejs'
 export function MyProfile() {
@@ -7,11 +7,10 @@ export function MyProfile() {
   return (
     <>
       {/*  */}
-      <AdminGate>
+      <DeveloperGate>
         <h1 className='daysfont mb-3 text-2xl'>AdminUser Profiles Database</h1>
         <ListOfProfiles></ListOfProfiles>
-        {/* <Login></Login> */}
-      </AdminGate>
+      </DeveloperGate>
       {/*  */}
     </>
   )

@@ -6,7 +6,7 @@ export function AdminGate({ children }) {
   //
   let sess = useSession()
 
-  console.log(sess?.data?.user?.role)
+  // console.log(sess?.data?.user?.role)
 
   //
   return (

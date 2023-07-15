@@ -1,3 +1,3 @@
-import { MyProfile } from '@/components/html/Pages/MyProfile'
+import { MyProfile } from '@/components/developer/Pages/MyProfile'
 
 export default MyProfile

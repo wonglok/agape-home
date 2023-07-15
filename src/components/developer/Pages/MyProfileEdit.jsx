@@ -3,6 +3,7 @@ import { AdminGate } from '../AdminLayout/AdminGate'
 import { EditAdminUser } from '../Profiles/EditAdminUser'
 import { useEffect, useState } from 'react'
 import { useProfiles } from '../Profiles/useProfiles'
+import { DeveloperGate } from '../AdminLayout/DeveloperGate'
 
 export function MyProfileEdit() {
   // let sess = useSession()
@@ -29,12 +30,11 @@ export function MyProfileEdit() {
   return (
     <>
       {/*  */}
-      <AdminGate>
+      <DeveloperGate>
         <h1 className='daysfont mb-3 text-2xl'>AdminUser Profile</h1>
 
         {st && <EditAdminUser profile={st}></EditAdminUser>}
-        {/* <Login></Login> */}
-      </AdminGate>
+      </DeveloperGate>
       {/*  */}
     </>
   )

@@ -1,3 +1,3 @@
-import { MyAdmin } from '@/components/html/Pages/MyAdmin'
+import { MyAdmin } from '@/components/developer/Pages/MyAdmin'
 
 export default MyAdmin

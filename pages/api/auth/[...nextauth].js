@@ -69,7 +69,8 @@ export const authOptions = {
       let userInDB = await UserProfile.findOne({ username: token?.email })
 
       if (userInDB) {
-        console.log(userInDB)
+        session.user.role = 'editor'
+        return session
       }
       return session
     },

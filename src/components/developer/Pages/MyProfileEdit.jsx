@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { AdminGate } from '../AdminLayout/AdminGate'
 import { EditAdminUser } from '../Profiles/EditAdminUser'
 import { useEffect, useState } from 'react'
 import { useProfiles } from '../Profiles/useProfiles'
@@ -19,7 +18,7 @@ export function MyProfileEdit() {
     if (!profileID) {
       return
     }
-    //
+
     useProfiles
       .getState()
       .loadOneProfile({ _id: profileID })

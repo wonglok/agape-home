@@ -11,6 +11,7 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
+import { hasRole } from '../auth/[...nextauth]'
 
 export default async function API(req, res) {
   let session = await getServerSession(req, res)
@@ -21,7 +22,7 @@ export default async function API(req, res) {
     })
   }
 
-  if (allowRoles(['devroot'])) {
+  if (hasRole(['devroot'])) {
   } else {
     return res.status(406).json({
       msg: 'bad auth',

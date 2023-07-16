@@ -62,11 +62,9 @@ export let buildApp = async (input) => {
           //   importee = importee.replace('package:', rollupLocalhost)
           //   return new URL(importee).href
           // }
-
           // if (importee.indexOf('@') === 0) {
           //   // return `${rollupLocalhost}${address}`
           // }
-
           // if (importee === 'three') {
           //   return `${location.origin}/vendor/three-r149/build/three.module.js`
           // }
@@ -209,9 +207,7 @@ export let RawModules = [
             function YoTeachApp () {
               return <div>{Math.random()}</div>
             }
-            // import('@lib-webgl/main/share.js').then((v) => {
-            //   console.log(v.default)
-            // })
+
 
             export const GUI = {
               install: (args) => {

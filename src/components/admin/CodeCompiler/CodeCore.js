@@ -203,6 +203,7 @@ export let RawModules = [
             import('./codesplit.js').then((r) => {
               console.log(r.default);
             })
+
             import('network:/manifest.json').then((v) => {
               console.log(v.default)
             })
@@ -342,7 +343,7 @@ export function TestButton() {
 
   return (
     <>
-      <button onClick={run}>Test</button>
+      <button onClick={run}>Test Run</button>
       <div className='' ref={runnerEl}></div>
     </>
   )

@@ -1,14 +1,14 @@
 /** @satisfies {import('@webcontainer/api').FileSystemTree} */
 
-export const getFiles = async () => {
+export const getFiles = async ({ name }) => {
   return {
     src: {
       directory: {
         'main.js': {
           file: {
             contents: `
-            export * from 'three';
-          `,
+              export * from ${JSON.stringify(name)};
+            `,
           },
         },
       },
@@ -20,12 +20,11 @@ export const getFiles = async () => {
     },
     'rollup.config.js': {
       file: {
-        contents: `
+        contents: /* js */ `
       import resolve from '@rollup/plugin-node-resolve';
       import commonjs from '@rollup/plugin-commonjs';
       import pkg from './package.json';
 
-      let first = Object.keys(pkg.dependencies)[0];
       export default [
         // {
         //   input: 'src/main.js',
@@ -41,7 +40,7 @@ export const getFiles = async () => {
         {
           input: 'src/main.js',
           output: [
-            { file: pkg.browser, format: 'umd', name: first },
+            { file: pkg.browser, format: 'umd', name: 'MyBundle' },
           ],
           plugins: [
             resolve(),
@@ -61,9 +60,7 @@ export const getFiles = async () => {
         "main": "dist/bundled.cjs.js",
         "module": "dist/bundled.esm.js",
         "browser": "dist/bundled.umd.js",
-        "dependencies": {
-          "three": "latest"
-        },
+        "dependencies": {},
         "devDependencies": {
           "@rollup/plugin-commonjs": "^11.0.1",
           "@rollup/plugin-node-resolve": "^7.0.0",

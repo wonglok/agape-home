@@ -40,6 +40,7 @@
     "bcryptjs": "^2.4.3",
     "canvas": "^2.11.2",
     "copy-to-clipboard": "^3.3.3",
+    "es-module-shims": "^1.8.0",
     "face-api.js": "^0.22.2",
     "glsl-random": "^0.0.5",
     "howler": "^2.2.3",
@@ -57,7 +58,7 @@
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
-    "rollup": "^3.26.2",
+    "rollup": "2.56.3",
     "rollup-plugin-jsx": "^1.0.3",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
@@ -70,6 +71,8 @@
     "tunnel-rat": "^0.1.2",
     "tweakpane": "^3.1.9",
     "typescript": "latest",
+    "xterm": "^5.2.1",
+    "xterm-addon-fit": "^0.7.0",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

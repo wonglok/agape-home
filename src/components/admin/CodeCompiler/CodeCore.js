@@ -229,14 +229,12 @@ export let RawModules = [
             }
 
             export const GUI = {
-              fala: 1234,
               install: ({ domElement, onClean }) => {
-                domElement.appRoot = domElement.appRoot || ReactDOM.createRoot(domElement)
-
-                domElement.appRoot.render(<YoTeachApp></YoTeachApp>)
+                domElement.reactRoot = domElement.reactRoot || ReactDOM.createRoot(domElement)
+                domElement.reactRoot.render(<YoTeachApp></YoTeachApp>)
 
                 onClean(() => {
-                  domElement.appRoot.unmount()
+                  domElement.reactRoot.unmount()
                 })
               }
             }
@@ -254,7 +252,7 @@ export let RawModules = [
               mod: 'main',
               a:b
             };
-          `,
+        `,
       },
       {
         fileName: `b.js`,
@@ -290,23 +288,23 @@ export let RawModules = [
       {
         fileName: `index.js`,
         content: /* js */ `
-            import b from './b.js';
+          import b from './b.js';
 
-            import('./vanilla.js').then((r) => {
-              console.log(r.default)
-            })
+          import('./vanilla.js').then((r) => {
+            console.log(r.default)
+          })
 
-            export const GUI = {
-              fala: 1234
-            }
+          export const GUI = {
+            fala: 1234
+          }
 
-            console.log('GUI', GUI)
+          console.log('GUI', GUI)
 
-            export default {
-              mod: 'engine-v001',
-              a:b
-            };
-          `,
+          export default {
+            mod: 'engine-v001',
+            a:b
+          };
+        `,
       },
       {
         fileName: `b.js`,
@@ -320,7 +318,7 @@ export let RawModules = [
         fileName: `vanilla.js`,
         content: /* js */ `
           export default {
-            yaya:'yayayayayayayaya'
+            yaya:'fafafa'
           }
         `,
       },

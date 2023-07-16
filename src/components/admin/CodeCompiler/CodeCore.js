@@ -230,7 +230,7 @@ export let RawModules = [
 
             export const GUI = {
               fala: 1234,
-              yo: ({ domElement, onClean }) => {
+              install: ({ domElement, onClean }) => {
                 domElement.appRoot = domElement.appRoot || ReactDOM.createRoot(domElement)
 
                 domElement.appRoot.render(<YoTeachApp></YoTeachApp>)

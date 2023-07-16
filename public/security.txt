@@ -1,8 +1,0 @@
-# This security.txt file follows RFC 9116 format: https://www.rfc-editor.org/rfc/rfc9116
-# Our bug bounty contact
-Contact: https://community.cyberbay.tech/bounty/detail/xtZuyr3cmDdThbGr_ZHT
-# Our bug bounty policy
-Policy: https://community.cyberbay.tech/bounty/detail/xtZuyr3cmDdThbGr_ZHT
-# Our security acknowledgements page
-Acknowledgements: https://community.cyberbay.tech/leaderboard
-Preferred-Languages: en

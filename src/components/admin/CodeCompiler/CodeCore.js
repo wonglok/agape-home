@@ -1,8 +1,10 @@
 import path from 'path'
 import { transform } from 'sucrase'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { rollup } from 'rollup/dist/rollup.browser.js'
 import { runInElement } from './CodeCoreRunner'
+
+//useEffect
 
 export let buildApp = async (input) => {
   /** @type {appContent} */
@@ -58,6 +60,11 @@ export let buildApp = async (input) => {
             return importee
           }
 
+          if (importee.indexOf('package:') === 0) {
+            importee = importee.replace('package:', rollupLocalhost)
+            return new URL(importee).href
+          }
+
           // if (importee.indexOf('package:') === 0) {
           //   importee = importee.replace('package:', rollupLocalhost)
           //   return new URL(importee).href
@@ -92,7 +99,6 @@ export let buildApp = async (input) => {
           //     jsxPragma: 'React.createElement',
           //     jsxFragmentPragma: 'React.Fragment',
           //   }).code
-
           //   return tf
           // }
 
@@ -200,7 +206,8 @@ export let RawModules = [
             import('network:/manifest.json').then((v) => {
               console.log(v.default)
             })
-            import('./index.js').then((v) => {
+
+            import('package:lib-webgl/main/share.js').then((v) => {
               console.log(v.default)
             })
 
@@ -208,13 +215,9 @@ export let RawModules = [
               return <div>{Math.random()}</div>
             }
 
-
             export const GUI = {
-              install: (args) => {
-
-                console.log(args)
-                let { domElement, onClean } = args
-
+              fala: 1234,
+              yo: ({ domElement, onClean }) => {
                 domElement.appRoot = domElement.appRoot || ReactDOM.createRoot(domElement)
 
                 domElement.appRoot.render(<YoTeachApp></YoTeachApp>)
@@ -225,7 +228,7 @@ export let RawModules = [
               }
             }
 
-            // console.log('GUI')
+            console.log('GUI')
 
             import('../engine-v001/index.js').then((r)=>{
               console.log(r.default)
@@ -233,7 +236,6 @@ export let RawModules = [
             import('./json.json').then((r)=>{
               console.log(r.default)
             })
-
 
             export default {
               mod: 'main',
@@ -269,8 +271,6 @@ export let RawModules = [
       },
     ],
   },
-  //
-  //
   {
     moduleName: 'engine-v001',
     files: [

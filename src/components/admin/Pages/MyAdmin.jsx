@@ -12,8 +12,8 @@ export function MyAdmin() {
       <AdminGate>
         <h2 className='daysfont text-2xl underline'>Welcome to Admin Portal</h2>
         <TestButton></TestButton>
-        <CodeCompiler></CodeCompiler>
-        <CodeCoreRunner></CodeCoreRunner>
+        {/* <CodeCompiler></CodeCompiler> */}
+        {/* <CodeCoreRunner></CodeCoreRunner> */}
         <div>{/*  */}</div>
       </AdminGate>
     </>

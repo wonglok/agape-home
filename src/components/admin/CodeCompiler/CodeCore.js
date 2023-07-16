@@ -139,6 +139,13 @@ export let buildApp = async (input) => {
           if (id.indexOf('package:') === 0) {
             id = id.replace('package:', `${rollupLocalhost}`)
           }
+          if (id.indexOf('apm:') === 0) {
+            id = id.replace('apm:', ``)
+
+            //
+
+            return `console.log('apmYo', ${JSON.stringify(id)})`
+          }
 
           let file = fileList.find((e) => e.rollup === id)
 
@@ -199,6 +206,7 @@ export let RawModules = [
         fileName: `index.js`,
         content: /* js */ `
             import b from './b.js';
+            import { Vector2 } from 'apm:three';
 
             import('./codesplit.js').then((r) => {
               console.log(r.default);
@@ -211,6 +219,7 @@ export let RawModules = [
             import('package:lib-webgl/main/share.js').then((v) => {
               console.log(v.default)
             })
+
 
             function YoTeachApp () {
               return <div>{Math.random()}</div>

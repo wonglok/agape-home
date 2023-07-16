@@ -87,11 +87,8 @@ export let buildApp = async (input) => {
 
           // if (id.indexOf('') === 0) {
           //   let myURL = `${id.replace('', '')}`
-
           //   let file = fileList.find((e) => e.rollup === myURL)
-
           //   let content = file.content || ''
-
           //   let tf = transform(content, {
           //     transforms: ['jsx', 'typescript'],
           //     preserveDynamicImport: true,
@@ -139,6 +136,7 @@ export let buildApp = async (input) => {
           if (id.indexOf('package:') === 0) {
             id = id.replace('package:', `${rollupLocalhost}`)
           }
+
           if (id.indexOf('apm:') === 0) {
             id = id.replace('apm:', ``)
 

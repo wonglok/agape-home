@@ -1,8 +1,9 @@
 import path from 'path'
 import { transform } from 'sucrase'
 import { useRef } from 'react'
+// "rollup": "2.56.3",
 import { rollup } from 'rollup/dist/rollup.browser.js'
-import { runInElement } from './CodeCoreRunner'
+import { runInElement } from './runInElement'
 
 //useEffect
 
@@ -19,7 +20,6 @@ export let buildApp = async (input) => {
   //   // let file = oneModule.files.find((e) => e.fileName === fileName)
   //   return `${rollupLocalhost}${onePackage.packageName}/${moduleName}/${fileName}`
   // }
-  //
 
   let fileList = []
 
@@ -140,7 +140,12 @@ export let buildApp = async (input) => {
           if (id.indexOf('apm:') === 0) {
             id = id.replace('apm:', ``)
 
-            //
+            let info = id.split('@')
+
+            let packageName = info[0]
+            let version = info[1]
+
+            console.log(info)
 
             return `console.log('apmYo', ${JSON.stringify(id)})`
           }

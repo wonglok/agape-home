@@ -1,7 +1,7 @@
 import { AdminGate } from '../AdminLayout/AdminGate'
-import { CodeCompiler } from '../CodeCompiler/CodeCompiler'
+// import { CodeCompiler } from '../CodeCompiler/CodeCompiler'
 import { TestButton } from '../CodeCompiler/CodeCore'
-import { CodeCoreRunner } from '../CodeCompiler/CodeCoreRunner'
+// import { CodeCoreRunner } from '../CodeCompiler/CodeCoreRunner'
 
 //
 

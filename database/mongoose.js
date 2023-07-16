@@ -21,6 +21,19 @@ if (!mongoose.models.UserProfile) {
   })
 }
 export const UserProfile = mongoose.models.UserProfile
+// -------
+
+delete mongoose.models.CodeProject
+if (!mongoose.models.CodeProject) {
+  mongoose.model('CodeProject', {
+    //
+    name: String,
+  })
+}
+
+export const CodeProject = mongoose.models.CodeProject
+
+// -------
 
 // -------
 
@@ -28,6 +41,7 @@ delete mongoose.models.CodePackage
 if (!mongoose.models.CodePackage) {
   mongoose.model('CodePackage', {
     //
+    projectID: Types.ObjectId,
     name: String,
   })
 }
@@ -41,6 +55,7 @@ delete mongoose.models.CodeGroup
 if (!mongoose.models.CodeGroup) {
   mongoose.model('CodeGroup', {
     //
+    projectID: Types.ObjectId,
     packageID: Types.ObjectId,
     name: String,
     content: String,
@@ -57,6 +72,7 @@ delete mongoose.models.CodeFile
 if (!mongoose.models.CodeFile) {
   mongoose.model('CodeFile', {
     //
+    projectID: Types.ObjectId,
     packageID: Types.ObjectId,
     groupID: Types.ObjectId,
     name: String,
@@ -66,6 +82,26 @@ if (!mongoose.models.CodeFile) {
 
 export const CodeFile = mongoose.models.CodeFile
 
+// -------
+
+// -------
+delete mongoose.models.LibFile
+if (!mongoose.models.LibFile) {
+  mongoose.model('LibFile', {
+    //
+    projectID: Types.ObjectId,
+    slug: {
+      type: String,
+      unique: true,
+    },
+    name: String,
+    version: String,
+
+    content: String,
+  })
+}
+
+export const LibFile = mongoose.models.LibFile
 // -------
 
 export const getID = () => {

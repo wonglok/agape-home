@@ -1,4 +1,6 @@
 export default function Slug(req, res) {
   //req
-  return res.json({ yo: 123 })
+  //
+
+  return res.json({ yoyo: 123 })
 }

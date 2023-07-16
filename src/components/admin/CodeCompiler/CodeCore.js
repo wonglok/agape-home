@@ -4,6 +4,7 @@ import { useRef } from 'react'
 // "rollup": "2.56.3",
 import { rollup } from 'rollup/dist/rollup.browser.js'
 import { runInElement } from './runInElement'
+import { downloadCode } from './downloadCode'
 
 //useEffect
 
@@ -209,7 +210,7 @@ export let RawModules = [
         fileName: `index.js`,
         content: /* js */ `
             import b from './b.js';
-            import { Vector2 } from 'apm:three';
+            // import { Vector2 } from 'sdk:three';
 
             import('./codesplit.js').then((r) => {
               console.log(r.default);
@@ -222,7 +223,6 @@ export let RawModules = [
             import('package:lib-webgl/main/share.js').then((v) => {
               console.log(v.default)
             })
-
 
             function YoTeachApp () {
               return <div>{Math.random()}</div>
@@ -342,7 +342,12 @@ export function TestButton() {
 
   let run = () => {
     ///
+
     buildApp(appContent).then((outputs) => {
+      downloadCode(outputs).then((codes) => {
+        console.log(codes)
+      })
+
       runInElement({
         domElement: runnerEl.current,
         outputs,

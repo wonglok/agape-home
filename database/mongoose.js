@@ -20,6 +20,7 @@ if (!mongoose.models.UserProfile) {
     profilePicS3: {},
   })
 }
+
 export const UserProfile = mongoose.models.UserProfile
 // -------
 
@@ -47,18 +48,15 @@ if (!mongoose.models.CodePackage) {
 }
 
 export const CodePackage = mongoose.models.CodePackage
-
-// -------
 // -------
 
+// -------
 delete mongoose.models.CodeGroup
 if (!mongoose.models.CodeGroup) {
   mongoose.model('CodeGroup', {
-    //
     projectID: Types.ObjectId,
     packageID: Types.ObjectId,
     name: String,
-    content: String,
   })
 }
 
@@ -75,13 +73,12 @@ if (!mongoose.models.CodeFile) {
     projectID: Types.ObjectId,
     packageID: Types.ObjectId,
     groupID: Types.ObjectId,
-    name: String,
+    fileName: String,
     content: String,
   })
 }
 
 export const CodeFile = mongoose.models.CodeFile
-
 // -------
 
 // -------
@@ -94,6 +91,7 @@ if (!mongoose.models.LibFile) {
       type: String,
       unique: true,
     },
+
     name: String,
     version: String,
 

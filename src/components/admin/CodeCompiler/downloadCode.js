@@ -30,48 +30,14 @@ export async function downloadCode({ name = 'three', version = '' }) {
   //   ev.target.isLoading = false
   // }
   try {
-    if (!window.webcontainerInstanceLoaded) {
-      window.webcontainerInstanceLoaded = true
-      nProgress.set(0.2)
-
-      window.webcontainerInstancePromise = new Promise(async (resolve) => {
-        let webcontainerInstance = await WebContainer.boot()
-        // let FitAddon = (await import('xterm-addon-fit')).FitAddon
-        // let Terminal = (await import('xterm')).Terminal
-
-        // const fitAddon = new FitAddon()
-
-        // const terminal = new Terminal({
-        //   convertEol: true,
-        // })
-
-        // terminal.loadAddon(fitAddon)
-        // terminalEl.current.innerHTML = ''
-        // terminal.open(terminalEl.current)
-
-        // fitAddon.fit()
-
-        // const shellProcess = await startShell({ webcontainerInstance, terminal })
-        // window.addEventListener('resize', () => {
-        //   fitAddon.fit()
-        //   shellProcess.resize({
-        //     cols: terminal.cols,
-        //     rows: terminal.rows,
-        //   })
-        // })
-
-        resolve({ webcontainerInstance })
-      })
-    }
-
-    let { webcontainerInstance } = await window.webcontainerInstancePromise
-
     nProgress.set(0.6)
 
-    return buildCode({ webcontainerInstance, name: name, version: version }).then((outputs) => {
+    return buildCode({ name: name, version: version }).then((outputs) => {
       nProgress.set(1)
 
       nProgress.done()
+
+      return outputs
     })
   } catch (e) {
     nProgress.done()
@@ -117,7 +83,43 @@ export async function downloadCode({ name = 'three', version = '' }) {
 //   return shellProcess
 // }
 
-async function buildCode({ name = 'three', version = false, webcontainerInstance }) {
+async function buildCode({ name = 'three', version = false }) {
+  if (!window.webcontainerInstanceLoaded) {
+    window.webcontainerInstanceLoaded = true
+    nProgress.set(0.2)
+
+    window.webcontainerInstancePromise = new Promise(async (resolve) => {
+      let webcontainerInstance = await WebContainer.boot()
+      // let FitAddon = (await import('xterm-addon-fit')).FitAddon
+      // let Terminal = (await import('xterm')).Terminal
+
+      // const fitAddon = new FitAddon()
+
+      // const terminal = new Terminal({
+      //   convertEol: true,
+      // })
+
+      // terminal.loadAddon(fitAddon)
+      // terminalEl.current.innerHTML = ''
+      // terminal.open(terminalEl.current)
+
+      // fitAddon.fit()
+
+      // const shellProcess = await startShell({ webcontainerInstance, terminal })
+      // window.addEventListener('resize', () => {
+      //   fitAddon.fit()
+      //   shellProcess.resize({
+      //     cols: terminal.cols,
+      //     rows: terminal.rows,
+      //   })
+      // })
+
+      resolve({ webcontainerInstance })
+    })
+  }
+
+  let { webcontainerInstance } = await window.webcontainerInstancePromise
+
   nProgress.set(0.3)
 
   // let name = 'three'
@@ -132,13 +134,13 @@ async function buildCode({ name = 'three', version = false, webcontainerInstance
 
   const buildProcess = await webcontainerInstance.spawn('npm', ['run', 'build'])
 
-  buildProcess.output.pipeTo(
-    new WritableStream({
-      async write(data) {
-        console.log(`${data}`)
-      },
-    }),
-  )
+  // buildProcess.output.pipeTo(
+  //   new WritableStream({
+  //     async write(data) {
+  //       console.log(`${data}`)
+  //     },
+  //   }),
+  // )
 
   await buildProcess.exit
   await buildProcess.kill()
@@ -172,14 +174,14 @@ async function installDependencies({ terminal, name, version, webcontainerInstan
   }
 
   const installProcess = await webcontainerInstance.spawn('npm', args)
-  installProcess.output.pipeTo(
-    new WritableStream({
-      write(data) {
-        // console.log(data)
-        terminal.write(data)
-      },
-    }),
-  )
+  // installProcess.output.pipeTo(
+  //   new WritableStream({
+  //     write(data) {
+  //       console.log(data)
+  //       // terminal.write(data)
+  //     },
+  //   }),
+  // )
 
   // Wait for install command to exit
   let exitCode = await installProcess.exit

@@ -24,22 +24,22 @@ export const UserProfile = mongoose.models.UserProfile
 
 // -------
 
-delete mongoose.models.Package
-if (!mongoose.models.Package) {
-  mongoose.model('Package', {
+delete mongoose.models.CodePackage
+if (!mongoose.models.CodePackage) {
+  mongoose.model('CodePackage', {
     //
     name: String,
   })
 }
 
-export const Package = mongoose.models.Package
-// -------
+export const CodePackage = mongoose.models.CodePackage
 
 // -------
+// -------
 
-delete mongoose.models.ModuleGroup
-if (!mongoose.models.ModuleGroup) {
-  mongoose.model('ModuleGroup', {
+delete mongoose.models.CodeGroup
+if (!mongoose.models.CodeGroup) {
+  mongoose.model('CodeGroup', {
     //
     packageID: Types.ObjectId,
     name: String,
@@ -47,29 +47,26 @@ if (!mongoose.models.ModuleGroup) {
   })
 }
 
-export const ModuleGroup = mongoose.models.ModuleGroup
+export const CodeGroup = mongoose.models.CodeGroup
 
 // -------
 
 // -------
 
-delete mongoose.models.ScriptFile
-if (!mongoose.models.ScriptFile) {
-  mongoose.model('ScriptFile', {
+delete mongoose.models.CodeFile
+if (!mongoose.models.CodeFile) {
+  mongoose.model('CodeFile', {
     //
     packageID: Types.ObjectId,
-    moduleID: Types.ObjectId,
+    groupID: Types.ObjectId,
     name: String,
     content: String,
   })
 }
 
-export const ScriptFile = mongoose.models.ScriptFile
+export const CodeFile = mongoose.models.CodeFile
 
 // -------
-
-// const kitty = new Cat({ name: 'Zildjian' })
-// kitty.save().then(() => console.log('meow'))
 
 export const getID = () => {
   return '_' + Math.random().toString(36).slice(2, 9)

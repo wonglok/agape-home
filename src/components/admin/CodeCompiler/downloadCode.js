@@ -187,6 +187,6 @@ async function installDependencies({ terminal, name, version, webcontainerInstan
   let exitCode = await installProcess.exit
 
   if (exitCode !== 0) {
-    throw new Error('Installation failed')
+    console.log(new Error('Installation failed'))
   }
 }

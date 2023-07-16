@@ -1,5 +1,4 @@
 import { AdminGate } from '../AdminLayout/AdminGate'
-
 export function MyAdmin() {
   return (
     <>

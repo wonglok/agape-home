@@ -37,11 +37,7 @@ export default async function Profiles(req, res) {
       displayName: payload.displayName || '',
       username: payload.username || '',
       passwordHash: hash,
-      holoJsonUrl: '',
-      holoPosterUrl: '',
-      holoVideoUrl: '',
-      holoGUIUrl: '',
-      readyPlayerMeUrl: '',
+      profilePicS3: {},
     })
 
     return res.json({

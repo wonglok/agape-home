@@ -18,8 +18,6 @@ if (!mongoose.models.UserProfile) {
     passwordHash: String,
 
     profilePicS3: {},
-
-    readyPlayerMeUrl: String,
   })
 }
 

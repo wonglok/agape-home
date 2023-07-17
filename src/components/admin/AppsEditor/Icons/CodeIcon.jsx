@@ -4,7 +4,6 @@ import { Highlight } from './Highlight'
 export function CodeIcon() {
   let tabName = 'code'
   let tabDisplayName = 'Code'
-  let activeTab = useApps((r) => r.activeTab)
   return (
     <div
       onClick={() => {

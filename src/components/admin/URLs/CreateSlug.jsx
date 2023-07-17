@@ -14,7 +14,7 @@ export function CreateSlug() {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                URL Slug
+                Page URL Slug
               </label>
             </div>
             <div className='md:w-2/3'>
@@ -22,7 +22,7 @@ export function CreateSlug() {
                 className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
-                placeholder='/about-me'
+                placeholder='about-me'
               />
             </div>
           </div>
@@ -54,7 +54,7 @@ export function CreateSlug() {
                 }}
                 className='focus:shadow-outline rounded bg-purple-500 px-4 py-2 font-bold text-white shadow hover:bg-purple-400 focus:outline-none'
               >
-                Create
+                Create Page
               </button>
             </div>
           </div>

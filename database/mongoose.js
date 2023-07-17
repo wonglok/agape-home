@@ -114,7 +114,6 @@ if (!mongoose.models.ABLoader) {
     items: [
       {
         projectID: Types.ObjectId,
-        weight: Number,
       },
     ],
   })

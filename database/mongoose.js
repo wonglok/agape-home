@@ -102,11 +102,32 @@ if (!mongoose.models.LibFile) {
 export const LibFile = mongoose.models.LibFile
 // -------
 
+// -------
+delete mongoose.models.ABLoader
+if (!mongoose.models.ABLoader) {
+  mongoose.model('ABLoader', {
+    //
+    slug: {
+      type: String,
+      unique: true,
+    },
+    items: [
+      {
+        projectID: Types.ObjectId,
+        weight: Number,
+      },
+    ],
+  })
+}
+
+export const ABLoader = mongoose.models.ABLoader
+// -------
+
 export const getID = () => {
   return '_' + Math.random().toString(36).slice(2, 9)
 }
 
-export const getMonID = () => {
+export const getMongoID = () => {
   let id = new mongoose.Types.ObjectId()
   return id
 }

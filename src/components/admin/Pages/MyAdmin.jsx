@@ -1,6 +1,7 @@
 import { AdminGate } from '../AdminLayout/AdminGate'
+import { PageURL } from '../URLs/PageURL'
 // import { CodeCompiler } from '../CodeCompiler/CodeCompiler'
-import { TestButton } from '../CodeCompiler/CodeCore'
+// import { TestButton } from '../CodeCompiler/CodeCore'
 // import { CodeCoreRunner } from '../CodeCompiler/CodeCoreRunner'
 
 //
@@ -11,14 +12,17 @@ export function MyAdmin() {
       {/*  */}
       <AdminGate>
         <h2 className='daysfont text-2xl underline'>Welcome to Admin Portal</h2>
-        <TestButton></TestButton>
+        {/* <TestButton></TestButton> */}
         {/* <CodeCompiler></CodeCompiler> */}
         {/* <CodeCoreRunner></CodeCoreRunner> */}
-        <div>{/*  */}</div>
+
+        <PageURL></PageURL>
       </AdminGate>
     </>
   )
 }
+
+//
 
 //
 

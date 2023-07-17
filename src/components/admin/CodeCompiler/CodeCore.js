@@ -12,14 +12,15 @@ export let buildApp = async (input) => {
   /** @type {appContent} */
   let app = input
 
-  // window.AGAPE_CACHE = window.AGAPE_CACHE || {}
-  // window.AGAPE_CACHE.three = import('three')
-  // window.AGAPE_CACHE.react = import('react')
-  // window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
-  // window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
-  // window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
-  // window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
-  // window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
+  window.AGAPE_SDK = window.AGAPE_SDK || {}
+  window.AGAPE_SDK.three = import('three')
+  window.AGAPE_SDK.react = import('react')
+  window.AGAPE_SDK['agape-sdk'] = import('agape-sdk')
+  window.AGAPE_SDK['@react-three/fiber'] = import('@react-three/fiber')
+  window.AGAPE_SDK['@react-three/drei'] = import('@react-three/drei')
+  window.AGAPE_SDK['@react-three/xr'] = import('@react-three/xr')
+  window.AGAPE_SDK['@react-three/postprocessing'] = import('@react-three/postprocessing')
+  window.AGAPE_SDK['three-stdlib'] = import('three-stdlib')
 
   // const { packageName, appPackages } = input
 

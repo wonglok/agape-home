@@ -138,18 +138,18 @@ export let buildApp = async (input) => {
             id = id.replace('package:', `${rollupLocalhost}`)
           }
 
-          if (id.indexOf('apm:') === 0) {
-            id = id.replace('apm:', ``)
+          // if (id.indexOf('apm:') === 0) {
+          //   id = id.replace('apm:', ``)
 
-            let info = id.split('@')
+          //   let info = id.split('@')
 
-            let packageName = info[0]
-            let version = info[1]
+          //   let packageName = info[0]
+          //   let version = info[1]
 
-            console.log(info)
+          //   console.log(info)
 
-            return `console.log('apmYo', ${JSON.stringify(id)})`
-          }
+          //   return `console.log('apmYo', ${JSON.stringify(id)})`
+          // }
 
           let file = fileList.find((e) => e.rollup === id)
 
@@ -339,13 +339,13 @@ export function TestButton() {
   let runnerEl = useRef()
 
   let run = () => {
-    ///
-
-    buildApp(appContent).then((outputs) => {
+    /*
       downloadCode(outputs).then((codes) => {
         console.log(codes)
       })
+    */
 
+    buildApp(appContent).then((outputs) => {
       runInElement({
         domElement: runnerEl.current,
         outputs,

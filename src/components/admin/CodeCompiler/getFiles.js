@@ -24,6 +24,8 @@ export const getFiles = async ({ name }) => {
       import resolve from '@rollup/plugin-node-resolve';
       import commonjs from '@rollup/plugin-commonjs';
       import pkg from './package.json';
+      import { uglify } from "rollup-plugin-uglify";
+
 
       export default [
         // {
@@ -44,7 +46,8 @@ export const getFiles = async ({ name }) => {
           ],
           plugins: [
             resolve(),
-            commonjs()
+            commonjs(),
+            uglify()
           ]
         }
       ];
@@ -64,7 +67,8 @@ export const getFiles = async ({ name }) => {
         "devDependencies": {
           "@rollup/plugin-commonjs": "^11.0.1",
           "@rollup/plugin-node-resolve": "^7.0.0",
-          "rollup": "^1.29.0"
+          "rollup": "^1.29.0",
+          "rollup-plugin-uglify": "6.0.4"
         },
         "scripts": {
           "build": "rollup -c",

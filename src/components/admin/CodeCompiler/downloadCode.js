@@ -16,7 +16,7 @@ export function CodeCompiler({}) {
   )
 }
 
-export async function downloadCode({ name = 'three', version = '' }) {
+export async function downloadCode({ name = 'three', version = '', onProgress = () => {} }) {
   //
 
   // if (ev.target.isLoading) {
@@ -29,21 +29,25 @@ export async function downloadCode({ name = 'three', version = '' }) {
   //   ev.target.innerText = 'Test'
   //   ev.target.isLoading = false
   // }
+
   try {
-    nProgress.set(0.6)
+    onProgress(0.1)
 
-    return buildCode({ name: name, version: version }).then((outputs) => {
-      nProgress.set(1)
-
-      nProgress.done()
+    return buildCode({
+      name: name,
+      version: version,
+      onProgress: (v) => {
+        onProgress(v)
+      },
+    }).then((outputs) => {
+      onProgress(1)
 
       return outputs
     })
   } catch (e) {
-    nProgress.done()
+    onProgress(1)
     console.log(e)
   }
-  nProgress.done()
 }
 
 // async function startDevServer({ webcontainerInstance, onURL }) {
@@ -83,12 +87,13 @@ export async function downloadCode({ name = 'three', version = '' }) {
 //   return shellProcess
 // }
 
-async function buildCode({ name = 'three', version = false }) {
+async function buildCode({ name = 'three', version = false, onProgress = () => {} }) {
   if (!window.webcontainerInstanceLoaded) {
     window.webcontainerInstanceLoaded = true
-    nProgress.set(0.2)
+    onProgress(0.2)
 
     window.webcontainerInstancePromise = new Promise(async (resolve) => {
+      onProgress(0.3)
       let webcontainerInstance = await WebContainer.boot()
       // let FitAddon = (await import('xterm-addon-fit')).FitAddon
       // let Terminal = (await import('xterm')).Terminal
@@ -114,25 +119,30 @@ async function buildCode({ name = 'three', version = false }) {
       //   })
       // })
 
+      onProgress(0.35)
       resolve({ webcontainerInstance })
     })
   }
 
   let { webcontainerInstance } = await window.webcontainerInstancePromise
 
-  nProgress.set(0.3)
+  onProgress(0.4)
 
   // let name = 'three'
   // let version = '0.150.0'
 
+  onProgress(0.45)
   await webcontainerInstance.mount(await getFiles({ name: name }))
 
   //
-  nProgress.set(0.5)
+  onProgress(0.5)
   await installDependencies({ webcontainerInstance })
+  onProgress(0.75)
   await installDependencies({ name: name, version: version, webcontainerInstance })
+  onProgress(0.8)
 
   const buildProcess = await webcontainerInstance.spawn('npm', ['run', 'build'])
+  onProgress(0.9)
 
   // buildProcess.output.pipeTo(
   //   new WritableStream({
@@ -157,6 +167,7 @@ async function buildCode({ name = 'three', version = false }) {
       content: fileContent,
     })
   }
+  onProgress(0.95)
 
   return output
 }

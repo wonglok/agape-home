@@ -14,13 +14,13 @@ export let buildApp = async (input) => {
 
   // window.AGAPE_CACHE = window.AGAPE_CACHE || {}
 
-  // window.AGAPE_CACHE.three = import('three')
-  // window.AGAPE_CACHE.react = import('react')
-  // window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
-  // window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
-  // window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
-  // window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
-  // window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
+  window.AGAPE_CACHE.three = import('three')
+  window.AGAPE_CACHE.react = import('react')
+  window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
+  window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
+  window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
+  window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
+  window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
   // //
   // const { packageName, appPackages } = input
 
@@ -73,12 +73,12 @@ export let buildApp = async (input) => {
           // if (importee.indexOf('@') === 0) {
           //   // return `${rollupLocalhost}${address}`
           // }
-          if (importee === 'three') {
-            return `${location.origin}/sdk/three/build/three.module.js`
-          }
-          if (importee.indexOf('three/examples/') === 0) {
-            return `${location.origin}/sdk/three/examples/${importee.replace('three/examples/', '')}`
-          }
+          // if (importee === 'three') {
+          //   return `${location.origin}/sdk/three/build/three.module.js`
+          // }
+          // if (importee.indexOf('three/examples/') === 0) {
+          //   return `${location.origin}/sdk/three/examples/${importee.replace('three/examples/', '')}`
+          // }
 
           return new URL(importee, importer).href
         },

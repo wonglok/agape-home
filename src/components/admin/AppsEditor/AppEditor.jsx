@@ -3,7 +3,6 @@ import { useApps } from '../Apps/useApps'
 export function AppEditor() {
   let activeApp = useApps((r) => r.activeApp)
 
-  console.log(activeApp)
   return (
     <>
       <div

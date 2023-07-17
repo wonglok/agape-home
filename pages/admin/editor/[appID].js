@@ -20,6 +20,9 @@ export default function AppID() {
       .then((r) => {
         useApps.setState({ activeApp: r })
       })
+    return () => {
+      useApps.setState({ activeApp: false })
+    }
   }, [appID])
 
   return (

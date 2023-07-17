@@ -12,15 +12,15 @@ export let buildApp = async (input) => {
   /** @type {appContent} */
   let app = input
 
-  window.SDK = window.SDK || {}
-  window.SDK.three = import('three')
-  window.SDK.react = import('react')
-  window.SDK['agape-sdk'] = import('agape-sdk')
-  window.SDK['@react-three/fiber'] = import('@react-three/fiber')
-  window.SDK['@react-three/drei'] = import('@react-three/drei')
-  window.SDK['@react-three/xr'] = import('@react-three/xr')
-  window.SDK['@react-three/postprocessing'] = import('@react-three/postprocessing')
-  window.SDK['three-stdlib'] = import('three-stdlib')
+  window.AGAPE = window.AGAPE || {}
+  window.AGAPE.three = import('three')
+  window.AGAPE.react = import('react')
+  window.AGAPE['agape-sdk'] = import('agape-sdk')
+  window.AGAPE['@react-three/fiber'] = import('@react-three/fiber')
+  window.AGAPE['@react-three/drei'] = import('@react-three/drei')
+  window.AGAPE['@react-three/xr'] = import('@react-three/xr')
+  window.AGAPE['@react-three/postprocessing'] = import('@react-three/postprocessing')
+  window.AGAPE['three-stdlib'] = import('three-stdlib')
 
   // const { packageName, appPackages } = input
 
@@ -45,6 +45,8 @@ export let buildApp = async (input) => {
       }
     }
   }
+
+  //
 
   // console.log('fileList', fileList)
 
@@ -75,11 +77,11 @@ export let buildApp = async (input) => {
           //   // return `${rollupLocalhost}${address}`
           // }
 
-          if (importee.indexOf('three150') === 0) {
+          if (importee.indexOf('three') === 0) {
             return `${location.origin}/agape-sdk/three150/build/three.module.js`
           }
 
-          if (importee.indexOf('three150/examples/') === 0) {
+          if (importee.indexOf('three/examples/') === 0) {
             return `${location.origin}/agape-sdk/three150/examples/${importee.replace('three/examples/', '')}`
           }
 
@@ -199,7 +201,7 @@ export let RawModules = [
         fileName: `index.js`,
         content: /* js */ `
             import b from './b.js';
-            import { Vector2 } from 'three150';
+            import { Vector2 } from 'three';
 
             console.log(new Vector2(1,1))
 

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 // "rollup": "2.56.3",
 import { rollup } from 'rollup/dist/rollup.browser.js'
 import { runInElement } from './runInElement'
-import { downloadCode } from './downloadCode'
+// import { downloadCode } from './downloadCode'
 
 //useEffect
 
@@ -13,15 +13,14 @@ export let buildApp = async (input) => {
   let app = input
 
   // window.AGAPE_CACHE = window.AGAPE_CACHE || {}
+  // window.AGAPE_CACHE.three = import('three')
+  // window.AGAPE_CACHE.react = import('react')
+  // window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
+  // window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
+  // window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
+  // window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
+  // window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
 
-  window.AGAPE_CACHE.three = import('three')
-  window.AGAPE_CACHE.react = import('react')
-  window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
-  window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
-  window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
-  window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
-  window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
-  // //
   // const { packageName, appPackages } = input
 
   const rollupLocalhost = `rollup://localhost/`
@@ -70,15 +69,18 @@ export let buildApp = async (input) => {
           //   importee = importee.replace('package:', rollupLocalhost)
           //   return new URL(importee).href
           // }
+
           // if (importee.indexOf('@') === 0) {
           //   // return `${rollupLocalhost}${address}`
           // }
-          // if (importee === 'three') {
-          //   return `${location.origin}/sdk/three/build/three.module.js`
-          // }
-          // if (importee.indexOf('three/examples/') === 0) {
-          //   return `${location.origin}/sdk/three/examples/${importee.replace('three/examples/', '')}`
-          // }
+
+          if (importee.indexOf('three') === 0) {
+            return `${location.origin}/agape-sdk/three150/build/three.module.js`
+          }
+
+          if (importee.indexOf('three/examples/') === 0) {
+            return `${location.origin}/agape-sdk/three150/examples/${importee.replace('three/examples/', '')}`
+          }
 
           return new URL(importee, importer).href
         },
@@ -110,7 +112,6 @@ export let buildApp = async (input) => {
 
           if (id.indexOf('network:') === 0) {
             let url = id.replace('network:', '').replace(rollupLocalhost, '')
-
             let info = path.parse(url)
 
             if (info && info.ext === '.json') {
@@ -127,39 +128,6 @@ export let buildApp = async (input) => {
                 })
             } else if (url.indexOf('/') === 0) {
               return fetch(url)
-                .then((r) => r.text())
-                .then((t) => {
-                  return `${t}`
-                })
-            }
-          }
-
-          if (id.indexOf('sdk:') === 0) {
-            let url = id.replace('sdk:', '').replace(rollupLocalhost, '')
-
-            let info = path.parse(url)
-            console.log(url)
-
-            if (info && info.ext === '.json') {
-              return fetch(url)
-                .then((r) => r.json())
-                .then((t) => {
-                  return `export default ${JSON.stringify(t)}`
-                })
-            } else if (info && info.ext === '.js') {
-              return fetch(url)
-                .then((r) => r.text())
-                .then((t) => {
-                  return `${t}`
-                })
-            } else if (url.indexOf('/') === 0) {
-              return fetch(url)
-                .then((r) => r.text())
-                .then((t) => {
-                  return `${t}`
-                })
-            } else {
-              return fetch(`/sdk/${url}`)
                 .then((r) => r.text())
                 .then((t) => {
                   return `${t}`
@@ -230,7 +198,7 @@ export let RawModules = [
         fileName: `index.js`,
         content: /* js */ `
             import b from './b.js';
-            import { Vector2 } from 'three';
+            import { Vector2 } from 'three150';
 
             console.log(new Vector2(1,1))
 

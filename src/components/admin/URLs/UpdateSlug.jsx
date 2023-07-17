@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useSlug } from './useSlug'
 import slugify from 'slugify'
-import { ABTesting } from './ABTesting'
+import { LoaderType } from './LoaderType'
 
 export function UpdateSlug({ data }) {
   let slugEl = useRef()
@@ -13,6 +13,25 @@ export function UpdateSlug({ data }) {
 
     e.target.classList.add(v)
   }
+  let work = (e) => {
+    //!SECTION
+    data.slug = slugify(slugEl.current.value || '', '-')
+    useSlug
+      .getState()
+      .updateOne({ object: data })
+
+      .then(() => {
+        set(e, 'focus:border-green-500')
+
+        setTimeout(() => {
+          set(e, 'focus:border-purple-500')
+        }, 1000)
+      })
+      .catch((r) => {
+        set(e, 'focus:border-red-500')
+      })
+  }
+
   return (
     <>
       <div>
@@ -26,7 +45,7 @@ export function UpdateSlug({ data }) {
                 Page /
               </label>
             </div>
-            <div className='md:w-2/3'>
+            <div className='flex md:w-2/3'>
               <input
                 //
 
@@ -36,31 +55,29 @@ export function UpdateSlug({ data }) {
                 defaultValue={data.slug}
                 placeholder='about-me'
                 onKeyDown={(e) => {
+                  clearTimeout(e.target.timer)
+                  e.target.timer = setTimeout(() => {
+                    work(e)
+                  }, 1000)
+
                   if (e.key === 'Enter') {
-                    //!SECTION
-                    data.slug = slugify(slugEl.current.value || '', '-')
-                    useSlug
-                      .getState()
-                      .updateOne({ object: data })
-
-                      .then(() => {
-                        set(e, 'focus:border-green-500')
-
-                        setTimeout(() => {
-                          set(e, 'focus:border-purple-500')
-                        }, 1000)
-                      })
-                      .catch((r) => {
-                        set(e, 'focus:border-red-500')
-                      })
+                    work(e)
                     //!SECTION
                   }
                 }}
               />
+              <button
+                onClick={() => {
+                  //
+                }}
+                className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+              >
+                ❌
+              </button>
             </div>
           </div>
 
-          <ABTesting></ABTesting>
+          {data && <LoaderType data={data}></LoaderType>}
         </div>
       </div>
     </>

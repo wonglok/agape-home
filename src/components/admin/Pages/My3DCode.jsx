@@ -8,31 +8,17 @@ import { URLModalOut } from '../URLs/Tunnel'
 
 //
 
-export function MyAdmin() {
+export function My3DCode() {
   return (
     <>
       {/*  */}
       <AdminGate>
-        <h2 className='daysfont mb-3 text-2xl underline'>Welcome to Admin Portal</h2>
+        <h2 className='daysfont mb-3 text-2xl underline'>3D Code</h2>
         {/* <TestButton></TestButton> */}
         {/* <CodeCompiler></CodeCompiler> */}
         {/* <CodeCoreRunner></CodeCoreRunner> */}
 
         {/* <PageURL></PageURL> */}
-
-        <div className='mr-3 inline-block'>
-          <Link href={`/admin/pages`}>
-            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>Pages</button>
-          </Link>
-        </div>
-
-        <div className='mr-3 inline-block'>
-          <Link href={`/admin/3d-code`}>
-            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>3D Code</button>
-          </Link>
-        </div>
-
-        {/*  */}
       </AdminGate>
       <URLModalOut></URLModalOut>
     </>

@@ -111,15 +111,53 @@ if (!mongoose.models.ABLoader) {
       type: String,
       unique: true,
     },
-    items: [
-      {
-        projectID: Types.ObjectId,
-      },
-    ],
+
+    defaultLinkID: String,
+
+    // type: {
+    //   type: String,
+    //   default: 'project',
+    // },
+    // projectID: String,
+    // abTests: [
+    //   {
+    //     name: String,
+    //     weight: Number,
+    //     projectID: Types.ObjectId,
+    //   },
+    // ],
   })
 }
 
 export const ABLoader = mongoose.models.ABLoader
+// -------
+
+// -------
+delete mongoose.models.AppLoader
+if (!mongoose.models.AppLoader) {
+  mongoose.model('AppLoader', {
+    //
+    slug: {
+      type: String,
+      unique: true,
+    },
+
+    // type: {
+    //   type: String,
+    //   default: 'project',
+    // },
+    // projectID: String,
+    // abTests: [
+    //   {
+    //     name: String,
+    //     weight: Number,
+    //     projectID: Types.ObjectId,
+    //   },
+    // ],
+  })
+}
+
+export const AppLoader = mongoose.models.AppLoader
 // -------
 
 export const getID = () => {

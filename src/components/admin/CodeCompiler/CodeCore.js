@@ -74,11 +74,11 @@ export let buildApp = async (input) => {
           //   // return `${rollupLocalhost}${address}`
           // }
 
-          if (importee.indexOf('three') === 0) {
+          if (importee.indexOf('three150') === 0) {
             return `${location.origin}/agape-sdk/three150/build/three.module.js`
           }
 
-          if (importee.indexOf('three/examples/') === 0) {
+          if (importee.indexOf('three150/examples/') === 0) {
             return `${location.origin}/agape-sdk/three150/examples/${importee.replace('three/examples/', '')}`
           }
 

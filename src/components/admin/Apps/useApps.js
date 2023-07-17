@@ -3,6 +3,7 @@ import { create } from 'zustand'
 export const useApps = create(() => {
   let url = `/api/apps`
   return {
+    activeApp: false,
     apps: [],
     create: ({ object = {} }) => {
       try {
@@ -44,6 +45,36 @@ export const useApps = create(() => {
             body: JSON.stringify({
               action: 'find',
               payload: {},
+            }),
+            withCredentials: true,
+            credentials: 'same-origin',
+            mode: 'same-origin',
+          })
+            //
+            .then(async (r) => {
+              if (r.ok) {
+                return await r.json()
+              } else {
+                throw await r.text()
+              }
+            })
+            //
+            .then((r) => {
+              return r.data
+            })
+        )
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    findOne: ({ object }) => {
+      try {
+        return (
+          fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'findOne',
+              payload: { object },
             }),
             withCredentials: true,
             credentials: 'same-origin',

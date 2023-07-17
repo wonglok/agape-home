@@ -42,7 +42,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'findOne') {
-      let result = await AppLoader.findOne({ _id: payload?.object._id })
+      let result = await AppLoader.findOne({ _id: payload?.object?._id })
 
       return res.json({
         data: result,

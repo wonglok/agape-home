@@ -64,7 +64,6 @@ function Triangle() {
     stroke-dasharray: 226 0;
   }
 }
-
           `,
           }}
         ></style>

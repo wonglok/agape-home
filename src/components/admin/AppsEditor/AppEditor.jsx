@@ -1,6 +1,6 @@
 import { useApps } from '../Apps/useApps'
-import { CodeIcon } from './Icons/CodeIcon'
-import { HomeIcon } from './Icons/HomeIcon'
+import { IconBar } from './Icons/IconBar'
+import { TabAdapter } from './Tabs/TabAdapter'
 
 export function AppEditor() {
   let activeApp = useApps((r) => r.activeApp)
@@ -13,8 +13,7 @@ export function AppEditor() {
           height: '70px',
         }}
       >
-        <HomeIcon></HomeIcon>
-        <CodeIcon></CodeIcon>
+        <IconBar></IconBar>
       </div>
       <div
         className=' bg-gradient-to-t from-slate-200 to-slate-400'
@@ -22,10 +21,7 @@ export function AppEditor() {
           height: 'calc(100% - 70px)',
         }}
       >
-        <div className='flex h-full w-full'>
-          <div className='h-full bg-red-500'></div>
-          <div className='h-full bg-red-300'></div>
-        </div>
+        <TabAdapter></TabAdapter>
       </div>
     </>
   )

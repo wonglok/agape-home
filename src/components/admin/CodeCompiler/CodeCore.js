@@ -1,6 +1,6 @@
 import path from 'path'
 import { transform } from 'sucrase'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // "rollup": "2.56.3",
 import { rollup } from 'rollup/dist/rollup.browser.js'
 import { runInElement } from './runInElement'
@@ -12,6 +12,16 @@ export let buildApp = async (input) => {
   /** @type {appContent} */
   let app = input
 
+  // window.AGAPE_CACHE = window.AGAPE_CACHE || {}
+
+  // window.AGAPE_CACHE.three = import('three')
+  // window.AGAPE_CACHE.react = import('react')
+  // window.AGAPE_CACHE['@react-three/fiber'] = import('@react-three/fiber')
+  // window.AGAPE_CACHE['@react-three/drei'] = import('@react-three/drei')
+  // window.AGAPE_CACHE['@react-three/xr'] = import('@react-three/xr')
+  // window.AGAPE_CACHE['@react-three/postprocessing'] = import('@react-three/postprocessing')
+  // window.AGAPE_CACHE['three-stdlib'] = import('three-stdlib')
+  // //
   // const { packageName, appPackages } = input
 
   const rollupLocalhost = `rollup://localhost/`
@@ -42,16 +52,6 @@ export let buildApp = async (input) => {
 
   let bundle = rollup({
     input: `${rollupLocalhost}${app.appLoader}/main/index.js`,
-    // input: [
-    //   getFileName({
-    //     // onePackage: firstPackage,
-    //     onePackage: app.appPackages.find(
-    //       (e) => e.packageName === app.appLoader
-    //     ),
-    //     moduleName: 'main',
-    //     fileName: 'index.js',
-    //   }),
-    // ],
     plugins: [
       {
         name: 'rollup-in-browser-example',
@@ -73,12 +73,12 @@ export let buildApp = async (input) => {
           // if (importee.indexOf('@') === 0) {
           //   // return `${rollupLocalhost}${address}`
           // }
-          // if (importee === 'three') {
-          //   return `${location.origin}/vendor/three-r149/build/three.module.js`
-          // }
-          // if (importee.indexOf('three/examples/') === 0) {
-          //   return `${location.origin}/vendor/three-r149/examples/${importee.replace('three/examples/', '')}`
-          // }
+          if (importee === 'three') {
+            return `${location.origin}/sdk/three/build/three.module.js`
+          }
+          if (importee.indexOf('three/examples/') === 0) {
+            return `${location.origin}/sdk/three/examples/${importee.replace('three/examples/', '')}`
+          }
 
           return new URL(importee, importer).href
         },
@@ -134,22 +134,42 @@ export let buildApp = async (input) => {
             }
           }
 
+          if (id.indexOf('sdk:') === 0) {
+            let url = id.replace('sdk:', '').replace(rollupLocalhost, '')
+
+            let info = path.parse(url)
+            console.log(url)
+
+            if (info && info.ext === '.json') {
+              return fetch(url)
+                .then((r) => r.json())
+                .then((t) => {
+                  return `export default ${JSON.stringify(t)}`
+                })
+            } else if (info && info.ext === '.js') {
+              return fetch(url)
+                .then((r) => r.text())
+                .then((t) => {
+                  return `${t}`
+                })
+            } else if (url.indexOf('/') === 0) {
+              return fetch(url)
+                .then((r) => r.text())
+                .then((t) => {
+                  return `${t}`
+                })
+            } else {
+              return fetch(`/sdk/${url}`)
+                .then((r) => r.text())
+                .then((t) => {
+                  return `${t}`
+                })
+            }
+          }
+
           if (id.indexOf('package:') === 0) {
             id = id.replace('package:', `${rollupLocalhost}`)
           }
-
-          // if (id.indexOf('apm:') === 0) {
-          //   id = id.replace('apm:', ``)
-
-          //   let info = id.split('@')
-
-          //   let packageName = info[0]
-          //   let version = info[1]
-
-          //   console.log(info)
-
-          //   return `console.log('apmYo', ${JSON.stringify(id)})`
-          // }
 
           let file = fileList.find((e) => e.rollup === id)
 
@@ -197,7 +217,7 @@ export let buildApp = async (input) => {
     }
   })
 
-  console.log(outputs, 'outputs')
+  // console.log(outputs, 'outputs')
 
   return outputs
 }
@@ -210,7 +230,9 @@ export let RawModules = [
         fileName: `index.js`,
         content: /* js */ `
             import b from './b.js';
-            // import { Vector2 } from 'sdk:three';
+            import { Vector2 } from 'three';
+
+            console.log(new Vector2(1,1))
 
             import('./codesplit.js').then((r) => {
               console.log(r.default);
@@ -228,16 +250,11 @@ export let RawModules = [
               return <div>{Math.random()}</div>
             }
 
-            export const GUI = {
-              install: ({ domElement, onClean }) => {
-                domElement.reactRoot = domElement.reactRoot || ReactDOM.createRoot(domElement)
-                domElement.reactRoot.render(<YoTeachApp></YoTeachApp>)
-
-                onClean(() => {
-                  domElement.reactRoot.unmount()
-                })
-              }
-            }
+            // export const GUI = {
+            //   install: ({ mountRoot }) => {
+            //     mountRoot(<YoTeachApp></YoTeachApp>)
+            //   }
+            // }
 
             console.log('GUI')
 
@@ -248,9 +265,10 @@ export let RawModules = [
               console.log(r.default)
             })
 
-            export default {
-              mod: 'main',
-              a:b
+            export default function Page() {
+              return <>
+                <YoTeachApp></YoTeachApp>
+              </>
             };
         `,
       },
@@ -336,8 +354,7 @@ export let appContent = {
 }
 
 export function TestButton() {
-  let runnerEl = useRef()
-
+  let [compos, mountRoot] = useState(null)
   let run = () => {
     /*
       downloadCode(outputs).then((codes) => {
@@ -347,7 +364,9 @@ export function TestButton() {
 
     buildApp(appContent).then((outputs) => {
       runInElement({
-        domElement: runnerEl.current,
+        mountRoot: (v) => {
+          mountRoot(v)
+        },
         outputs,
         onClean: () => {
           //
@@ -364,49 +383,7 @@ export function TestButton() {
   return (
     <>
       <button onClick={run}>Test Run</button>
-
-      <button
-        onClick={(ev) => {
-          getCode({
-            name: 'three',
-            version: '0.150.0',
-            onProgress: (progress) => {
-              ev.target.innerText = `${progress * 100}%`
-              console.log(progress)
-            },
-          }).then((r) => {
-            console.log(r)
-          })
-        }}
-      >
-        Get Lib
-      </button>
-      <div className='' ref={runnerEl}></div>
+      {compos}
     </>
   )
-}
-
-async function getCode({ name, version, onProgress }) {
-  return new Promise((resolve, reject) => {
-    let bc = new BroadcastChannel(`${name}/${version}`)
-    onProgress(0.05)
-
-    bc.onmessage = ({ data }) => {
-      if (data.type === 'progress') {
-        onProgress(data.progress)
-      }
-      if (data.type === 'done' && data.name === name && data.version === version) {
-        bc.close()
-        iframe.src = 'about:blank'
-        iframe.onmessage = () => {}
-        iframe.remove()
-        resolve(data)
-      }
-    }
-    let iframe = document.createElement('iframe')
-    iframe.src = `/apm/${name}/${version}`
-    iframe.style.display = 'none'
-
-    document.body.appendChild(iframe)
-  })
 }

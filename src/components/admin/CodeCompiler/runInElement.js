@@ -137,7 +137,7 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
 //
 
 //
-export let runInElement = async ({ domElement, outputs, onClean }) => {
+export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.React = React
   window.ReactDOM = ReactDOM
 
@@ -172,81 +172,10 @@ export let runInElement = async ({ domElement, outputs, onClean }) => {
   // console.log(outputs)
 
   loaderUtils.load('index.js').then((r) => {
-    if (typeof r?.GUI?.install === 'function') {
-      r.GUI.install({ domElement, onClean, loader: loaderUtils })
-    }
+    let Compos = r.default
+    mountRoot(<Compos></Compos>)
+    // if (typeof r?.GUI?.install === 'function') {
+    //   r.GUI.install({ mountRoot, onClean, loader: loaderUtils })
+    // }
   })
 }
-
-// export function CodeCoreRunner({}) {
-//   let ref = useRef()
-
-//   useEffect(() => {
-//     /// inputGUI
-//     // // console.log('!!!!')
-//     // //
-//     // let id = ''
-//     // let params = new URLSearchParams(window.location.search)
-//     // id = params.get('id') || ''
-//     // const bc = new BroadcastChannel('editor' + id)
-//     // bc.postMessage({
-//     //   action: 'compile',
-//     // })
-//     // let cleans = []
-//     // let onClean = (v) => {
-//     //   cleans.push(v)
-//     // }
-//     // bc.onmessage = (event) => {
-//     //   let outputs = event.data.outputs
-//     //   if (outputs) {
-//     //     cleans.forEach((v) => v())
-//     //     cleans = []
-//     //     run({ domElement: ref.current, outputs: outputs, onClean })
-//     //   }
-//     // }
-//     // if (outputsJSON) {
-//     //   run({ domElement: ref.current, outputs: outputsJSON, onClean })
-//     // }
-//     // return () => {
-//     //   cleans.forEach((v) => v())
-//     //   cleans = []
-//     //   bc.close()
-//     // }
-//   }, [])
-//   //
-//   return (
-//     <div className='h-full w-full' ref={ref}>
-//       {/* <Triangle></Triangle> */}
-//     </div>
-//   )
-// }
-
-// function Triangle() {
-//   return (
-//     <div
-//       className='absolute left-0 top-0 flex h-full w-full items-center justify-center bg-white bg-opacity-30 backdrop-blur-md'
-//       style={{ zIndex: '1000' }}
-//     >
-//       <div className='loader-triangle-7'>
-//         <svg width='56px' height='50px' viewBox='0 0 226 200' version='1.1'>
-//           <g id='Page-1' stroke='none' strokeWidth='2' fill='none' fillRule='evenodd'>
-//             <g
-//               id='Artboard'
-//               fillRule='nonzero'
-//               stroke={'black'}
-//               // stroke='url(#linearGradient-1)'
-//               strokeWidth='10'
-//             >
-//               <g id='white-bg-logo'>
-//                 <path
-//                   d='M113,5.08219117 L4.28393801,197.5 L221.716062,197.5 L113,5.08219117 Z'
-//                   id='Triangle-3-Copy'
-//                 ></path>
-//               </g>
-//             </g>
-//           </g>
-//         </svg>
-//       </div>
-//     </div>
-//   )
-// }

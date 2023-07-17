@@ -84,7 +84,7 @@ export const authOptions = {
 
 export default NextAuth(authOptions)
 
-export const hasRole = (session, roles) => {
+export const allowRole = (session, roles) => {
   if (session?.user?.role && roles.includes(session?.user?.role)) {
     return true
   }

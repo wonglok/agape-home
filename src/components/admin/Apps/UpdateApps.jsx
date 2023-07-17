@@ -1,9 +1,9 @@
 import { useRef } from 'react'
-import { useSlug } from './useSlug'
+import { useApps } from './useApps'
 import slugify from 'slugify'
 import { LoaderType } from './LoaderType'
 
-export function UpdateSlug({ data }) {
+export function UpdateApps({ data }) {
   let slugEl = useRef()
 
   let set = (e, v = 'focus:border-green-500') => {
@@ -14,9 +14,8 @@ export function UpdateSlug({ data }) {
     e.target.classList.add(v)
   }
   let work = (e) => {
-    //!SECTION
     data.slug = slugify(slugEl.current.value || '', '-')
-    useSlug
+    useApps
       .getState()
       .updateOne({ object: data })
 
@@ -69,9 +68,9 @@ export function UpdateSlug({ data }) {
               <button
                 onClick={() => {
                   //
-                  useSlug.getState().deleteOne({ object: data })
-                  useSlug.setState((st) => {
-                    return { ...st, slugs: st.slugs.filter((r) => r._id !== data._id) }
+                  useApps.getState().deleteOne({ object: data })
+                  useApps.setState((st) => {
+                    return { ...st, apps: st.apps.filter((r) => r._id !== data._id) }
                   })
                 }}
                 className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'

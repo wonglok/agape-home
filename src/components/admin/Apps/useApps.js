@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 
-export const useSlug = create(() => {
-  let url = `/api/slug`
+export const useApps = create(() => {
+  let url = `/api/apps`
   return {
-    slugs: [],
+    apps: [],
     create: ({ object = {} }) => {
       try {
         return (
@@ -97,7 +97,6 @@ export const useSlug = create(() => {
       }
     },
 
-    //
     deleteOne: ({ object }) => {
       try {
         return (

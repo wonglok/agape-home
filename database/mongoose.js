@@ -142,6 +142,7 @@ if (!mongoose.models.AppLoader) {
       unique: true,
     },
 
+    tags: [{}],
     // type: {
     //   type: String,
     //   default: 'project',

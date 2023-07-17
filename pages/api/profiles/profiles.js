@@ -10,6 +10,7 @@ export default async function Profiles(req, res) {
       msg: 'bad auth',
     })
   }
+
   if (anyRole(session, ['devroot'])) {
   } else {
     return res.status(406).json({
@@ -22,6 +23,8 @@ export default async function Profiles(req, res) {
       msg: 'method not allowed',
     })
   }
+
+  //
 
   let userID = session.user.name
 

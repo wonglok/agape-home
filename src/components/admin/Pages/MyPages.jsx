@@ -18,7 +18,7 @@ export function MyPages() {
         {/* <CodeCompiler></CodeCompiler> */}
         {/* <CodeCoreRunner></CodeCoreRunner> */}
 
-        {/* <PageURL></PageURL> */}
+        <PageURL></PageURL>
 
         {/*  */}
       </AdminGate>

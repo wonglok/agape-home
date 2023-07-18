@@ -121,7 +121,7 @@ if (!mongoose.models.CodeFile) {
   mongoose.model('CodeFile', {
     //
     appLoaderID: String,
-    codeGroupID: String,
+    appCodeGroupID: String,
     fileName: String,
     content: String,
   })

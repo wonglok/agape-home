@@ -1,5 +1,5 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { AppPackage, getID } from 'database/mongoose'
+import { CodeFile, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { anyRole, authOptions } from './auth/[...nextauth]'
 
@@ -15,7 +15,7 @@ export default async function API(req, res) {
 
     //
     if (bodyData.action === 'create') {
-      let newItem = await AppPackage.create({
+      let newItem = await CodeFile.create({
         ...(payload?.object || {}),
       })
 
@@ -25,17 +25,14 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'find') {
-      let result = await AppPackage.find({})
-        .sort({ createdAt: -1 })
-        .skip(payload.offset || 0)
-        .limit(payload.limit || 512)
+      let result = await CodeFile.find({}).sort({ createdAt: -1 })
 
       return res.json({
         data: result,
       })
     }
     if (bodyData.action === 'findByAppID') {
-      let result = await AppPackage.find({
+      let result = await CodeFile.find({
         appLoaderID: payload.appLoaderID,
       }).sort({ createdAt: -1 })
 
@@ -45,7 +42,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'findOne') {
-      let result = await AppPackage.findOne({ _id: payload?.object?._id })
+      let result = await CodeFile.findOne({ _id: payload?.object?._id })
 
       return res.json({
         data: result,
@@ -53,8 +50,8 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'updateOne') {
-      let updated = await AppPackage.findByIdAndUpdate(payload?.object?._id, { ...payload?.object })
-      let result = await AppPackage.findOne({ _id: payload?.object._id })
+      let updated = await CodeFile.findByIdAndUpdate(payload?.object?._id, { ...payload?.object })
+      let result = await CodeFile.findOne({ _id: payload?.object._id })
 
       return res.json({
         data: result,
@@ -62,7 +59,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'deleteOne') {
-      let result = await AppPackage.findByIdAndRemove(payload?.object._id)
+      let result = await CodeFile.findByIdAndRemove(payload?.object._id)
 
       return res.json({
         data: result,

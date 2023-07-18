@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 
-export const usePackages = create(() => {
-  let url = `/api/app-packages`
+export const useModules = create(() => {
+  let url = `/api/app-modules`
   return {
+    activePackageID: false,
     appPackages: [],
     create: ({ object = {} }) => {
       try {

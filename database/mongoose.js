@@ -24,84 +24,6 @@ if (!mongoose.models.UserProfile) {
 export const UserProfile = mongoose.models.UserProfile
 // -------
 
-delete mongoose.models.CodeProject
-if (!mongoose.models.CodeProject) {
-  mongoose.model('CodeProject', {
-    //
-    name: String,
-  })
-}
-
-export const CodeProject = mongoose.models.CodeProject
-
-// -------
-
-// -------
-
-delete mongoose.models.CodePackage
-if (!mongoose.models.CodePackage) {
-  mongoose.model('CodePackage', {
-    //
-    projectID: Types.ObjectId,
-    name: String,
-  })
-}
-
-export const CodePackage = mongoose.models.CodePackage
-// -------
-
-// -------
-delete mongoose.models.CodeGroup
-if (!mongoose.models.CodeGroup) {
-  mongoose.model('CodeGroup', {
-    projectID: Types.ObjectId,
-    packageID: Types.ObjectId,
-    name: String,
-  })
-}
-
-export const CodeGroup = mongoose.models.CodeGroup
-
-// -------
-
-// -------
-
-delete mongoose.models.CodeFile
-if (!mongoose.models.CodeFile) {
-  mongoose.model('CodeFile', {
-    //
-    projectID: Types.ObjectId,
-    packageID: Types.ObjectId,
-    groupID: Types.ObjectId,
-    fileName: String,
-    content: String,
-  })
-}
-
-export const CodeFile = mongoose.models.CodeFile
-// -------
-
-// -------
-delete mongoose.models.LibFile
-if (!mongoose.models.LibFile) {
-  mongoose.model('LibFile', {
-    //
-    projectID: Types.ObjectId,
-    slug: {
-      type: String,
-      unique: true,
-    },
-
-    name: String,
-    version: String,
-
-    content: String,
-  })
-}
-
-export const LibFile = mongoose.models.LibFile
-// -------
-
 // -------
 delete mongoose.models.ABLoader
 if (!mongoose.models.ABLoader) {
@@ -142,25 +64,73 @@ if (!mongoose.models.AppLoader) {
       unique: true,
     },
 
+    appLoader: { type: String, default: 'app-loader' },
     tags: [{}],
-    // type: {
-    //   type: String,
-    //   default: 'project',
-    // },
-    // projectID: String,
-    // abTests: [
-    //   {
-    //     name: String,
-    //     weight: Number,
-    //     projectID: Types.ObjectId,
-    //   },
-    // ],
   })
 }
 
 export const AppLoader = mongoose.models.AppLoader
 // -------
 
+// -------
+delete mongoose.models.AppPackage
+if (!mongoose.models.AppPackage) {
+  mongoose.model('AppPackage', {
+    //
+    appLoaderID: String,
+    packageName: String,
+  })
+}
+
+export const AppPackage = mongoose.models.AppPackage
+// -------
+
+// -------
+delete mongoose.models.AppModules
+if (!mongoose.models.AppModules) {
+  mongoose.model('AppModules', {
+    //
+    appLoaderID: String,
+    appPackageID: String,
+    moduleName: String,
+  })
+}
+
+export const AppModules = mongoose.models.AppModules
+// -------
+
+// -------
+delete mongoose.models.CodeGroup
+if (!mongoose.models.CodeGroup) {
+  mongoose.model('CodeGroup', {
+    //
+    appLoaderID: String,
+    appModuleID: String,
+    groupName: String,
+
+    inputs: [{}],
+  })
+}
+
+export const CodeGroup = mongoose.models.CodeGroup
+// -------
+
+// -------
+delete mongoose.models.CodeFile
+if (!mongoose.models.CodeFile) {
+  mongoose.model('CodeFile', {
+    //
+    appLoaderID: String,
+    codeGroupID: String,
+    fileName: String,
+    content: String,
+  })
+}
+
+export const CodeFile = mongoose.models.CodeFile
+// -------
+
+// -------
 export const getID = () => {
   return '_' + Math.random().toString(36).slice(2, 9)
 }

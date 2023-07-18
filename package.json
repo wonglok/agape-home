@@ -18,6 +18,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
     "@auth/mongodb-adapter": "^1.0.0",
     "@avaturn/sdk": "^0.3.14",
     "@aws-sdk/client-s3": "^3.360.0",
@@ -38,6 +39,7 @@
     "@tensorflow/tfjs-node": "^4.8.0",
     "@webcontainer/api": "^1.1.5",
     "animejs": "^3.2.1",
+    "antd": "^5.7.0",
     "bcryptjs": "^2.4.3",
     "canvas": "^2.11.2",
     "copy-to-clipboard": "^3.3.3",

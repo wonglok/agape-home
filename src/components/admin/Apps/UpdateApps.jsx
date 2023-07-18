@@ -49,7 +49,7 @@ export function UpdateApps({ data }) {
                 /codes/
               </div>
               <input
-                className='w-full appearance-none rounded rounded-l-none border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
+                className='w-full appearance-none  rounded-none  border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
                 defaultValue={data.slug}
@@ -73,7 +73,7 @@ export function UpdateApps({ data }) {
                     return { ...st, apps: st.apps.filter((r) => r._id !== data._id) }
                   })
                 }}
-                className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
               >
                 ❌
               </button>

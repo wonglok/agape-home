@@ -22,16 +22,21 @@ export function FileBrowser() {
     let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
 
     useFileBrowser.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
+
+    //
+
+    return { appPackages, appModules, appCodeGroups, appCodeFiles }
   }, [])
+  let activePackageID = useApps((r) => r.activePackageID)
 
   useEffect(() => {
     if (!activeApp) {
       return
     }
-    load({ activeApp })
+    load({ activeApp }).then(({ appPackages }) => {
+      useApps.setState({ activePackageID: appPackages[0]?._id })
+    })
   }, [activeApp, load])
-
-  let activePackageID = useApps((r) => r.activePackageID)
 
   return (
     <>
@@ -71,7 +76,7 @@ export function FileBrowser() {
           >
             + Add Package
           </div>
-          {appPackages.map((ap) => {
+          {appPackages.map((ap, apIDX) => {
             //
             return (
               <div className='' key={ap._id}>
@@ -82,19 +87,24 @@ export function FileBrowser() {
                   style={{
                     backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
                   }}
-                  onFocus={() => {
+                  defaultValue={ap.packageName}
+                  onClick={() => {
                     useApps.setState({ activePackageID: ap._id })
                   }}
-                  defaultValue={ap.packageName}
-                  onInput={(ev) => {
+                  onChange={(ev) => {
                     //
+
+                    let value = ev.target.value
+                    ap.packageName = value
+
                     clearTimeout(ev.target.timer)
-                    ev.target.timer = setTimeout(() => {
-                      //
-                      let value = ev.target.value
-                      ap.packageName = value
-                      //
-                      usePackages.getState().updateOne({ object: ap })
+                    ev.target.timer = setTimeout(async () => {
+                      usePackages
+                        .getState()
+                        .updateOne({ object: ap })
+                        .then(() => {
+                          load({ activeApp })
+                        })
                     }, 1000)
                   }}
                 ></Input>
@@ -103,6 +113,11 @@ export function FileBrowser() {
             )
           })}
 
+          <div className=''>
+            {/*  */}
+            {appPackages.find((r) => r._id === activePackageID)?.packageName}
+            {/*  */}
+          </div>
           <div className=''>
             {appModules
               .filter((r) => r.appPackageID === activePackageID)

@@ -139,7 +139,7 @@ export function FileBrowser() {
                       className='mb-1 hidden h-6 w-6 group-hover:inline-block'
                       onClick={async () => {
                         //
-                        if (window.confirm('remove package?')) {
+                        if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
                           await usePackages.getState().deleteOne({ object: ap })
                           await load({ activeApp })
                         }
@@ -198,7 +198,7 @@ export function FileBrowser() {
                           className='mb-1 hidden h-6 w-6 group-hover:inline-block'
                           onClick={async () => {
                             //
-                            if (window.confirm('remove group?')) {
+                            if (window.prompt('remove group?', am.moduleName) === am.moduleName) {
                               await useModules.getState().deleteOne({ object: am })
                               await load({ activeApp })
                             }
@@ -257,7 +257,7 @@ export function FileBrowser() {
                                     className='mb-1 hidden h-6 w-6 group-hover:inline-block'
                                     onClick={async () => {
                                       //
-                                      if (window.prompt('remove group?', acg.groupName)) {
+                                      if (window.prompt('remove group?', acg.groupName) === acg.groupName) {
                                         await useCodeGroups.getState().deleteOne({ object: acg })
                                         await load({ activeApp })
                                       }
@@ -320,7 +320,7 @@ export function FileBrowser() {
                                               key={acf._id + 'del'}
                                               className='mb-1 hidden h-6 w-6 group-hover:inline-block'
                                               onClick={async () => {
-                                                if (window.confirm('remove code?')) {
+                                                if (window.prompt('remove code?', acf.fileName) === acf.fileName) {
                                                   await useCodeFiles.getState().deleteOne({ object: acf })
 
                                                   await load({ activeApp })

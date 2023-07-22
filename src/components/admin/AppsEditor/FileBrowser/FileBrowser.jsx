@@ -43,7 +43,7 @@ export function FileBrowser() {
       <div className=''>
         <div className='border-l pl-3'>
           <div
-            className='text-xs text-gray-500'
+            className='mb-3 text-xs text-gray-500'
             onClick={async () => {
               let newAp = await usePackages
                 .getState()
@@ -76,126 +76,206 @@ export function FileBrowser() {
           >
             + Add Package
           </div>
+
           {appPackages.map((ap, apIDX) => {
             //
             return (
-              <div className='' key={ap._id}>
+              <div
+                className='px-2'
+                onClick={() => {
+                  useApps.setState({ activePackageID: ap._id })
+                }}
+                style={{
+                  backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
+                }}
+                key={ap._id}
+              >
                 {/*  */}
-
-                <Input
-                  className='mb-1'
-                  style={{
-                    backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
-                  }}
-                  defaultValue={ap.packageName}
-                  onClick={() => {
-                    useApps.setState({ activePackageID: ap._id })
-                  }}
-                  onChange={(ev) => {
-                    //
-
-                    let value = ev.target.value
-                    ap.packageName = value
-
-                    clearTimeout(ev.target.timer)
-                    ev.target.timer = setTimeout(async () => {
-                      usePackages
-                        .getState()
-                        .updateOne({ object: ap })
-                        .then(() => {
-                          load({ activeApp })
-                        })
-                    }, 1000)
-                  }}
-                ></Input>
+                {ap.packageName}
                 {/*  */}
               </div>
             )
           })}
 
-          <div className=''>
+          <div className='mt-3'>
             {/*  */}
-            {appPackages.find((r) => r._id === activePackageID)?.packageName}
-            {/*  */}
-          </div>
-          <div className=''>
-            {appModules
-              .filter((r) => r.appPackageID === activePackageID)
-              .map((am) => {
+            {appPackages
+              .filter((r) => r._id === activePackageID)
+              .map((ap) => {
                 return (
-                  <div key={am._id}>
-                    <div>{am.moduleName}</div>
+                  <div key={ap._id}>
+                    <Input
+                      key={ap._id}
+                      className='mb-1'
+                      defaultValue={ap.packageName}
+                      onChange={(ev) => {
+                        //
 
-                    <div className='border-l pl-3'>
-                      <div
-                        className=' text-xs text-gray-500'
-                        onClick={async () => {
-                          //
-                          await useCodeGroups.getState().create({
-                            object: {
-                              appLoaderID: activeApp._id,
-                              appModuleID: am._id,
-                              groupName: 'newCodeGroups',
-                            },
-                          })
+                        let value = ev.target.value
+                        ap.packageName = value
 
-                          await load({ activeApp })
-                        }}
-                      >
-                        + Add Code Group
-                      </div>
+                        useFileBrowser.setState({ appPackages: [...appPackages] })
 
-                      {appCodeGroups
-                        .filter((acg) => {
-                          return acg.appModuleID === am._id
-                        })
-                        .map((acg) => {
-                          return (
-                            <div key={acg._id}>
-                              <div className=''>{acg.groupName}</div>
-
-                              <div className='border-l pl-3'>
-                                <div
-                                  className='text-xs text-gray-500'
-                                  onClick={async () => {
-                                    //
-                                    await useCodeFiles.getState().create({
-                                      object: {
-                                        appLoaderID: activeApp._id,
-                                        appCodeGroupID: acg._id,
-                                        fileName: 'newCodeFile',
-                                        content: '',
-                                      },
-                                    })
-
-                                    await load({ activeApp })
-                                  }}
-                                >
-                                  + Add Code File
-                                </div>
-
-                                <div className=''>
-                                  {appCodeFiles
-                                    .filter((acf) => {
-                                      return acf.appCodeGroupID === acg._id
-                                    })
-                                    .map((acf) => {
-                                      return (
-                                        <div className='' key={acf._id}>
-                                          <div className=''>{acf.fileName}</div>
-                                        </div>
-                                      )
-                                    })}
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        })}
-                    </div>
+                        clearTimeout(ev.target.timer)
+                        ev.target.timer = setTimeout(async () => {
+                          usePackages.getState().updateOne({ object: ap })
+                        }, 1000)
+                      }}
+                    ></Input>
                   </div>
                 )
               })}
           </div>
+
+          <div className='border-l pl-3'>
+            <div
+              className='mt-3 text-xs text-gray-500'
+              onClick={async () => {
+                //
+                await useModules.getState().create({
+                  object: { appLoaderID: activeApp._id, appPackageID: ap._id, moduleName: 'newModule' },
+                })
+
+                await load({ activeApp })
+              }}
+            >
+              + Add Module
+            </div>
+
+            <div className=''>
+              {appModules
+                .filter((r) => r.appPackageID === activePackageID)
+                .map((am) => {
+                  return (
+                    <div key={am._id}>
+                      <Input
+                        key={am._id}
+                        className='mb-1'
+                        defaultValue={am.moduleName}
+                        onChange={(ev) => {
+                          //
+
+                          let value = ev.target.value
+                          am.moduleName = value
+
+                          useFileBrowser.setState({ appModules: [...appModules] })
+
+                          clearTimeout(ev.target.timer)
+                          ev.target.timer = setTimeout(async () => {
+                            useModules.getState().updateOne({ object: am })
+                          }, 1000)
+                        }}
+                      ></Input>
+                      {/* <div>{am.moduleName}</div> */}
+
+                      <div className='border-l pl-3'>
+                        <div
+                          className='mt-3 text-xs text-gray-500'
+                          onClick={async () => {
+                            //
+                            await useCodeGroups.getState().create({
+                              object: {
+                                appLoaderID: activeApp._id,
+                                appModuleID: am._id,
+                                groupName: 'newCodeGroups',
+                              },
+                            })
+
+                            await load({ activeApp })
+                          }}
+                        >
+                          + Add Code Group
+                        </div>
+
+                        {appCodeGroups
+                          .filter((acg) => {
+                            return acg.appModuleID === am._id
+                          })
+                          .map((acg) => {
+                            return (
+                              <div key={acg._id}>
+                                <Input
+                                  key={acg._id}
+                                  className='mb-1'
+                                  defaultValue={acg.groupName}
+                                  onChange={(ev) => {
+                                    //
+
+                                    let value = ev.target.value
+                                    acg.groupName = value
+
+                                    useFileBrowser.setState({ appModules: [...appModules] })
+
+                                    clearTimeout(ev.target.timer)
+                                    ev.target.timer = setTimeout(async () => {
+                                      useCodeGroups.getState().updateOne({ object: acg })
+                                    }, 1000)
+                                  }}
+                                ></Input>
+                                {/* <div className=''>{acg.groupName}</div> */}
+
+                                <div className='mt-3 border-l pl-3 '>
+                                  <div
+                                    className='text-xs text-gray-500'
+                                    onClick={async () => {
+                                      //
+                                      await useCodeFiles.getState().create({
+                                        object: {
+                                          appLoaderID: activeApp._id,
+                                          appCodeGroupID: acg._id,
+                                          fileName: 'newCodeFile',
+                                          content: '',
+                                        },
+                                      })
+
+                                      await load({ activeApp })
+                                    }}
+                                  >
+                                    + Add Code File
+                                  </div>
+
+                                  <div className=''>
+                                    {appCodeFiles
+                                      .filter((acf) => {
+                                        return acf.appCodeGroupID === acg._id
+                                      })
+                                      .map((acf) => {
+                                        return (
+                                          <div className='' key={acf._id}>
+                                            {/* <div className=''>{acf.fileName}</div> */}
+                                            <Input
+                                              key={acf._id}
+                                              className='mb-1'
+                                              defaultValue={acf.fileName}
+                                              onChange={(ev) => {
+                                                //
+
+                                                let value = ev.target.value
+                                                acf.fileName = value
+
+                                                // useFileBrowser.setState({ appModules: [...appModules] })
+
+                                                clearTimeout(ev.target.timer)
+                                                ev.target.timer = setTimeout(async () => {
+                                                  useCodeFiles.getState().updateOne({ object: acf })
+                                                }, 1000)
+                                              }}
+                                            ></Input>
+                                          </div>
+                                        )
+                                      })}
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                      </div>
+                    </div>
+                  )
+                })}
+            </div>
+          </div>
+          {/*  */}
 
           {/* {appPackages.map((ap) => {
             return (

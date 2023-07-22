@@ -7,5 +7,9 @@ export const useOSFiles = create((set, get) => {
     appCodeGroups: [],
     appCodeFiles: [],
     //
+
+    activePackageID: '',
+    activeCodeGroupID: '',
+    activeCodeFileID: '',
   }
 })

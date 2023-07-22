@@ -6,7 +6,6 @@ export const useApps = create(() => {
     activeTab: 'code',
     activeApp: false,
 
-    activePackageID: false,
     apps: [],
     create: ({ object = {} }) => {
       try {

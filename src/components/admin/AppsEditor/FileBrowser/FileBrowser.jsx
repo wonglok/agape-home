@@ -27,14 +27,16 @@ export function FileBrowser() {
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }
   }, [])
-  let activePackageID = useApps((r) => r.activePackageID)
+
+  let activePackageID = useOSFiles((r) => r.activePackageID)
 
   useEffect(() => {
     if (!activeApp) {
       return
     }
+
     load({ activeApp }).then(({ appPackages }) => {
-      useApps.setState({ activePackageID: appPackages[0]?._id })
+      useOSFiles.setState({ activePackageID: appPackages[0]?._id })
     })
 
     return () => {
@@ -75,7 +77,7 @@ export function FileBrowser() {
                 object: {
                   appLoaderID: activeApp._id,
                   appCodeGroupID: newCG._id,
-                  fileName: 'newCodeFile',
+                  fileName: 'newCode.js',
                   content: '',
                 },
               })
@@ -93,7 +95,7 @@ export function FileBrowser() {
               <div
                 className='rounded-xl p-1 px-3'
                 onClick={() => {
-                  useApps.setState({ activePackageID: ap._id })
+                  useOSFiles.setState({ activePackageID: ap._id })
                 }}
                 style={{
                   backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
@@ -251,6 +253,10 @@ export function FileBrowser() {
                                         useCodeGroups.getState().updateOne({ object: acg })
                                       }, 1000)
                                     }}
+                                    onFocus={() => {
+                                      //
+                                      useOSFiles.setState({ activeCodeGroupID: acg._id })
+                                    }}
                                   ></Input>
                                   <img
                                     key={acg._id + 'del'}
@@ -277,7 +283,7 @@ export function FileBrowser() {
                                         object: {
                                           appLoaderID: activeApp._id,
                                           appCodeGroupID: acg._id,
-                                          fileName: 'newCodeFile',
+                                          fileName: 'newCode.js',
                                           content: '',
                                         },
                                       })
@@ -301,6 +307,16 @@ export function FileBrowser() {
                                               key={acf._id + 'input'}
                                               className='mb-1'
                                               defaultValue={acf.fileName}
+                                              onFocus={() => {
+                                                //
+                                                useOSFiles.setState({
+                                                  activeAppID: activeApp._id,
+                                                  activePackageID: activePackageID,
+                                                  activeModuleID: am._id,
+                                                  activeCodeGroupID: acg._id,
+                                                  activeCodeFileID: acf._id,
+                                                })
+                                              }}
                                               onChange={(ev) => {
                                                 //
 
@@ -410,7 +426,7 @@ export function FileBrowser() {
                                               object: {
                                                 appLoaderID: activeApp._id,
                                                 appCodeGroupID: acg._id,
-                                                fileName: 'newCodeFile',
+                                                fileName: 'newCode.js',
                                                 content: '',
                                               },
                                             })

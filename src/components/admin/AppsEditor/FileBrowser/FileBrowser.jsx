@@ -43,7 +43,7 @@ export function FileBrowser() {
       <div className=''>
         <div className='border-l pl-3'>
           <div
-            className=' text-xs text-gray-500'
+            className=' mb-2 text-xs text-gray-500'
             onClick={async () => {
               let newAp = await usePackages
                 .getState()

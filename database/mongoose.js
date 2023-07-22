@@ -57,16 +57,22 @@ export const ABLoader = mongoose.models.ABLoader
 // -------
 delete mongoose.models.AppLoader
 if (!mongoose.models.AppLoader) {
-  mongoose.model('AppLoader', {
-    //
-    slug: {
-      type: String,
-      unique: true,
-    },
+  mongoose.model(
+    'AppLoader',
+    new Schema(
+      {
+        //
+        slug: {
+          type: String,
+          unique: true,
+        },
 
-    appLoader: { type: String, default: 'app-loader' },
-    tags: [{}],
-  })
+        appLoader: { type: String, default: 'app-loader' },
+        tags: [{}],
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
 }
 
 export const AppLoader = mongoose.models.AppLoader
@@ -75,11 +81,17 @@ export const AppLoader = mongoose.models.AppLoader
 // -------
 delete mongoose.models.AppPackage
 if (!mongoose.models.AppPackage) {
-  mongoose.model('AppPackage', {
-    //
-    appLoaderID: String,
-    packageName: String,
-  })
+  mongoose.model(
+    'AppPackage',
+    new Schema(
+      {
+        //
+        appLoaderID: String,
+        packageName: String,
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
 }
 
 export const AppPackage = mongoose.models.AppPackage
@@ -88,12 +100,18 @@ export const AppPackage = mongoose.models.AppPackage
 // -------
 delete mongoose.models.AppModules
 if (!mongoose.models.AppModules) {
-  mongoose.model('AppModules', {
-    //
-    appLoaderID: String,
-    appPackageID: String,
-    moduleName: String,
-  })
+  mongoose.model(
+    'AppModules',
+    new Schema(
+      {
+        //
+        appLoaderID: String,
+        appPackageID: String,
+        moduleName: String,
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
 }
 
 export const AppModules = mongoose.models.AppModules
@@ -102,14 +120,20 @@ export const AppModules = mongoose.models.AppModules
 // -------
 delete mongoose.models.CodeGroup
 if (!mongoose.models.CodeGroup) {
-  mongoose.model('CodeGroup', {
-    //
-    appLoaderID: String,
-    appModuleID: String,
-    groupName: String,
+  mongoose.model(
+    'CodeGroup',
+    new Schema(
+      {
+        //
+        appLoaderID: String,
+        appModuleID: String,
+        groupName: String,
 
-    inputs: [{}],
-  })
+        inputs: [{}],
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
 }
 
 export const CodeGroup = mongoose.models.CodeGroup
@@ -118,13 +142,19 @@ export const CodeGroup = mongoose.models.CodeGroup
 // -------
 delete mongoose.models.CodeFile
 if (!mongoose.models.CodeFile) {
-  mongoose.model('CodeFile', {
-    //
-    appLoaderID: String,
-    appCodeGroupID: String,
-    fileName: String,
-    content: String,
-  })
+  mongoose.model(
+    'CodeFile',
+    new Schema(
+      {
+        //
+        appLoaderID: String,
+        appCodeGroupID: String,
+        fileName: String,
+        content: String,
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
 }
 
 export const CodeFile = mongoose.models.CodeFile

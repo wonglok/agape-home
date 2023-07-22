@@ -1,4 +1,4 @@
-import { Input, Tree } from 'antd'
+import { Tree } from 'antd'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useApps } from '../../Apps/useApps'
 import { usePackages } from '../../Apps/usePackages'
@@ -8,7 +8,7 @@ import { useFileBrowser } from './useFileBrowser'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
 
 //
-export function FileBrowser() {
+export function FileTree() {
   let activeApp = useApps((r) => r.activeApp)
   let appPackages = useFileBrowser((r) => r.appPackages)
   let appModules = useFileBrowser((r) => r.appModules)
@@ -30,8 +30,6 @@ export function FileBrowser() {
     }
     load({ activeApp })
   }, [activeApp, load])
-
-  let activePackageID = useApps((r) => r.activePackageID)
 
   return (
     <>
@@ -65,45 +63,14 @@ export function FileBrowser() {
                 },
               })
 
-              // console.log(newCF)
+              console.log(newCF)
               await load({ activeApp })
             }}
           >
             + Add Package
           </div>
+
           {appPackages.map((ap) => {
-            //
-            return (
-              <div className='' key={ap._id}>
-                {/*  */}
-
-                <Input
-                  className='mb-1'
-                  style={{
-                    backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
-                  }}
-                  onFocus={() => {
-                    useApps.setState({ activePackageID: ap._id })
-                  }}
-                  defaultValue={ap.packageName}
-                  onInput={(ev) => {
-                    //
-                    clearTimeout(ev.target.timer)
-                    ev.target.timer = setTimeout(() => {
-                      //
-                      let value = ev.target.value
-                      ap.packageName = value
-                      //
-                      usePackages.getState().updateOne({ object: ap })
-                    }, 1000)
-                  }}
-                ></Input>
-                {/*  */}
-              </div>
-            )
-          })}
-
-          {/* {appPackages.map((ap) => {
             return (
               <div key={ap._id}>
                 {ap.packageName}
@@ -157,10 +124,12 @@ export function FileBrowser() {
                                 .map((acg) => {
                                   return (
                                     <div key={acg._id}>
+                                      {/*  */}
 
                                       <div className=''>{acg.groupName}</div>
 
                                       <div className='border-l pl-3'>
+                                        {/*  */}
                                         <div
                                           className='text-xs text-gray-500'
                                           onClick={async () => {
@@ -188,14 +157,16 @@ export function FileBrowser() {
                                             .map((acf) => {
                                               return (
                                                 <div className='' key={acf._id}>
-
+                                                  {/*  */}
                                                   <div className=''>{acf.fileName}</div>
-
+                                                  {/*  */}
                                                 </div>
                                               )
                                             })}
+                                          {/*  */}
                                         </div>
                                       </div>
+                                      {/*  */}
                                     </div>
                                   )
                                 })}
@@ -205,10 +176,10 @@ export function FileBrowser() {
                       })}
                   </div>
                 </div>
-
+                {/*  */}
               </div>
             )
-          })} */}
+          })}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { AppLoader, getID } from 'database/mongoose'
+import { AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { anyRole, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
@@ -64,6 +64,11 @@ export default async function API(req, res) {
 
     if (bodyData.action === 'deleteOne') {
       let result = await AppLoader.findByIdAndRemove(payload?.object._id)
+
+      await AppPackage.deleteMany({ appLoaderID: payload?.object._id })
+      await AppModules.deleteMany({ appLoaderID: payload?.object._id })
+      await CodeGroup.deleteMany({ appLoaderID: payload?.object._id })
+      await CodeFile.deleteMany({ appLoaderID: payload?.object._id })
 
       return res.json({
         data: result,

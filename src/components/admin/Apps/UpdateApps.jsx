@@ -14,7 +14,7 @@ export function UpdateApps({ data }) {
     e.target.classList.add(v)
   }
   let work = (e) => {
-    data.slug = slugify(slugEl.current.value || '', '-')
+    data.slug = slugify(slugEl?.current?.value || '', '-')
     useApps
       .getState()
       .updateOne({ object: data })

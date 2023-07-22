@@ -26,7 +26,7 @@ export default async function API(req, res) {
 
     if (bodyData.action === 'find') {
       let result = await AppPackage.find({})
-        .sort({ createdAt: -1 })
+        .sort({ _id: -1 })
         .skip(payload.offset || 0)
         .limit(payload.limit || 512)
 
@@ -37,7 +37,7 @@ export default async function API(req, res) {
     if (bodyData.action === 'findByAppID') {
       let result = await AppPackage.find({
         appLoaderID: payload.appLoaderID,
-      }).sort({ createdAt: -1 })
+      }).sort({ _id: -1 })
 
       return res.json({
         data: result,

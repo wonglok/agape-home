@@ -43,7 +43,7 @@ export function FileBrowser() {
       <div className=''>
         <div className='border-l pl-3'>
           <div
-            className='mb-3 text-xs text-gray-500'
+            className=' text-xs text-gray-500'
             onClick={async () => {
               let newAp = await usePackages
                 .getState()
@@ -81,7 +81,7 @@ export function FileBrowser() {
             //
             return (
               <div
-                className='px-2'
+                className='rounded-xl px-3 py-1'
                 onClick={() => {
                   useApps.setState({ activePackageID: ap._id })
                 }}
@@ -96,6 +96,8 @@ export function FileBrowser() {
               </div>
             )
           })}
+
+          <hr className='mt-2' />
 
           <div className='mt-3'>
             {/*  */}

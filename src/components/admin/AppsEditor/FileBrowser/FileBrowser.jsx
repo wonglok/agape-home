@@ -93,18 +93,35 @@ export function FileBrowser() {
             //
             return (
               <div
-                className='rounded-xl p-1 px-3'
+                className='group flex items-center '
                 onClick={() => {
                   useOSFiles.setState({ activePackageID: ap._id })
-                }}
-                style={{
-                  backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
                 }}
                 key={ap._id}
               >
                 {/*  */}
-                {ap.packageName || 'untitled'}
-                {/*  */}
+                <div
+                  className='w-full rounded-xl p-1 px-3'
+                  style={{
+                    backgroundColor: activePackageID === ap._id ? '#aaffff' : '',
+                  }}
+                >
+                  {ap.packageName || 'untitled'}
+                </div>
+
+                <img
+                  key={ap._id + 'del'}
+                  className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                  onClick={async () => {
+                    //
+                    if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
+                      await usePackages.getState().deleteOne({ object: ap })
+                      useOSFiles.setState({ activePackageID: '' })
+                      await load({ activeApp })
+                    }
+                  }}
+                  src={`/gui/remove.svg`}
+                ></img>
               </div>
             )
           })}
@@ -143,6 +160,7 @@ export function FileBrowser() {
                         //
                         if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
                           await usePackages.getState().deleteOne({ object: ap })
+                          useOSFiles.setState({ activePackageID: '' })
                           await load({ activeApp })
                         }
                       }}

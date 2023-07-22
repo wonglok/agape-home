@@ -1,5 +1,5 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { CodeGroup, getID } from 'database/mongoose'
+import { CodeFile, CodeGroup, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { anyRole, authOptions } from './auth/[...nextauth]'
 
@@ -59,6 +59,10 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'deleteOne') {
+      let files = await CodeFile.find({ appGroupID: payload?.object._id })
+
+      await CodeFile.deleteMany({ _id: { $in: files.map((r) => r._id) } })
+
       let result = await CodeGroup.findByIdAndRemove(payload?.object._id)
 
       return res.json({

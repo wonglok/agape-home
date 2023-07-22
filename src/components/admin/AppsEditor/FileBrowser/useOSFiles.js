@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export const useFileBrowser = create((set, get) => {
+export const useOSFiles = create((set, get) => {
   return {
     appPackages: [],
     appModules: [],

@@ -1,19 +1,21 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { Input, Tree } from 'antd'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useApps } from '../../Apps/useApps'
 import { usePackages } from '../../Apps/usePackages'
 import { useModules } from '../../Apps/useModules'
 import { useCodeGroups } from '../../Apps/useCodeGroups'
-import { useFileBrowser } from './useFileBrowser'
+import { useOSFiles } from './useOSFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
 
 //
 export function FileBrowser() {
   let activeApp = useApps((r) => r.activeApp)
-  let appPackages = useFileBrowser((r) => r.appPackages)
-  let appModules = useFileBrowser((r) => r.appModules)
-  let appCodeGroups = useFileBrowser((r) => r.appCodeGroups)
-  let appCodeFiles = useFileBrowser((r) => r.appCodeFiles)
+  let appPackages = useOSFiles((r) => r.appPackages)
+  let appModules = useOSFiles((r) => r.appModules)
+  let appCodeGroups = useOSFiles((r) => r.appCodeGroups)
+  let appCodeFiles = useOSFiles((r) => r.appCodeFiles)
 
   let load = useCallback(async ({ activeApp }) => {
     let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeApp._id })
@@ -21,7 +23,7 @@ export function FileBrowser() {
     let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeApp._id })
     let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
 
-    useFileBrowser.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
+    useOSFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }
   }, [])
@@ -34,7 +36,17 @@ export function FileBrowser() {
     load({ activeApp }).then(({ appPackages }) => {
       useApps.setState({ activePackageID: appPackages[0]?._id })
     })
+
+    return () => {
+      //!SECTION
+    }
   }, [activeApp, load])
+
+  useEffect(() => {
+    return () => {
+      useOSFiles.setState({ appPackages: [], appModules: [], appCodeGroups: [], appCodeFiles: [] })
+    }
+  }, [])
 
   return (
     <>
@@ -89,7 +101,7 @@ export function FileBrowser() {
                 key={ap._id}
               >
                 {/*  */}
-                {ap.packageName}
+                {ap.packageName || 'untitled'}
                 {/*  */}
               </div>
             )
@@ -103,9 +115,9 @@ export function FileBrowser() {
               .filter((r) => r._id === activePackageID)
               .map((ap) => {
                 return (
-                  <div key={ap._id}>
+                  <div key={ap._id} className=' group flex items-center'>
                     <Input
-                      key={ap._id}
+                      key={ap._id + 'package'}
                       className='mb-1'
                       defaultValue={ap.packageName}
                       onChange={(ev) => {
@@ -114,7 +126,7 @@ export function FileBrowser() {
                         let value = ev.target.value
                         ap.packageName = value
 
-                        useFileBrowser.setState({ appPackages: [...appPackages] })
+                        useOSFiles.setState({ appPackages: [...appPackages] })
 
                         clearTimeout(ev.target.timer)
                         ev.target.timer = setTimeout(async () => {
@@ -122,6 +134,18 @@ export function FileBrowser() {
                         }, 1000)
                       }}
                     ></Input>
+                    <img
+                      key={ap._id + 'del'}
+                      className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                      onClick={async () => {
+                        //
+                        if (window.confirm('remove package?')) {
+                          await usePackages.getState().deleteOne({ object: ap })
+                          await load({ activeApp })
+                        }
+                      }}
+                      src={`/gui/remove.svg`}
+                    ></img>
                   </div>
                 )
               })}
@@ -149,26 +173,39 @@ export function FileBrowser() {
                 .filter((r) => r.appPackageID === activePackageID)
                 .map((am) => {
                   return (
-                    <div key={am._id}>
-                      <Input
-                        key={am._id}
-                        className='mb-1'
-                        defaultValue={am.moduleName}
-                        onChange={(ev) => {
-                          //
+                    <div key={am._id} className=''>
+                      <div className=' group flex items-center '>
+                        <Input
+                          key={am._id + 'input'}
+                          className='mb-1'
+                          defaultValue={am.moduleName}
+                          onChange={(ev) => {
+                            //
 
-                          let value = ev.target.value
-                          am.moduleName = value
+                            let value = ev.target.value
+                            am.moduleName = value
 
-                          useFileBrowser.setState({ appModules: [...appModules] })
+                            useOSFiles.setState({ appModules: [...appModules] })
 
-                          clearTimeout(ev.target.timer)
-                          ev.target.timer = setTimeout(async () => {
-                            useModules.getState().updateOne({ object: am })
-                          }, 1000)
-                        }}
-                      ></Input>
-                      {/* <div>{am.moduleName}</div> */}
+                            clearTimeout(ev.target.timer)
+                            ev.target.timer = setTimeout(async () => {
+                              useModules.getState().updateOne({ object: am })
+                            }, 1000)
+                          }}
+                        ></Input>
+                        <img
+                          key={am._id + 'del'}
+                          className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                          onClick={async () => {
+                            //
+                            if (window.confirm('remove group?')) {
+                              await useModules.getState().deleteOne({ object: am })
+                              await load({ activeApp })
+                            }
+                          }}
+                          src={`/gui/remove.svg`}
+                        ></img>
+                      </div>
 
                       <div className='border-l pl-3'>
                         <div
@@ -195,25 +232,40 @@ export function FileBrowser() {
                           })
                           .map((acg) => {
                             return (
-                              <div key={acg._id}>
-                                <Input
-                                  key={acg._id}
-                                  className='mb-1'
-                                  defaultValue={acg.groupName}
-                                  onChange={(ev) => {
-                                    //
+                              <div className='' key={acg._id}>
+                                <div className=' group flex items-center '>
+                                  <Input
+                                    key={acg._id + 'input'}
+                                    className='mb-1'
+                                    defaultValue={acg.groupName}
+                                    onChange={(ev) => {
+                                      //
 
-                                    let value = ev.target.value
-                                    acg.groupName = value
+                                      let value = ev.target.value
+                                      acg.groupName = value
 
-                                    useFileBrowser.setState({ appModules: [...appModules] })
+                                      useOSFiles.setState({ appModules: [...appModules] })
 
-                                    clearTimeout(ev.target.timer)
-                                    ev.target.timer = setTimeout(async () => {
-                                      useCodeGroups.getState().updateOne({ object: acg })
-                                    }, 1000)
-                                  }}
-                                ></Input>
+                                      clearTimeout(ev.target.timer)
+                                      ev.target.timer = setTimeout(async () => {
+                                        useCodeGroups.getState().updateOne({ object: acg })
+                                      }, 1000)
+                                    }}
+                                  ></Input>
+                                  <img
+                                    key={acg._id + 'del'}
+                                    className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                                    onClick={async () => {
+                                      //
+                                      if (window.prompt('remove group?', acg.groupName)) {
+                                        await useCodeGroups.getState().deleteOne({ object: acg })
+                                        await load({ activeApp })
+                                      }
+                                    }}
+                                    src={`/gui/remove.svg`}
+                                  ></img>
+                                </div>
+
                                 {/* <div className=''>{acg.groupName}</div> */}
 
                                 <div className='mt-3 border-l pl-3 '>
@@ -243,10 +295,10 @@ export function FileBrowser() {
                                       })
                                       .map((acf) => {
                                         return (
-                                          <div className='' key={acf._id}>
+                                          <div className=' group flex items-center ' key={acf._id}>
                                             {/* <div className=''>{acf.fileName}</div> */}
                                             <Input
-                                              key={acf._id}
+                                              key={acf._id + 'input'}
                                               className='mb-1'
                                               defaultValue={acf.fileName}
                                               onChange={(ev) => {
@@ -255,7 +307,7 @@ export function FileBrowser() {
                                                 let value = ev.target.value
                                                 acf.fileName = value
 
-                                                // useFileBrowser.setState({ appModules: [...appModules] })
+                                                // useOSFiles.setState({ appModules: [...appModules] })
 
                                                 clearTimeout(ev.target.timer)
                                                 ev.target.timer = setTimeout(async () => {
@@ -263,6 +315,19 @@ export function FileBrowser() {
                                                 }, 1000)
                                               }}
                                             ></Input>
+
+                                            <img
+                                              key={acf._id + 'del'}
+                                              className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                                              onClick={async () => {
+                                                if (window.confirm('remove code?')) {
+                                                  await useCodeFiles.getState().deleteOne({ object: acf })
+
+                                                  await load({ activeApp })
+                                                }
+                                              }}
+                                              src={`/gui/remove.svg`}
+                                            ></img>
                                           </div>
                                         )
                                       })}

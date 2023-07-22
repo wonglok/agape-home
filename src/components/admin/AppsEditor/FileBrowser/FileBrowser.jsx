@@ -172,7 +172,7 @@ export function FileBrowser() {
           </div>
 
           <div className='border-l pl-3'>
-            {activePackageID && (
+            {activePackageID && appPackages?.length > 0 && (
               <div
                 className='mt-3 text-xs text-gray-500'
                 onClick={async () => {

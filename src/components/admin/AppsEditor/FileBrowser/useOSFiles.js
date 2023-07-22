@@ -9,6 +9,7 @@ export const useOSFiles = create((set, get) => {
     //
 
     activePackageID: '',
+    activeModuleID: '',
     activeCodeGroupID: '',
     activeCodeFileID: '',
   }

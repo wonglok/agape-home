@@ -1,9 +1,39 @@
 import { useEffect, useState } from 'react'
 import { appContent, buildApp } from '../../CodeCompiler/CodeCore'
 import { runInElement } from '../../CodeCompiler/runInElement'
+import { usePackages } from '../../Apps/usePackages'
+import { useModules } from '../../Apps/useModules'
+import { useCodeGroups } from '../../Apps/useCodeGroups'
+import { useCodeFiles } from '../../Apps/useCodeFiles'
 
 export function AppRunner({ appID }) {
   //
+
+  useEffect(() => {
+    if (!appID) {
+      return
+    }
+    let load = async () => {
+      let appPackages = await usePackages.getState().findByAppID({ appLoaderID: appID })
+      let appModules = await useModules.getState().findByAppID({ appLoaderID: appID })
+      let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: appID })
+      let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: appID })
+
+      let args = {
+        appLoader: 'app-loader',
+        data: {
+          appPackages: appPackages,
+          appModules: appModules,
+          appCodeGroups: appCodeGroups,
+          appCodeFiles: appCodeFiles,
+        },
+      }
+
+      run(args)
+    }
+
+    load()
+  }, [appID])
 
   useEffect(() => {
     //
@@ -15,9 +45,6 @@ export function AppRunner({ appID }) {
 
     bc.onmessage = (ev) => {
       if (ev.data?.type === 'run') {
-        //
-        console.log(ev.data.files)
-
         let args = {
           appLoader: 'app-loader',
           data: ev.data.files,
@@ -26,8 +53,6 @@ export function AppRunner({ appID }) {
         run(args)
       }
     }
-
-    bc.postMessage({ type: 'ready' })
 
     return () => {
       bc.onmessage = (ev) => {}

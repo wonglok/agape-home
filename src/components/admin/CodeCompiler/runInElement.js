@@ -127,6 +127,8 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
           //     })
           //   })
           // },
+
+          //
           load: window.importShim,
           addImportMap: window.importShim.addImportMap,
         })

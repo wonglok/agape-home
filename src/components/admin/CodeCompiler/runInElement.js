@@ -157,10 +157,12 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
 
   let loaderUtils = await getLoader()
 
+  // console.log(outputs)
+
   for (let output of outputs) {
     loaderUtils.addImportMap({
       imports: {
-        [`${output.fileName}`]: URL.createObjectURL(
+        [`${output.facadeModuleId}`]: URL.createObjectURL(
           new Blob([`${output.code}`], {
             type: `application/javascript`,
           }),
@@ -171,9 +173,13 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
 
   // console.log(outputs)
 
-  loaderUtils.load('index.js').then((r) => {
+  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then((r) => {
     let Compos = r.default
-    mountRoot(<Compos></Compos>)
+
+    if (Compos) {
+      mountRoot(<Compos></Compos>)
+    }
+
     // if (typeof r?.GUI?.install === 'function') {
     //   r.GUI.install({ mountRoot, onClean, loader: loaderUtils })
     // }

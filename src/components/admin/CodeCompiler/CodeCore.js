@@ -9,12 +9,15 @@ import { runInElement } from './runInElement'
 //useEffect
 
 export let buildApp = async (input) => {
-  /** @type {appContent} */
   let app = input
+
+  /** @type {{appPackages: null, appModules: null, appCodeGroups: null, appCodeFiles: null}} */
+  let data = app.data
 
   window.AGAPE_LOADER = window.AGAPE_LOADER || {}
   window.AGAPE_LOADER.three = () => import('three')
   window.AGAPE_LOADER.react = () => import('react')
+  window.AGAPE_LOADER['zustand'] = () => import('zustand')
   window.AGAPE_LOADER['agape-sdk'] = () => import('agape-sdk')
   window.AGAPE_LOADER['@react-three/fiber'] = () => import('@react-three/fiber')
   window.AGAPE_LOADER['@react-three/drei'] = () => import('@react-three/drei')
@@ -34,17 +37,41 @@ export let buildApp = async (input) => {
 
   let fileList = []
 
-  for (let onePackage of app.appPackages) {
-    for (let mod of onePackage.modules) {
-      for (let file of mod.files) {
-        fileList.push({
-          file: JSON.parse(JSON.stringify(file)),
-          rollup: `${rollupLocalhost}${onePackage.packageName}/${mod.moduleName}/${file.fileName}`,
-          content: file.content,
-        })
-      }
-    }
-  }
+  data.appPackages.forEach((appPackage) => {
+    data.appModules
+      .filter((r) => r.appPackageID === appPackage._id)
+      .forEach((appModule) => {
+        //
+        data.appCodeGroups
+          .filter((r) => r.appModuleID === appModule._id)
+          .forEach((appCodeGroup) => {
+            //
+            data.appCodeFiles
+              .filter((r) => r.appCodeGroupID === appCodeGroup._id)
+              .forEach((appCodeFile) => {
+                fileList.push({
+                  file: JSON.parse(JSON.stringify(appCodeFile)),
+                  rollup: `${rollupLocalhost}${appPackage.packageName}/${appModule.moduleName}/${appCodeGroup.groupName}/${appCodeFile.fileName}`,
+                  content: appCodeFile.content,
+                })
+              })
+          })
+      })
+  })
+
+  // console.log(fileList, 'fileList')
+  //// WORKS
+  // for (let onePackage of app.appPackages) {
+  //   for (let mod of onePackage.modules) {
+  //     for (let file of mod.files) {
+  //       fileList.push({
+  //         file: JSON.parse(JSON.stringify(file)),
+  //         rollup: `${rollupLocalhost}${onePackage.packageName}/${mod.moduleName}/${file.fileName}`,
+  //         content: file.content,
+  //       })
+  //     }
+  //   }
+  // }
 
   //
 
@@ -53,7 +80,7 @@ export let buildApp = async (input) => {
   // let firstPackage = appContent.appPackages[0]
 
   let bundle = rollup({
-    input: `${rollupLocalhost}${app.appLoader}/main/index.js`,
+    input: `${rollupLocalhost}${app.appLoader}/entry/main/index.js`,
     plugins: [
       {
         name: 'rollup-in-browser-example',
@@ -89,22 +116,6 @@ export let buildApp = async (input) => {
         },
 
         async load(id) {
-          // console.log(id)
-
-          // if (id.indexOf('') === 0) {
-          //   let myURL = `${id.replace('', '')}`
-          //   let file = fileList.find((e) => e.rollup === myURL)
-          //   let content = file.content || ''
-          //   let tf = transform(content, {
-          //     transforms: ['jsx', 'typescript'],
-          //     preserveDynamicImport: true,
-          //     production: true,
-          //     jsxPragma: 'React.createElement',
-          //     jsxFragmentPragma: 'React.Fragment',
-          //   }).code
-          //   return tf
-          // }
-
           if (id.indexOf('http') === 0) {
             return fetch(id)
               .then((r) => r.text())
@@ -181,180 +192,176 @@ export let buildApp = async (input) => {
 
   let rawOutputs = parcel.output
 
-  let outputs = rawOutputs.map((e) => {
-    return {
-      fileName: e.fileName,
-      code: e.code,
-    }
-  })
+  console.log('[rawOutputs]', rawOutputs)
+  let outputs = rawOutputs
 
   // console.log(outputs, 'outputs')
 
   return outputs
 }
 
-export let RawModules = [
-  {
-    moduleName: 'main',
-    files: [
-      {
-        fileName: `index.js`,
-        content: /* js */ `
-            import b from './b.js';
-            import { Vector2 } from 'three';
+// export let RawModules = [
+//   {
+//     moduleName: 'main',
+//     files: [
+//       {
+//         fileName: `index.js`,
+//         content: /* js */ `
+//             import b from './b.js';
+//             import { Vector2 } from 'three';
 
-            console.log(new Vector2(1,1))
+//             console.log(new Vector2(1,1))
 
-            import('./codesplit.js').then((r) => {
-              console.log(r.default);
-            })
+//             import('./codesplit.js').then((r) => {
+//               console.log(r.default);
+//             })
 
-            import('network:/manifest.json').then((v) => {
-              console.log(v.default)
-            })
+//             import('network:/manifest.json').then((v) => {
+//               console.log(v.default)
+//             })
 
-            import('package:lib-webgl/main/share.js').then((v) => {
-              console.log(v.default)
-            })
+//             import('package:lib-webgl/main/share.js').then((v) => {
+//               console.log(v.default)
+//             })
 
-            function YoTeachApp () {
-              return <div>{Math.random()}</div>
-            }
+//             function YoTeachApp () {
+//               return <div>{Math.random()}</div>
+//             }
 
-            // export const GUI = {
-            //   install: ({ mountRoot }) => {
-            //     mountRoot(<YoTeachApp></YoTeachApp>)
-            //   }
-            // }
+//             // export const GUI = {
+//             //   install: ({ mountRoot }) => {
+//             //     mountRoot(<YoTeachApp></YoTeachApp>)
+//             //   }
+//             // }
 
-            console.log('GUI')
+//             console.log('GUI')
 
-            import('../engine-v001/index.js').then((r)=>{
-              console.log(r.default)
-            })
-            import('./json.json').then((r)=>{
-              console.log(r.default)
-            })
+//             import('../engine-v001/index.js').then((r)=>{
+//               console.log(r.default)
+//             })
+//             import('./json.json').then((r)=>{
+//               console.log(r.default)
+//             })
 
-            export default function Page() {
-              return <>
-                <YoTeachApp></YoTeachApp>
-              </>
-            };
-        `,
-      },
-      {
-        fileName: `b.js`,
-        content: /* js */ `
-            export default {
-              b:'bbbbbb'
-            }
-          `,
-      },
-      {
-        fileName: `share.js`,
-        content: /* js */ `
-          export default 'sharing is caring'
-        `,
-      },
-      {
-        fileName: `json.json`,
-        content: JSON.stringify({ yo: 1234 }),
-      },
-      {
-        fileName: `codesplit.js`,
-        content: /* js */ `
-            export default {
-              yaya:'codesplit'
-            }
-          `,
-      },
-    ],
-  },
-  {
-    moduleName: 'engine-v001',
-    files: [
-      {
-        fileName: `index.js`,
-        content: /* js */ `
-          import b from './b.js';
+//             export default function Page() {
+//               return <>
+//                 <YoTeachApp></YoTeachApp>
+//               </>
+//             };
+//         `,
+//       },
+//       {
+//         fileName: `b.js`,
+//         content: /* js */ `
+//             export default {
+//               b:'bbbbbb'
+//             }
+//           `,
+//       },
+//       {
+//         fileName: `share.js`,
+//         content: /* js */ `
+//           export default 'sharing is caring'
+//         `,
+//       },
+//       {
+//         fileName: `json.json`,
+//         content: JSON.stringify({ yo: 1234 }),
+//       },
+//       {
+//         fileName: `codesplit.js`,
+//         content: /* js */ `
+//             export default {
+//               yaya:'codesplit'
+//             }
+//           `,
+//       },
+//     ],
+//   },
+//   {
+//     moduleName: 'engine-v001',
+//     files: [
+//       {
+//         fileName: `index.js`,
+//         content: /* js */ `
+//           import b from './b.js';
 
-          import('./vanilla.js').then((r) => {
-            console.log(r.default)
-          })
+//           import('./vanilla.js').then((r) => {
+//             console.log(r.default)
+//           })
 
-          export const GUI = {
-            fala: 1234
-          }
+//           export const GUI = {
+//             fala: 1234
+//           }
 
-          console.log('GUI', GUI)
+//           console.log('GUI', GUI)
 
-          export default {
-            mod: 'engine-v001',
-            a:b
-          };
-        `,
-      },
-      {
-        fileName: `b.js`,
-        content: /* js */ `
-          export default {
-            b:'bbbbbb'
-          }
-        `,
-      },
-      {
-        fileName: `vanilla.js`,
-        content: /* js */ `
-          export default {
-            yaya:'fafafa'
-          }
-        `,
-      },
-    ],
-  },
-]
+//           export default {
+//             mod: 'engine-v001',
+//             a:b
+//           };
+//         `,
+//       },
+//       {
+//         fileName: `b.js`,
+//         content: /* js */ `
+//           export default {
+//             b:'bbbbbb'
+//           }
+//         `,
+//       },
+//       {
+//         fileName: `vanilla.js`,
+//         content: /* js */ `
+//           export default {
+//             yaya:'fafafa'
+//           }
+//         `,
+//       },
+//     ],
+//   },
+// ]
 
-export let appContent = {
-  appLoader: 'app-loader',
-  appPackages: [
-    { packageName: 'app-loader', modules: RawModules },
-    // { packageName: 'page-about', modules: RawModules },
-    { packageName: 'lib-webgl', modules: RawModules },
-  ],
-}
+// export let appContent = {
+//   appLoader: 'app-loader',
+//   appPackages: [
+//     { packageName: 'app-loader', modules: RawModules },
+//     // { packageName: 'page-about', modules: RawModules },
+//     { packageName: 'lib-webgl', modules: RawModules },
+//   ],
+// }
 
-export function TestButton() {
-  let [compos, mountRoot] = useState(null)
-  let run = () => {
-    /*
-      downloadCode(outputs).then((codes) => {
-        console.log(codes)
-      })
-    */
+// export function TestButton() {
+//   let [compos, mountRoot] = useState(null)
+//   let run = () => {
+//     /*
+//       downloadCode(outputs).then((codes) => {
+//         console.log(codes)
+//       })
+//     */
 
-    buildApp(appContent).then((outputs) => {
-      runInElement({
-        mountRoot: (v) => {
-          mountRoot(v)
-        },
-        outputs,
-        onClean: () => {
-          //
-        },
-      })
-    })
-  }
+//     buildApp(appContent).then((outputs) => {
+//       runInElement({
+//         mountRoot: (v) => {
+//           mountRoot(v)
+//         },
+//         outputs,
+//         onClean: () => {
+//           //
+//         },
+//       })
+//     })
+//   }
 
-  useEffect(() => {
-    //
-    console.log('three')
-    //
-  }, [])
-  return (
-    <>
-      <button onClick={run}>Test Run</button>
-      {compos}
-    </>
-  )
-}
+//   useEffect(() => {
+//     //
+//     console.log('three')
+//     //
+//   }, [])
+//   return (
+//     <>
+//       <button onClick={run}>Test Run</button>
+//       {compos}
+//     </>
+//   )
+// }

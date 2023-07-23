@@ -6,9 +6,6 @@ export function AdminGateNoLayout({ children }) {
   //
   let sess = useSession()
 
-  console.log(sess)
-
-  //
   return (
     <>
       {sess.status === 'loading' && (

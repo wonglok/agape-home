@@ -24,8 +24,12 @@ export function AppBrowser() {
       }
     })
 
-    bc.onmessage = (ev) => {
-      if (ev.data?.type === 'ready') {
+    let init = {
+      ready: false,
+      files: false,
+    }
+    let send = () => {
+      if (init.ready && init.files) {
         let st = useCoreFiles.getState()
 
         try {
@@ -36,8 +40,25 @@ export function AppBrowser() {
       }
     }
 
+    bc.onmessage = (ev) => {
+      if (ev.data?.type === 'ready') {
+        init.ready = true
+        send()
+      }
+    }
+
+    let tt = setTimeout(() => {
+      let st = useCoreFiles.getState()
+
+      if (st.appCodeFiles.length > 0) {
+        init.files = true
+        send()
+        clearInterval(tt)
+      }
+    }, 0)
     return () => {
       //
+      clearInterval(tt)
       bc.closed = true
       bc.onmessage = () => {}
       bc.close()

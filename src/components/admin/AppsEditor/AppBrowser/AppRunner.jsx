@@ -1,4 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { appContent, buildApp } from '../../CodeCompiler/CodeCore'
+import { runInElement } from '../../CodeCompiler/runInElement'
 
 export function AppRunner({ appID }) {
   //
@@ -14,16 +16,40 @@ export function AppRunner({ appID }) {
     bc.onmessage = (ev) => {
       if (ev.data?.type === 'run') {
         //
-        console.log(ev.data)
+        console.log(ev.data.files)
+
+        let args = {
+          appLoader: 'app-loader',
+          data: ev.data.files,
+        }
+
+        run(args)
       }
     }
 
     bc.postMessage({ type: 'ready' })
+
     return () => {
       bc.onmessage = (ev) => {}
       bc.close()
     }
   }, [appID])
 
-  return <></>
+  let [compos, mountRoot] = useState(null)
+
+  let run = (args) => {
+    buildApp(args).then((outputs) => {
+      runInElement({
+        mountRoot: (v) => {
+          mountRoot(v)
+        },
+        outputs: outputs,
+        onClean: () => {
+          //
+        },
+      })
+    })
+  }
+
+  return <>{compos}</>
 }

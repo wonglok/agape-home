@@ -144,6 +144,8 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.THREE = THREE
 
   window.agapeGet = window.agapeGet || {}
+
+  //
   // window.THREE = await import('three')
   // window.agapeGet.react = () => import('react')
   window.agapeGet['zustand'] = () => import('zustand')

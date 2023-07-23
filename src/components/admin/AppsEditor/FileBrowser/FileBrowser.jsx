@@ -37,8 +37,21 @@ export function FileBrowser() {
       } else if (da < db) {
         return -1
       } else {
+        return 0
       }
     })
+
+    appPackages = appPackages.slice().sort((a, b) => {
+      let da = a.packageName === 'app-loader'
+      let db = b.packageName === 'app-loader'
+
+      if (da || db) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+
     useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }

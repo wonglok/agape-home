@@ -75,8 +75,8 @@ export function FileBrowser() {
     })
 
     appCodeFiles = appCodeFiles.slice().sort((a, b) => {
-      let da = a.fileName.indexOf('main') === 0
-      let db = b.fileName.indexOf('main') === 0
+      let da = a.fileName.indexOf('index') === 0
+      let db = b.fileName.indexOf('index') === 0
 
       if (da || db) {
         return -1

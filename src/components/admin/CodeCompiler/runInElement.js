@@ -152,13 +152,16 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.agapeLoader['three-stdlib'] = () => import('three-stdlib')
 
   window.loadGeneral = async () => {
+    window.Globals = window.Globals || {}
     return await Promise.all(
       Object.keys(window.agapeLoader).map(async (key) => {
-        let val = await window.agapeLoader[key]()
-        window.Globals = window.Globals || {}
-        window.Globals[key] = val
-
-        return val
+        if (!window.Globals[key]) {
+          let val = await window.agapeLoader[key]()
+          window.Globals[key] = val
+          return val
+        } else {
+          return window.Globals[key]
+        }
       }),
     )
   }

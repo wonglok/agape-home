@@ -15,6 +15,7 @@ export function UpdateApps({ data }) {
   }
   let work = (e) => {
     data.slug = slugify(slugEl?.current?.value || '', '-')
+
     useApps
       .getState()
       .updateOne({ object: data })
@@ -30,6 +31,8 @@ export function UpdateApps({ data }) {
         set(e, 'focus:border-red-500')
       })
   }
+
+  //
 
   return (
     <>

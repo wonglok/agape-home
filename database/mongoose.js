@@ -66,9 +66,6 @@ if (!mongoose.models.AppLoader) {
           type: String,
           unique: true,
         },
-
-        appLoader: { type: String, default: 'app-loader' },
-        tags: [{}],
       },
       { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
     ),

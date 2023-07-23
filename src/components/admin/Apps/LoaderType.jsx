@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useApps } from './useApps'
 
 export function LoaderType({ data }) {
   return (
@@ -15,6 +16,28 @@ export function LoaderType({ data }) {
               Develop
             </button>
           </Link>
+
+          <button
+            onClick={() => {
+              //
+              useApps
+                .getState()
+                .cloneOne({ object: data })
+                .then((r) => {
+                  console.log(r)
+
+                  useApps
+                    .getState()
+                    .find({})
+                    .then((data) => {
+                      useApps.setState({ apps: data })
+                    })
+                })
+            }}
+            className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
+          >
+            Clone
+          </button>
           {/* {<URLModal></URLModal>} */}
         </div>
         {/*  */}

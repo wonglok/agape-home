@@ -1,5 +1,5 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID } from 'database/mongoose'
+import { AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID, getMongoID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { anyRole, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
@@ -22,7 +22,6 @@ export default async function API(req, res) {
 
       let newItem = await AppLoader.create({
         slug: slugify(payload.object.slug || '', '-') || '',
-        items: payload.object.items || [],
       })
 
       return res.json({
@@ -72,6 +71,60 @@ export default async function API(req, res) {
 
       return res.json({
         data: result,
+      })
+    }
+
+    if (bodyData.action === 'cloneOne') {
+      //
+      let app = await AppLoader.findOne({ _id: payload?.object._id })
+
+      let pArr = await AppPackage.find({ appLoaderID: payload?.object._id })
+      let mArr = await AppModules.find({ appLoaderID: payload?.object._id })
+      let gArr = await CodeGroup.find({ appLoaderID: payload?.object._id })
+      let fArr = await CodeFile.find({ appLoaderID: payload?.object._id })
+
+      app = JSON.parse(JSON.stringify(app))
+      pArr = JSON.parse(JSON.stringify(pArr))
+      mArr = JSON.parse(JSON.stringify(mArr))
+      gArr = JSON.parse(JSON.stringify(gArr))
+      fArr = JSON.parse(JSON.stringify(fArr))
+
+      delete app._id
+      app.slug = slugify(`${app.slug}${getID()}`, '-')
+      app = await AppLoader.create({ ...app })
+
+      for (let pa of pArr) {
+        pa = { ...pa }
+        delete pa._id
+        pa.appLoaderID = app._id + ''
+        pa = await AppPackage.create(pa)
+        for (let ma of mArr) {
+          ma = { ...ma }
+          delete ma._id
+          ma.appLoaderID = app._id + ''
+          ma.appPackageID = pa._id + ''
+          ma = await AppModules.create(ma)
+
+          for (let ga of gArr) {
+            ga = { ...ga }
+            delete ga._id
+            ga.appLoaderID = app._id + ''
+            ga.appModuleID = ma._id + ''
+            ga = await CodeGroup.create(ga)
+
+            for (let fa of fArr) {
+              fa = { ...fa }
+              delete fa._id
+              fa.appLoaderID = app._id + ''
+              fa.appCodeGroupID = ga._id + ''
+              fa = await CodeFile.create(fa)
+            }
+          }
+        }
+      }
+
+      return res.json({
+        data: {},
       })
     }
 

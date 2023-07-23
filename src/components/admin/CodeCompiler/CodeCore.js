@@ -14,17 +14,6 @@ export let buildApp = async (input) => {
   /** @type {{appPackages: null, appModules: null, appCodeGroups: null, appCodeFiles: null}} */
   let data = app.data
 
-  window.AGAPE_LOADER = window.AGAPE_LOADER || {}
-  window.AGAPE_LOADER.three = () => import('three')
-  window.AGAPE_LOADER.react = () => import('react')
-  window.AGAPE_LOADER['zustand'] = () => import('zustand')
-  window.AGAPE_LOADER['agape-sdk'] = () => import('agape-sdk')
-  window.AGAPE_LOADER['@react-three/fiber'] = () => import('@react-three/fiber')
-  window.AGAPE_LOADER['@react-three/drei'] = () => import('@react-three/drei')
-  window.AGAPE_LOADER['@react-three/xr'] = () => import('@react-three/xr')
-  window.AGAPE_LOADER['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
-  window.AGAPE_LOADER['three-stdlib'] = () => import('three-stdlib')
-
   // const { packageName, appPackages } = input
 
   const rollupLocalhost = `rollup://localhost/`

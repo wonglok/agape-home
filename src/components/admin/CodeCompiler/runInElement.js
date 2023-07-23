@@ -1,9 +1,10 @@
 // import { UserEndPoints } from '@/aws/UserEndPoints'
 // import { UserEndPoints } from '@/aws/UserEndPoints'
-import { useEffect, useRef } from 'react'
+// import { useEffect, useRef } from 'react'
 import * as React from 'react'
-import * as ReactDOM from 'react-dom/client'
+// import * as ReactDOM from 'react-dom/client'
 // import * as R3F from
+import * as THREE from 'three'
 
 export const DefaultSetting = {
   onFetch: ({ url, options }) => {
@@ -139,7 +140,19 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
 //
 export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.React = React
-  window.ReactDOM = ReactDOM
+  // window.ReactDOM = ReactDOM
+  window.THREE = THREE
+
+  window.agapeGet = window.agapeGet || {}
+  // window.THREE = await import('three')
+  // window.agapeGet.react = () => import('react')
+  window.agapeGet['zustand'] = () => import('zustand')
+  window.agapeGet['agape-sdk'] = () => import('agape-sdk')
+  window.agapeGet['@react-three/fiber'] = () => import('@react-three/fiber')
+  window.agapeGet['@react-three/drei'] = () => import('@react-three/drei')
+  window.agapeGet['@react-three/xr'] = () => import('@react-three/xr')
+  window.agapeGet['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
+  window.agapeGet['three-stdlib'] = () => import('three-stdlib')
 
   // window.getThree = () => import('three')
   // window.getR3F = () => import('@react-three/fiber')

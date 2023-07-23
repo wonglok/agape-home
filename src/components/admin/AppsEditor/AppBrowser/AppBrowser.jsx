@@ -15,25 +15,31 @@ export function AppBrowser() {
     window.addEventListener('savedFile', () => {
       let st = useCoreFiles.getState()
       try {
+        if (bc.closed) {
+          return
+        }
         bc.postMessage({ type: 'run', files: st })
       } catch (e) {
         console.log(e)
       }
     })
 
-    bc.addEventListener('message', (ev) => {
+    bc.onmessage = (ev) => {
       if (ev.data?.type === 'ready') {
         let st = useCoreFiles.getState()
+
         try {
           bc.postMessage({ type: 'run', files: st })
         } catch (e) {
           console.log(e)
         }
       }
-    })
+    }
 
     return () => {
       //
+      bc.closed = true
+      bc.onmessage = () => {}
       bc.close()
     }
   }, [appID])

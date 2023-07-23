@@ -53,6 +53,7 @@ function CodeEditorInternal({ file }) {
           .getState()
           .updateOne({ object: file })
           .then(() => {
+            window.dispatchEvent(new CustomEvent('savedFile', { detail: file }))
             setTimeout(() => {
               setMessage('done')
               setTimeout(() => {

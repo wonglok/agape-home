@@ -97,20 +97,33 @@ export function FileBrowser() {
 
     load({ activeAppID: activeApp._id }).then(({ appPackages, appModules, appCodeGroups, appCodeFiles }) => {
       let pid = appPackages[0]?._id
-
-      useCoreFiles.setState({ activePackageID: pid })
-
+      // let pid = ap._id
       let mid = appModules.find((r) => r.appPackageID === pid)?._id
-
-      useCoreFiles.setState({ activeModuleID: mid })
-
       let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
-
-      useCoreFiles.setState({ activeCodeGroupID: gid })
-
       let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
 
-      useCoreFiles.setState({ activeCodeFileID: fid })
+      useCoreFiles.setState({
+        activePackageID: pid,
+        activeModuleID: mid,
+        activeCodeGroupID: gid,
+        activeCodeFileID: fid,
+      })
+
+      // let pid = appPackages[0]?._id
+
+      // useCoreFiles.setState({ activePackageID: pid })
+
+      // let mid = appModules.find((r) => r.appPackageID === pid)?._id
+
+      // useCoreFiles.setState({ activeModuleID: mid })
+
+      // let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+
+      // useCoreFiles.setState({ activeCodeGroupID: gid })
+
+      // let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+
+      // useCoreFiles.setState({ activeCodeFileID: fid })
     })
 
     return () => {
@@ -193,6 +206,7 @@ export function FileBrowser() {
             </div>
 
             {appPackages.map((ap, apIDX) => {
+              //
               //
               return (
                 <div

@@ -15,7 +15,7 @@ export function TabCode() {
             <FileBrowser></FileBrowser>
           </div>
         </div>
-        <div className='h-full' style={{ width: `280px` }}>
+        <div className='h-full bg-white bg-opacity-25 ' style={{ width: `280px` }}>
           Signal Bar
         </div>
         <div className='h-full bg-white ' style={{ width: `520px` }}>

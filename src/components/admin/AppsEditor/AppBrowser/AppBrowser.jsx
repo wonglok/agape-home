@@ -1,8 +1,42 @@
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useCoreFiles } from '../FileBrowser/useCoreFiles'
 
 export function AppBrowser() {
   let router = useRouter()
   let { appID } = router.query
+
+  useEffect(() => {
+    if (!appID) {
+      return
+    }
+    let bc = new BroadcastChannel(appID)
+
+    window.addEventListener('savedFile', () => {
+      let st = useCoreFiles.getState()
+      try {
+        bc.postMessage({ type: 'run', files: st })
+      } catch (e) {
+        console.log(e)
+      }
+    })
+
+    bc.addEventListener('message', (ev) => {
+      if (ev.data?.type === 'ready') {
+        let st = useCoreFiles.getState()
+        try {
+          bc.postMessage({ type: 'run', files: st })
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    })
+
+    return () => {
+      //
+      bc.close()
+    }
+  }, [appID])
   return (
     <>
       {/*  */}

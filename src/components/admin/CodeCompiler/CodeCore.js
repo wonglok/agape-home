@@ -2,7 +2,8 @@ import path from 'path'
 import { transform } from 'sucrase'
 import { useEffect, useRef, useState } from 'react'
 // "rollup": "2.56.3",
-import { rollup } from 'rollup/dist/rollup.browser.js'
+import { rollup } from 'rollup'
+// import { rollup } from
 import { runInElement } from './runInElement'
 // import { downloadCode } from './downloadCode'
 
@@ -68,6 +69,7 @@ export let buildApp = async (input) => {
 
   // let firstPackage = appContent.appPackages[0]
 
+  // let rollup = await window.remoteImport('/rollup/rollup.browser.min.js').then((r) => r.rollup)
   let bundle = rollup({
     input: `${rollupLocalhost}${app.appLoader}/entry/main/index.js`,
     plugins: [

@@ -20,8 +20,6 @@ export function LoaderType({ data }) {
               useSlug.getState((s) => {
                 return { ...s }
               })
-
-              //
             }}
             className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
           >

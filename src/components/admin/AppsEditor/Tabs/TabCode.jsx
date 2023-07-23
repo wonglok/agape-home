@@ -9,8 +9,8 @@ export function TabCode() {
           Left
         </div>
         <div className='h-full ' style={{ width: `calc(100% - 280px - 500px)` }}>
-          <div style={{ height: `calc(100% - 280px)` }}>Top</div>
-          <div style={{ height: `280px` }}>
+          <div style={{ height: `calc(100% - 287px)` }}>Top</div>
+          <div style={{ height: `287px` }}>
             <FileBrowser></FileBrowser>
           </div>
         </div>

@@ -4,16 +4,16 @@ import { useApps } from '../../Apps/useApps'
 import { usePackages } from '../../Apps/usePackages'
 import { useModules } from '../../Apps/useModules'
 import { useCodeGroups } from '../../Apps/useCodeGroups'
-import { useOSFiles } from './useOSFiles'
+import { useCoreFiles } from './useCoreFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
 
 //
 export function FileTree() {
   let activeApp = useApps((r) => r.activeApp)
-  let appPackages = useOSFiles((r) => r.appPackages)
-  let appModules = useOSFiles((r) => r.appModules)
-  let appCodeGroups = useOSFiles((r) => r.appCodeGroups)
-  let appCodeFiles = useOSFiles((r) => r.appCodeFiles)
+  let appPackages = useCoreFiles((r) => r.appPackages)
+  let appModules = useCoreFiles((r) => r.appModules)
+  let appCodeGroups = useCoreFiles((r) => r.appCodeGroups)
+  let appCodeFiles = useCoreFiles((r) => r.appCodeFiles)
 
   let load = useCallback(async ({ activeApp }) => {
     let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeApp._id })
@@ -21,7 +21,7 @@ export function FileTree() {
     let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeApp._id })
     let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
 
-    useOSFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
+    useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
   }, [])
 
   useEffect(() => {

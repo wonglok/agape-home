@@ -6,21 +6,21 @@ import { useApps } from '../../Apps/useApps'
 import { usePackages } from '../../Apps/usePackages'
 import { useModules } from '../../Apps/useModules'
 import { useCodeGroups } from '../../Apps/useCodeGroups'
-import { useOSFiles } from './useOSFiles'
+import { useCoreFiles } from './useCoreFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
 
 //
 export function FileBrowser() {
   let activeApp = useApps((r) => r.activeApp)
-  let appPackages = useOSFiles((r) => r.appPackages)
-  let appModules = useOSFiles((r) => r.appModules)
-  let appCodeGroups = useOSFiles((r) => r.appCodeGroups)
-  let appCodeFiles = useOSFiles((r) => r.appCodeFiles)
+  let appPackages = useCoreFiles((r) => r.appPackages)
+  let appModules = useCoreFiles((r) => r.appModules)
+  let appCodeGroups = useCoreFiles((r) => r.appCodeGroups)
+  let appCodeFiles = useCoreFiles((r) => r.appCodeFiles)
 
-  let activePackageID = useOSFiles((r) => r.activePackageID)
-  let activeModuleID = useOSFiles((r) => r.activeModuleID)
-  let activeCodeGroupID = useOSFiles((r) => r.activeCodeGroupID)
-  let activeCodeFileID = useOSFiles((r) => r.activeCodeFileID)
+  let activePackageID = useCoreFiles((r) => r.activePackageID)
+  let activeModuleID = useCoreFiles((r) => r.activeModuleID)
+  let activeCodeGroupID = useCoreFiles((r) => r.activeCodeGroupID)
+  let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
 
   let load = useCallback(async ({ activeApp }) => {
     let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeApp._id })
@@ -28,7 +28,7 @@ export function FileBrowser() {
     let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeApp._id })
     let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
 
-    useOSFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
+    useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }
   }, [])
@@ -39,7 +39,7 @@ export function FileBrowser() {
     }
 
     load({ activeApp }).then(({ appPackages }) => {
-      useOSFiles.setState({ activePackageID: appPackages[0]?._id })
+      useCoreFiles.setState({ activePackageID: appPackages[0]?._id })
     })
 
     return () => {
@@ -49,7 +49,7 @@ export function FileBrowser() {
 
   useEffect(() => {
     return () => {
-      useOSFiles.setState({
+      useCoreFiles.setState({
         appPackages: [],
         appModules: [],
         appCodeGroups: [],
@@ -127,7 +127,7 @@ export function FileBrowser() {
                 <div
                   className='group flex items-center px-2'
                   onClick={() => {
-                    useOSFiles.setState({ activePackageID: ap._id })
+                    useCoreFiles.setState({ activePackageID: ap._id })
                   }}
                   key={ap._id}
                 >
@@ -141,7 +141,7 @@ export function FileBrowser() {
                       let value = ev.target.value
                       ap.packageName = value
 
-                      useOSFiles.setState({ appPackages: [...appPackages] })
+                      useCoreFiles.setState({ appPackages: [...appPackages] })
 
                       clearTimeout(ev.target.timer)
                       ev.target.timer = setTimeout(async () => {
@@ -150,7 +150,7 @@ export function FileBrowser() {
                     }}
                     onFocus={() => {
                       //
-                      useOSFiles.setState({
+                      useCoreFiles.setState({
                         activePackageID: activePackageID,
                         activeModuleID: false,
                         activeCodeGroupID: false,
@@ -166,7 +166,7 @@ export function FileBrowser() {
                       //
                       if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
                         await usePackages.getState().deleteOne({ object: ap })
-                        useOSFiles.setState({ activePackageID: '' })
+                        useCoreFiles.setState({ activePackageID: '' })
                         await load({ activeApp })
                       }
                     }}
@@ -216,7 +216,7 @@ export function FileBrowser() {
                               let value = ev.target.value
                               am.moduleName = value
 
-                              useOSFiles.setState({ appModules: [...appModules] })
+                              useCoreFiles.setState({ appModules: [...appModules] })
 
                               clearTimeout(ev.target.timer)
                               ev.target.timer = setTimeout(async () => {
@@ -225,7 +225,7 @@ export function FileBrowser() {
                             }}
                             onFocus={() => {
                               //
-                              useOSFiles.setState({
+                              useCoreFiles.setState({
                                 activePackageID: activePackageID,
                                 activeModuleID: am._id,
                                 activeCodeGroupID: false,
@@ -297,7 +297,7 @@ export function FileBrowser() {
                               let value = ev.target.value
                               acg.groupName = value
 
-                              useOSFiles.setState({ appCodeGroups: [...appCodeGroups] })
+                              useCoreFiles.setState({ appCodeGroups: [...appCodeGroups] })
 
                               clearTimeout(ev.target.timer)
                               ev.target.timer = setTimeout(async () => {
@@ -306,7 +306,7 @@ export function FileBrowser() {
                             }}
                             onFocus={() => {
                               //
-                              useOSFiles.setState({
+                              useCoreFiles.setState({
                                 activePackageID: activePackageID,
                                 activeModuleID: activeModuleID,
                                 activeCodeGroupID: acg._id,
@@ -382,7 +382,7 @@ export function FileBrowser() {
                               let value = ev.target.value
                               acf.fileName = value
 
-                              useOSFiles.setState({ appCodeFiles: [...appCodeFiles] })
+                              useCoreFiles.setState({ appCodeFiles: [...appCodeFiles] })
 
                               clearTimeout(ev.target.timer)
                               ev.target.timer = setTimeout(async () => {
@@ -390,7 +390,7 @@ export function FileBrowser() {
                               }, 1000)
                             }}
                             onFocus={() => {
-                              useOSFiles.setState({
+                              useCoreFiles.setState({
                                 activePackageID: activePackageID,
                                 activeModuleID: activeModuleID,
                                 activeCodeGroupID: activeCodeGroupID,

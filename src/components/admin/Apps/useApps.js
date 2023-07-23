@@ -69,6 +69,36 @@ export const useApps = create(() => {
         console.error(e)
       }
     },
+    findAll: () => {
+      try {
+        return (
+          fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'findAll',
+              payload: {},
+            }),
+            withCredentials: true,
+            credentials: 'same-origin',
+            mode: 'same-origin',
+          })
+            //
+            .then(async (r) => {
+              if (r.ok) {
+                return await r.json()
+              } else {
+                throw await r.text()
+              }
+            })
+            //
+            .then((r) => {
+              return r.data
+            })
+        )
+      } catch (e) {
+        console.error(e)
+      }
+    },
     findOne: ({ object }) => {
       try {
         return (

@@ -35,7 +35,7 @@ if (!mongoose.models.ABLoader) {
     },
 
     defaultLinkID: String,
-
+    linkType: String,
     // type: {
     //   type: String,
     //   default: 'project',

@@ -66,6 +66,38 @@ export const useSlug = create(() => {
         console.error(e)
       }
     },
+    findSlug: ({ slug }) => {
+      try {
+        return (
+          fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'findSlug',
+              payload: {
+                slug: slug,
+              },
+            }),
+            withCredentials: true,
+            credentials: 'same-origin',
+            mode: 'same-origin',
+          })
+            //
+            .then(async (r) => {
+              if (r.ok) {
+                return await r.json()
+              } else {
+                throw await r.text()
+              }
+            })
+            //
+            .then((r) => {
+              return r.data
+            })
+        )
+      } catch (e) {
+        console.error(e)
+      }
+    },
     updateOne: ({ object }) => {
       try {
         return (

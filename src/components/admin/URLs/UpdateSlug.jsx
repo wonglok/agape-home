@@ -49,7 +49,7 @@ export function UpdateSlug({ data }) {
               <input
                 //
 
-                className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
+                className='w-full appearance-none  border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
                 defaultValue={data.slug}
@@ -74,7 +74,7 @@ export function UpdateSlug({ data }) {
                     return { ...st, slugs: st.slugs.filter((r) => r._id !== data._id) }
                   })
                 }}
-                className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded-r bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
               >
                 ❌
               </button>

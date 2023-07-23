@@ -40,6 +40,14 @@ export default async function API(req, res) {
       })
     }
 
+    if (bodyData.action === 'findAll') {
+      let result = await AppLoader.find({}).sort({ createdAt: -1 })
+
+      return res.json({
+        data: result,
+      })
+    }
+
     if (bodyData.action === 'findOne') {
       let result = await AppLoader.findOne({ _id: payload?.object?._id })
 

@@ -5,6 +5,18 @@ import { anyRole, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
 
 export default async function API(req, res) {
+  let bodyData = JSON.parse(req.body)
+
+  let payload = bodyData?.payload || {}
+
+  if (bodyData.action === 'findSlug') {
+    let result = await ABLoader.findOne({ slug: payload?.slug })
+
+    return res.json({
+      data: result,
+    })
+  }
+
   const session = await getServerSession(req, res, authOptions)
 
   if (session && anyRole(session, ['editor', 'devroot'])) {

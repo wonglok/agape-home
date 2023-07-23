@@ -50,6 +50,8 @@ export function AppRunner({ appID }) {
           data: ev.data.files,
         }
 
+        bc.postMessage({ type: 'done-running', snap: ev.data.snap })
+
         run(args)
       }
     }

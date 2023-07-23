@@ -113,19 +113,24 @@ export function FileBrowser() {
   let scroller = useRef()
   return (
     <>
-      <div className='h-full w-full overflow-scroll bg-white' ref={scroller}>
-        <div
-          className=''
-          style={{ width: `calc(280px * 4)` }}
-          onScrollCapture={(ev) => {
-            ev.stopPropagation()
-          }}
-        >
+      <div
+        onScrollCapture={(ev) => {
+          ev.stopPropagation()
+          ev.preventDefault()
+        }}
+        className='h-full w-full overflow-scroll bg-white'
+        ref={scroller}
+      >
+        <div className='' style={{ width: `calc(280px * 4)` }}>
           <div
             className='inline-block overflow-scroll'
             style={{ height: `280px`, width: `280px` }}
             onClick={() => {
               scroller.current.scrollTo(280 * 0, 0)
+            }}
+            onScrollCapture={(ev) => {
+              ev.stopPropagation()
+              ev.preventDefault()
             }}
           >
             <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
@@ -144,43 +149,33 @@ export function FileBrowser() {
                   }}
                   key={ap._id}
                 >
-                  {activePackageID === ap._id ? (
-                    <>
-                      <Input
-                        key={ap._id + 'package'}
-                        className='mb-1 bg-green-100'
-                        defaultValue={ap.packageName}
-                        onChange={(ev) => {
-                          //
+                  <Input
+                    key={ap._id + 'package'}
+                    className='mb-1 '
+                    defaultValue={ap.packageName}
+                    onChange={(ev) => {
+                      //
 
-                          let value = ev.target.value
-                          ap.packageName = value
+                      let value = ev.target.value
+                      ap.packageName = value
 
-                          useOSFiles.setState({ appPackages: [...appPackages] })
+                      useOSFiles.setState({ appPackages: [...appPackages] })
 
-                          clearTimeout(ev.target.timer)
-                          ev.target.timer = setTimeout(async () => {
-                            usePackages.getState().updateOne({ object: ap })
-                          }, 1000)
-                        }}
-                        onFocus={() => {
-                          //
-                          useOSFiles.setState({
-                            activePackageID: activePackageID,
-                            activeModuleID: false,
-                            activeCodeGroupID: false,
-                            activeCodeFileID: false,
-                          })
-                        }}
-                      ></Input>
-                    </>
-                  ) : (
-                    <>
-                      <div className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'>
-                        {ap.packageName || 'untitled'}
-                      </div>
-                    </>
-                  )}
+                      clearTimeout(ev.target.timer)
+                      ev.target.timer = setTimeout(async () => {
+                        usePackages.getState().updateOne({ object: ap })
+                      }, 1000)
+                    }}
+                    onFocus={() => {
+                      //
+                      useOSFiles.setState({
+                        activePackageID: activePackageID,
+                        activeModuleID: false,
+                        activeCodeGroupID: false,
+                        activeCodeFileID: false,
+                      })
+                    }}
+                  ></Input>
 
                   <img
                     key={ap._id + 'del'}
@@ -199,7 +194,7 @@ export function FileBrowser() {
               )
             })}
           </div>
-          {appModules.some((r) => r.appPackageID === activePackageID) && (
+          {
             <div
               className='inline-block overflow-scroll overflow-x-hidden'
               style={{ height: `280px`, width: `280px` }}
@@ -229,44 +224,35 @@ export function FileBrowser() {
                   return (
                     <div key={am._id} className='px-1'>
                       <div className=' group flex items-center '>
-                        {activeModuleID === am._id ? (
-                          <>
-                            <Input
-                              key={am._id + 'package'}
-                              className='mb-1 bg-green-100'
-                              defaultValue={am.moduleName}
-                              onChange={(ev) => {
-                                //
-                                let value = ev.target.value
-                                am.moduleName = value
+                        <>
+                          <Input
+                            key={am._id + 'package'}
+                            className='mb-1 '
+                            defaultValue={am.moduleName}
+                            onChange={(ev) => {
+                              //
+                              let value = ev.target.value
+                              am.moduleName = value
 
-                                useOSFiles.setState({ appModules: [...appModules] })
+                              useOSFiles.setState({ appModules: [...appModules] })
 
-                                clearTimeout(ev.target.timer)
-                                ev.target.timer = setTimeout(async () => {
-                                  useModules.getState().updateOne({ object: am })
-                                }, 1000)
-                              }}
-                            ></Input>
-                          </>
-                        ) : (
-                          <>
-                            <div
-                              onClick={() => {
-                                //
-                                useOSFiles.setState({
-                                  activePackageID: activePackageID,
-                                  activeModuleID: am._id,
-                                  activeCodeGroupID: false,
-                                  activeCodeFileID: false,
-                                })
-                              }}
-                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                            >
-                              {am.moduleName || 'untitled'}
-                            </div>
-                          </>
-                        )}
+                              clearTimeout(ev.target.timer)
+                              ev.target.timer = setTimeout(async () => {
+                                useModules.getState().updateOne({ object: am })
+                              }, 1000)
+                            }}
+                            onFocus={() => {
+                              //
+                              useOSFiles.setState({
+                                activePackageID: activePackageID,
+                                activeModuleID: am._id,
+                                activeCodeGroupID: false,
+                                activeCodeFileID: false,
+                              })
+                            }}
+                          ></Input>
+                        </>
+
                         <img
                           key={am._id + 'del'}
                           className='mb-1 hidden h-6 w-6 group-hover:inline-block'
@@ -280,9 +266,9 @@ export function FileBrowser() {
                   )
                 })}
             </div>
-          )}
+          }
 
-          {appCodeGroups.some((r) => r.appModuleID === activeModuleID) && (
+          {
             <div
               className='inline-block overflow-scroll'
               style={{ height: `280px`, width: `280px` }}
@@ -318,46 +304,35 @@ export function FileBrowser() {
                   return (
                     <div key={acg._id} className='px-1'>
                       <div className=' group flex items-center '>
-                        {activeCodeGroupID === acg._id ? (
-                          <>
-                            <Input
-                              key={acg._id + 'package'}
-                              className='mb-1 bg-green-100'
-                              defaultValue={acg.groupName}
-                              onChange={(ev) => {
-                                //
+                        <>
+                          <Input
+                            key={acg._id + 'package'}
+                            className='mb-1 '
+                            defaultValue={acg.groupName}
+                            onChange={(ev) => {
+                              //
 
-                                let value = ev.target.value
-                                acg.groupName = value
+                              let value = ev.target.value
+                              acg.groupName = value
 
-                                useOSFiles.setState({ appCodeGroups: [...appCodeGroups] })
+                              useOSFiles.setState({ appCodeGroups: [...appCodeGroups] })
 
-                                clearTimeout(ev.target.timer)
-                                ev.target.timer = setTimeout(async () => {
-                                  useCodeGroups.getState().updateOne({ object: acg })
-                                }, 1000)
-                              }}
-                            ></Input>
-                          </>
-                        ) : (
-                          <>
-                            <div
-                              onClick={() => {
-                                //
-                                useOSFiles.setState({
-                                  activePackageID: activePackageID,
-                                  activeModuleID: activeModuleID,
-                                  activeCodeGroupID: acg._id,
-                                  activeCodeFileID: false,
-                                })
-                              }}
-                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                            >
-                              {acg.groupName || 'untitled'}
-                            </div>
-                          </>
-                        )}
-
+                              clearTimeout(ev.target.timer)
+                              ev.target.timer = setTimeout(async () => {
+                                useCodeGroups.getState().updateOne({ object: acg })
+                              }, 1000)
+                            }}
+                            onFocus={() => {
+                              //
+                              useOSFiles.setState({
+                                activePackageID: activePackageID,
+                                activeModuleID: activeModuleID,
+                                activeCodeGroupID: acg._id,
+                                activeCodeFileID: false,
+                              })
+                            }}
+                          ></Input>
+                        </>
                         {/*  */}
                         <img
                           key={acg._id + 'del'}
@@ -376,7 +351,7 @@ export function FileBrowser() {
                   )
                 })}
             </div>
-          )}
+          }
 
           {appCodeFiles.some((r) => r.appCodeGroupID === activeCodeGroupID) && (
             <div
@@ -403,44 +378,34 @@ export function FileBrowser() {
                   return (
                     <div key={acf._id} className='px-1'>
                       <div className=' group flex items-center '>
-                        {activeCodeFileID === acf._id ? (
-                          <>
-                            <Input
-                              key={acf._id + 'package'}
-                              className='mb-1 bg-green-100'
-                              defaultValue={acf.fileName}
-                              onChange={(ev) => {
-                                //
+                        <>
+                          <Input
+                            key={acf._id + 'package'}
+                            className='mb-1 '
+                            defaultValue={acf.fileName}
+                            onChange={(ev) => {
+                              //
 
-                                let value = ev.target.value
-                                acf.fileName = value
+                              let value = ev.target.value
+                              acf.fileName = value
 
-                                useOSFiles.setState({ appCodeFiles: [...appCodeFiles] })
+                              useOSFiles.setState({ appCodeFiles: [...appCodeFiles] })
 
-                                clearTimeout(ev.target.timer)
-                                ev.target.timer = setTimeout(async () => {
-                                  useCodeFiles.getState().updateOne({ object: acf })
-                                }, 1000)
-                              }}
-                            ></Input>
-                          </>
-                        ) : (
-                          <>
-                            <div
-                              onClick={() => {
-                                useOSFiles.setState({
-                                  activePackageID: activePackageID,
-                                  activeModuleID: activeModuleID,
-                                  activeCodeGroupID: activeCodeGroupID,
-                                  activeCodeFileID: acf._id,
-                                })
-                              }}
-                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                            >
-                              {acf.fileName || 'untitled'}
-                            </div>
-                          </>
-                        )}
+                              clearTimeout(ev.target.timer)
+                              ev.target.timer = setTimeout(async () => {
+                                useCodeFiles.getState().updateOne({ object: acf })
+                              }, 1000)
+                            }}
+                            onFocus={() => {
+                              useOSFiles.setState({
+                                activePackageID: activePackageID,
+                                activeModuleID: activeModuleID,
+                                activeCodeGroupID: activeCodeGroupID,
+                                activeCodeFileID: acf._id,
+                              })
+                            }}
+                          ></Input>
+                        </>
 
                         {/*  */}
                         <img

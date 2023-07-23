@@ -44,13 +44,13 @@ export function UpdateApps({ data }) {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Page
+                Private Page
               </label>
             </div>
             <div className='flex md:w-2/3'>
-              <div className='appearance-none rounded rounded-r-none border-2 border-gray-200 bg-gray-200 py-2 pl-4 pr-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'>
-                /codes/
-              </div>
+              {/* <div className='appearance-none rounded rounded-r-none border-2 border-gray-200 bg-gray-200 py-2 pl-4 pr-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'>
+                /private/
+              </div> */}
               <input
                 className='w-full appearance-none  rounded-none  border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'

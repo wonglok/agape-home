@@ -20,8 +20,10 @@ export function LoaderType({ data }) {
               useSlug.getState((s) => {
                 return { ...s }
               })
+
+              // console.log(data)
             }}
-            className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
+            className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
           >
             <option value={undefined}>Select Content Type</option>
             <option value={'code3d'}>3D Code</option>

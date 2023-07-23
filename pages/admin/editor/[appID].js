@@ -1,9 +1,14 @@
+import { AdminGateNoLayout } from '@/components/admin/AdminLayout/AdminGateNoLayout'
 import { useApps } from '@/components/admin/Apps/useApps'
 import { AppEditor } from '@/components/admin/AppsEditor/AppEditor'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export default function AppID() {
+export default function Page() {
+  return <AdminGateNoLayout>{<Miracle></Miracle>}</AdminGateNoLayout>
+}
+
+function Miracle() {
   let router = useRouter()
   let query = router.query || {}
   let appID = query.appID || ''

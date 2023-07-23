@@ -8,7 +8,7 @@ export function AppEditor() {
 
   return (
     <>
-      <AdminGateNoLayout>
+      <>
         <div
           className='flex items-center bg-slate-100 bg-gradient-to-t from-slate-300 to-slate-100 text-sm'
           style={{
@@ -25,7 +25,7 @@ export function AppEditor() {
         >
           <TabAdapter></TabAdapter>
         </div>
-      </AdminGateNoLayout>
+      </>
     </>
   )
 }

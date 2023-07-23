@@ -6,7 +6,7 @@ export function AdminGateNoLayout({ children }) {
   //
   let sess = useSession()
 
-  // console.log(sess?.data?.user?.role)
+  console.log(sess)
 
   //
   return (

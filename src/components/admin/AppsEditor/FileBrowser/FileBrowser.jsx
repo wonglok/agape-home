@@ -335,7 +335,7 @@ export function FileBrowser() {
             </div>
           }
 
-          {appCodeFiles.some((r) => r.appCodeGroupID === activeCodeGroupID) && (
+          {
             <div
               className='inline-block overflow-scroll border-r'
               style={{ height: `280px`, width: `280px` }}
@@ -418,7 +418,7 @@ export function FileBrowser() {
                   )
                 })}
             </div>
-          )}
+          }
         </div>
       </div>
     </>

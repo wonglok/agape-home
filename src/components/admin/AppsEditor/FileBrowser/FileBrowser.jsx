@@ -370,11 +370,23 @@ export function FileBrowser() {
                             }}
                             onFocus={() => {
                               //
+                              // useCoreFiles.setState({
+                              //   activePackageID: activePackageID,
+                              //   activeModuleID: activeModuleID,
+                              //   activeCodeGroupID: acg._id,
+                              //   // activeCodeFileID: false,
+                              // })
+
+                              let pid = activePackageID
+                              let mid = activeModuleID
+                              let gid = acg._id
+                              let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+
                               useCoreFiles.setState({
-                                activePackageID: activePackageID,
-                                activeModuleID: activeModuleID,
-                                activeCodeGroupID: acg._id,
-                                // activeCodeFileID: false,
+                                activePackageID: pid,
+                                activeModuleID: mid,
+                                activeCodeGroupID: gid,
+                                activeCodeFileID: fid,
                               })
                             }}
                           ></Input>

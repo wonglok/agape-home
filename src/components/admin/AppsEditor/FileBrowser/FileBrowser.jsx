@@ -92,15 +92,6 @@ export function FileBrowser() {
     await load({ activeApp })
   }
 
-  // let removePackage =
-  //   ({ ap }) =>
-
-  // let addEmptyModule =
-
-  let addCodeGroup = async () => {
-    //
-  }
-
   let scroller = useRef()
   return (
     <>
@@ -142,7 +133,7 @@ export function FileBrowser() {
                 >
                   <Input
                     key={ap._id + 'package'}
-                    className='mb-1 '
+                    className='mb-1'
                     defaultValue={ap.packageName}
                     onChange={(ev) => {
                       //
@@ -218,7 +209,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={am._id + 'package'}
-                            className='mb-1 '
+                            className='mb-1'
                             defaultValue={am.moduleName}
                             onChange={(ev) => {
                               //
@@ -298,7 +289,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={acg._id + 'package'}
-                            className='mb-1 '
+                            className='mb-1'
                             defaultValue={acg.groupName}
                             onChange={(ev) => {
                               //
@@ -383,7 +374,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={acf._id + 'package'}
-                            className='mb-1 '
+                            className='mb-1'
                             defaultValue={acf.fileName}
                             onChange={(ev) => {
                               //

@@ -4,7 +4,7 @@ import { IconBar } from './Icons/IconBar'
 import { TabAdapter } from './Tabs/TabAdapter'
 
 export function AppEditor() {
-  let activeApp = useApps((r) => r.activeApp)
+  // let activeApp = useApps((r) => r.activeApp)
 
   return (
     <>

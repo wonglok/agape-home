@@ -1,3 +1,5 @@
+import { AppBrowser } from '../AppBrowser/AppBrowser'
+import { CodeEditor } from '../CodeEditor/CodeEditor'
 import { FileBrowser } from '../FileBrowser/FileBrowser'
 
 export function TabCode() {
@@ -5,19 +7,21 @@ export function TabCode() {
     <>
       {/*  */}
       <div className='flex h-full w-full'>
-        <div className='h-full bg-green-200 bg-opacity-50' style={{ width: `280px` }}>
-          Left
-        </div>
         <div className='h-full ' style={{ width: `calc(100% - 280px - 500px)` }}>
-          <div style={{ height: `calc(100% - 287px)` }}>Top</div>
+          <div style={{ height: `calc(100% - 287px)` }}>
+            <CodeEditor></CodeEditor>
+          </div>
           <div style={{ height: `287px` }}>
             <FileBrowser></FileBrowser>
           </div>
         </div>
-        <div className='h-full bg-gray-400 bg-opacity-50 ' style={{ width: `500px` }}></div>
+        <div className=' h-full border-l' style={{ width: `280px` }}>
+          Signal Bar
+        </div>
+        <div className='h-full bg-white ' style={{ width: `500px` }}>
+          <AppBrowser></AppBrowser>
+        </div>
       </div>
-
-      {/*  */}
     </>
   )
 }

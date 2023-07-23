@@ -25,6 +25,7 @@
     "@aws-sdk/s3-presigned-post": "^3.360.0",
     "@ducanh2912/next-pwa": "^8.2.0",
     "@mediapipe/tasks-vision": "^0.10.2",
+    "@monaco-editor/react": "^4.5.1",
     "@react-three/csg": "^2.2.0",
     "@react-three/drei": "^9.65.3",
     "@react-three/fiber": "^8.12.0",

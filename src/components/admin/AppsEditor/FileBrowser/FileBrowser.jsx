@@ -28,6 +28,18 @@ export function FileBrowser() {
     let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeApp._id })
     let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
 
+    appPackages = appPackages.slice().sort((a, b) => {
+      let da = new Date(a.createdAt).getTime()
+      let db = new Date(b.createdAt).getTime()
+
+      if (da > db) {
+        return -1
+      } else if (da > db) {
+        return 1
+      } else {
+        return 0
+      }
+    })
     useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }
@@ -38,8 +50,21 @@ export function FileBrowser() {
       return
     }
 
-    load({ activeApp }).then(({ appPackages }) => {
-      useCoreFiles.setState({ activePackageID: appPackages[0]?._id })
+    load({ activeApp }).then(({ appPackages, appModules, appCodeGroups, appCodeFiles }) => {
+      let pid = appPackages[0]?._id
+      useCoreFiles.setState({ activePackageID: pid })
+
+      let mid = appModules.find((r) => r.appPackageID === pid)?._id
+
+      useCoreFiles.setState({ activeModuleID: mid })
+
+      let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+
+      useCoreFiles.setState({ activeCodeGroupID: gid })
+
+      let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+
+      useCoreFiles.setState({ activeCodeFileID: fid })
     })
 
     return () => {
@@ -152,9 +177,9 @@ export function FileBrowser() {
                       //
                       useCoreFiles.setState({
                         activePackageID: activePackageID,
-                        activeModuleID: false,
-                        activeCodeGroupID: false,
-                        activeCodeFileID: false,
+                        // activeModuleID: false,
+                        // activeCodeGroupID: false,
+                        // activeCodeFileID: false,
                       })
                     }}
                   ></Input>
@@ -166,8 +191,13 @@ export function FileBrowser() {
                       //
                       if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
                         await usePackages.getState().deleteOne({ object: ap })
-                        useCoreFiles.setState({ activePackageID: '' })
                         await load({ activeApp })
+                        useCoreFiles.setState({
+                          activePackageID: false,
+                          activeModuleID: false,
+                          activeCodeGroupID: false,
+                          activeCodeFileID: false,
+                        })
                       }
                     }}
                     src={`/gui/remove.svg`}
@@ -228,8 +258,8 @@ export function FileBrowser() {
                               useCoreFiles.setState({
                                 activePackageID: activePackageID,
                                 activeModuleID: am._id,
-                                activeCodeGroupID: false,
-                                activeCodeFileID: false,
+                                // activeCodeGroupID: false,
+                                // activeCodeFileID: false,
                               })
                             }}
                           ></Input>
@@ -316,7 +346,7 @@ export function FileBrowser() {
                                 activePackageID: activePackageID,
                                 activeModuleID: activeModuleID,
                                 activeCodeGroupID: acg._id,
-                                activeCodeFileID: false,
+                                // activeCodeFileID: false,
                               })
                             }}
                           ></Input>

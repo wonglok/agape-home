@@ -22,22 +22,21 @@ export function FileBrowser() {
   let activeCodeGroupID = useCoreFiles((r) => r.activeCodeGroupID)
   let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
 
-  let load = useCallback(async ({ activeApp }) => {
-    let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeApp._id })
-    let appModules = await useModules.getState().findByAppID({ appLoaderID: activeApp._id })
-    let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeApp._id })
-    let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeApp._id })
+  let load = useCallback(async ({ activeAppID }) => {
+    let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeAppID })
+    let appModules = await useModules.getState().findByAppID({ appLoaderID: activeAppID })
+    let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeAppID })
+    let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: activeAppID })
 
     appPackages = appPackages.slice().sort((a, b) => {
       let da = new Date(a.createdAt).getTime()
       let db = new Date(b.createdAt).getTime()
 
       if (da > db) {
-        return -1
-      } else if (da > db) {
         return 1
+      } else if (da < db) {
+        return -1
       } else {
-        return 0
       }
     })
     useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
@@ -46,12 +45,13 @@ export function FileBrowser() {
   }, [])
 
   useEffect(() => {
-    if (!activeApp) {
+    if (!activeApp._id) {
       return
     }
 
-    load({ activeApp }).then(({ appPackages, appModules, appCodeGroups, appCodeFiles }) => {
+    load({ activeAppID: activeApp._id }).then(({ appPackages, appModules, appCodeGroups, appCodeFiles }) => {
       let pid = appPackages[0]?._id
+
       useCoreFiles.setState({ activePackageID: pid })
 
       let mid = appModules.find((r) => r.appPackageID === pid)?._id
@@ -70,7 +70,7 @@ export function FileBrowser() {
     return () => {
       //!SECTION
     }
-  }, [activeApp, load])
+  }, [activeApp._id, load])
 
   useEffect(() => {
     return () => {
@@ -114,7 +114,7 @@ export function FileBrowser() {
     })
 
     // console.log(newCF)
-    await load({ activeApp })
+    await load({ activeAppID: activeApp._id })
   }
 
   let scroller = useRef()
@@ -158,7 +158,7 @@ export function FileBrowser() {
                 >
                   <Input
                     key={ap._id + 'package'}
-                    className='mb-1'
+                    className={`mb-1 ${activePackageID === ap._id ? `bg-lime-300` : ``}`}
                     defaultValue={ap.packageName}
                     onChange={(ev) => {
                       //
@@ -174,12 +174,16 @@ export function FileBrowser() {
                       }, 1000)
                     }}
                     onFocus={() => {
-                      //
+                      let pid = ap._id
+                      let mid = appModules.find((r) => r.appPackageID === pid)?._id
+                      let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+                      let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+
                       useCoreFiles.setState({
-                        activePackageID: activePackageID,
-                        // activeModuleID: false,
-                        // activeCodeGroupID: false,
-                        // activeCodeFileID: false,
+                        activePackageID: pid,
+                        activeModuleID: mid,
+                        activeCodeGroupID: gid,
+                        activeCodeFileID: fid,
                       })
                     }}
                   ></Input>
@@ -191,7 +195,7 @@ export function FileBrowser() {
                       //
                       if (window.prompt('remove package?', ap.packageName) === ap.packageName) {
                         await usePackages.getState().deleteOne({ object: ap })
-                        await load({ activeApp })
+                        await load({ activeAppID: activeApp._id })
                         useCoreFiles.setState({
                           activePackageID: false,
                           activeModuleID: false,
@@ -222,7 +226,7 @@ export function FileBrowser() {
                       object: { appLoaderID: activeApp._id, appPackageID: activePackageID, moduleName: 'newModule' },
                     })
 
-                    await load({ activeApp })
+                    await load({ activeAppID: activeApp._id })
                   }}
                   className='cursor-pointer underline'
                 >
@@ -239,7 +243,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={am._id + 'package'}
-                            className='mb-1'
+                            className={`mb-1 ${activeModuleID === am._id ? `bg-lime-300` : ``}`}
                             defaultValue={am.moduleName}
                             onChange={(ev) => {
                               //
@@ -254,12 +258,24 @@ export function FileBrowser() {
                               }, 1000)
                             }}
                             onFocus={() => {
-                              //
+                              // //
+                              // useCoreFiles.setState({
+                              //   activePackageID: activePackageID,
+                              //   activeModuleID: am._id,
+                              //   // activeCodeGroupID: false,
+                              //   // activeCodeFileID: false,
+                              // })
+
+                              let pid = activePackageID
+                              let mid = am._id
+                              let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+                              let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+
                               useCoreFiles.setState({
-                                activePackageID: activePackageID,
-                                activeModuleID: am._id,
-                                // activeCodeGroupID: false,
-                                // activeCodeFileID: false,
+                                activePackageID: pid,
+                                activeModuleID: mid,
+                                activeCodeGroupID: gid,
+                                activeCodeFileID: fid,
                               })
                             }}
                           ></Input>
@@ -273,8 +289,7 @@ export function FileBrowser() {
                             //
                             if (window.prompt('remove module?', am.moduleName) === am.moduleName) {
                               await useModules.getState().deleteOne({ object: am })
-                              useCoreFiles.setState({ activeModuleID: '' })
-                              await load({ activeApp })
+                              await load({ activeAppID: activeApp._id })
                             }
                           }}
                           src={`/gui/remove.svg`}
@@ -307,7 +322,7 @@ export function FileBrowser() {
                         },
                       })
 
-                      await load({ activeApp })
+                      await load({ activeAppID: activeApp._id })
                     }}
                     className='cursor-pointer underline'
                   >
@@ -325,7 +340,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={acg._id + 'package'}
-                            className='mb-1'
+                            className={`mb-1 ${activeCodeGroupID === acg._id ? `bg-lime-300` : ``}`}
                             defaultValue={acg.groupName}
                             onChange={(ev) => {
                               //
@@ -359,7 +374,7 @@ export function FileBrowser() {
                             //
                             if (window.prompt('remove group?', acg.groupName) === acg.groupName) {
                               await useCodeGroups.getState().deleteOne({ object: acg })
-                              await load({ activeApp })
+                              await load({ activeAppID: activeApp._id })
                             }
                           }}
                           src={`/gui/remove.svg`}
@@ -393,7 +408,7 @@ export function FileBrowser() {
                       },
                     })
 
-                    await load({ activeApp })
+                    await load({ activeAppID: activeApp._id })
                   }}
                   className='cursor-pointer underline'
                 >
@@ -410,7 +425,7 @@ export function FileBrowser() {
                         <>
                           <Input
                             key={acf._id + 'package'}
-                            className='mb-1'
+                            className={`mb-1 ${activeCodeFileID === acf._id ? `bg-lime-300` : ``}`}
                             defaultValue={acf.fileName}
                             onChange={(ev) => {
                               //
@@ -444,7 +459,7 @@ export function FileBrowser() {
                             //
                             if (window.prompt('remove group?', acf.fileName) === acf.fileName) {
                               await useCodeFiles.getState().deleteOne({ object: acf })
-                              await load({ activeApp })
+                              await load({ activeAppID: activeApp._id })
                             }
                           }}
                           src={`/gui/remove.svg`}

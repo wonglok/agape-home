@@ -7,6 +7,7 @@ export function TabAdapter() {
     <>
       {/*  */}
       {activeTab === 'code' && <TabCode></TabCode>}
+      {/*  */}
     </>
   )
 }

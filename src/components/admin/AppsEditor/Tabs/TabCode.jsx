@@ -7,7 +7,7 @@ export function TabCode() {
     <>
       {/*  */}
       <div className='flex h-full w-full'>
-        <div className='h-full ' style={{ width: `calc(100% - 280px - 500px)` }}>
+        <div className='h-full ' style={{ width: `calc(100% - 280px - 520px)` }}>
           <div style={{ height: `calc(100% - 287px)` }}>
             <CodeEditor></CodeEditor>
           </div>
@@ -15,10 +15,10 @@ export function TabCode() {
             <FileBrowser></FileBrowser>
           </div>
         </div>
-        <div className=' h-full border-l' style={{ width: `280px` }}>
+        <div className='h-full' style={{ width: `280px` }}>
           Signal Bar
         </div>
-        <div className='h-full bg-white ' style={{ width: `500px` }}>
+        <div className='h-full bg-white ' style={{ width: `520px` }}>
           <AppBrowser></AppBrowser>
         </div>
       </div>

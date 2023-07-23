@@ -2,9 +2,9 @@ import Editor from '@monaco-editor/react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
-import copy from 'copy-to-clipboard'
 import { useCoreFiles } from '../FileBrowser/useCoreFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
+// import copy from 'copy-to-clipboard'
 
 export function CodeEditor() {
   let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
@@ -82,9 +82,6 @@ function CodeEditorInternal({ file }) {
 
     if (file.fileName.includes('.json')) {
       name = 'json'
-    }
-    if (file.fileName.includes('.glsl')) {
-      name = 'glsl'
     }
 
     return name

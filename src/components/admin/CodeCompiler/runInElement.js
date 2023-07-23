@@ -135,26 +135,31 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
   })
 }
 
-//
-
-//
 export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.React = React
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
 
-  window.agapeGet = window.agapeGet || {}
-
-  //
+  window.agapeLoader = window.agapeLoader || {}
   // window.THREE = await import('three')
-  // window.agapeGet.react = () => import('react')
-  window.agapeGet['zustand'] = () => import('zustand')
-  window.agapeGet['agape-sdk'] = () => import('agape-sdk')
-  window.agapeGet['@react-three/fiber'] = () => import('@react-three/fiber')
-  window.agapeGet['@react-three/drei'] = () => import('@react-three/drei')
-  window.agapeGet['@react-three/xr'] = () => import('@react-three/xr')
-  window.agapeGet['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
-  window.agapeGet['three-stdlib'] = () => import('three-stdlib')
+  // window.agapeLoader.react = () => import('react')
+  window.agapeLoader['zustand'] = () => import('zustand')
+  window.agapeLoader['agape-sdk'] = () => import('agape-sdk')
+  window.agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
+  window.agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
+  window.agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
+  window.agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
+  window.agapeLoader['three-stdlib'] = () => import('three-stdlib')
+
+  window.loadGeneral = async () => {
+    Promise.all(
+      Object.keys(window.agapeLoader).map((key) => {
+        let val = window.agapeLoader[key]()
+        window[key] = val
+        return val
+      }),
+    )
+  }
 
   // window.getThree = () => import('three')
   // window.getR3F = () => import('@react-three/fiber')
@@ -188,9 +193,11 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
 
   // console.log(outputs)
 
-  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then((r) => {
-    let Compos = r.default
+  let prom = window.loadGeneral()
+  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then(async (r) => {
+    await prom
 
+    let Compos = r.default
     if (Compos) {
       mountRoot(<Compos></Compos>)
     }

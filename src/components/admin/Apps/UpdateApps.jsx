@@ -68,10 +68,13 @@ export function UpdateApps({ data }) {
               <button
                 onClick={() => {
                   //
-                  useApps.getState().deleteOne({ object: data })
-                  useApps.setState((st) => {
-                    return { ...st, apps: st.apps.filter((r) => r._id !== data._id) }
-                  })
+
+                  if (window.prompt('Are you sure to remove "' + data.slug + '"?', data.slug) === data.slug) {
+                    useApps.getState().deleteOne({ object: data })
+                    useApps.setState((st) => {
+                      return { ...st, apps: st.apps.filter((r) => r._id !== data._id) }
+                    })
+                  }
                 }}
                 // eslint-disable-next-line tailwindcss/no-custom-classname
                 className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'

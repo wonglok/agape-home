@@ -240,6 +240,12 @@ export function FileBrowser() {
                           className='mb-1 hidden h-6 w-6 group-hover:inline-block'
                           onClick={async () => {
                             //
+                            //
+                            if (window.prompt('remove module?', am.moduleName) === am.moduleName) {
+                              await useModules.getState().deleteOne({ object: am })
+                              useCoreFiles.setState({ activeModuleID: '' })
+                              await load({ activeApp })
+                            }
                           }}
                           src={`/gui/remove.svg`}
                         ></img>

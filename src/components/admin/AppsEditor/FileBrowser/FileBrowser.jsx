@@ -52,6 +52,39 @@ export function FileBrowser() {
       }
     })
 
+    appModules = appModules.slice().sort((a, b) => {
+      let da = a.moduleName === 'entry'
+      let db = b.moduleName === 'entry'
+
+      if (da || db) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+
+    appCodeGroups = appCodeGroups.slice().sort((a, b) => {
+      let da = a.groupName === 'main'
+      let db = b.groupName === 'main'
+
+      if (da || db) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+
+    appCodeFiles = appCodeFiles.slice().sort((a, b) => {
+      let da = a.fileName.indexOf('main') === 0
+      let db = b.fileName.indexOf('main') === 0
+
+      if (da || db) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+
     useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
 
     return { appPackages, appModules, appCodeGroups, appCodeFiles }

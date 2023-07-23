@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { LinkForCode3D } from './LinkForCode3D'
 import { useSlug } from './useSlug'
 
 export function LoaderType({ data }) {
+  useSlug((s) => s.slugs)
+
+  let [_, reload] = useState(0)
   return (
     <div className='mb-6 md:flex md:items-center'>
       <div className='md:w-1/3'>
@@ -10,16 +14,18 @@ export function LoaderType({ data }) {
         </label>
       </div>
       <div className='md:w-2/3'>
-        <div>
+        <div className='flex'>
           <select
             defaultValue={data.linkType}
             onChange={(ev) => {
               //
               data.linkType = ev.target.value
-              useSlug.getState().updateOne({ object: data })
-              useSlug.getState((s) => {
-                return { ...s }
-              })
+              useSlug
+                .getState()
+                .updateOne({ object: data })
+                .then(() => {
+                  reload((r) => r + 1)
+                })
 
               // console.log(data)
             }}

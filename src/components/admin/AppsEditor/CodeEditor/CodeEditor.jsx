@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useCoreFiles } from '../FileBrowser/useCoreFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
-// import copy from 'copy-to-clipboard'
+import copy from 'copy-to-clipboard'
 
 export function CodeEditor() {
   let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
@@ -97,6 +97,22 @@ function CodeEditorInternal({ file }) {
   //   }
   // }
   //
+
+  let appPackages = useCoreFiles((r) => r.appPackages)
+  let appModules = useCoreFiles((r) => r.appModules)
+  let appCodeGroups = useCoreFiles((r) => r.appCodeGroups)
+  let appCodeFiles = useCoreFiles((r) => r.appCodeFiles)
+
+  let activePackageID = useCoreFiles((r) => r.activePackageID)
+  let activeModuleID = useCoreFiles((r) => r.activeModuleID)
+  let activeCodeGroupID = useCoreFiles((r) => r.activeCodeGroupID)
+  let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
+
+  let pData = appPackages.find((r) => r._id === activePackageID)
+  let mData = appModules.find((r) => r._id === activeModuleID)
+  let gData = appCodeGroups.find((r) => r._id === activeCodeGroupID)
+  let fData = appCodeFiles.find((r) => r._id === activeCodeFileID)
+
   return (
     <>
       {/*  */}
@@ -109,10 +125,10 @@ function CodeEditorInternal({ file }) {
             }
             style={{ height: '30px' }}
           >
-            <>
-              <div className=''>{`${file?.fileName}`}</div>
-            </>
-            <div>
+            <></>
+            <div>{file?.fileName}</div>
+
+            <div className=' w-32 text-end'>
               {msg === '' && <></>}
               {msg === 'dirty' && ` 💾 Needs to save...`}
               {msg === 'loading' && ` 🌩️ Saving...`}
@@ -120,7 +136,7 @@ function CodeEditorInternal({ file }) {
             </div>
           </div>
           <Editor
-            height='calc(100% - 30px)'
+            height='calc(100% - 30px - 30px)'
             theme='vs-dark'
             path={file._id}
             defaultLanguage={getExt(file) || 'javascript'}
@@ -129,6 +145,27 @@ function CodeEditorInternal({ file }) {
             onChange={handleEditorChange}
             onValidate={handleEditorValidation}
           ></Editor>
+          <div>
+            <div
+              className={
+                'flex items-center justify-between text-left text-xs text-white px-2 ' +
+                ` bg-gradient-to-r from-teal-700 to-teal-400 `
+              }
+              style={{ height: '30px' }}
+            >
+              <button
+                onClick={() => {
+                  //
+                  copy(
+                    `import { } from "package:${pData?.packageName}/${mData?.moduleName}/${gData?.groupName}/${fData?.fileName}'`,
+                  )
+                }}
+              >
+                <span className='mr-2'>🔗</span>
+                {`import { } from "package:${pData?.packageName}/${mData?.moduleName}/${gData?.groupName}/${fData?.fileName}"`}
+              </button>
+            </div>
+          </div>
         </>
       )}
       {/*  */}

@@ -49,7 +49,16 @@ export function FileBrowser() {
 
   useEffect(() => {
     return () => {
-      useOSFiles.setState({ appPackages: [], appModules: [], appCodeGroups: [], appCodeFiles: [] })
+      useOSFiles.setState({
+        appPackages: [],
+        appModules: [],
+        appCodeGroups: [],
+        appCodeFiles: [],
+        activePackageID: '',
+        activeModuleID: '',
+        activeCodeGroupID: '',
+        activeCodeFileID: '',
+      })
     }
   }, [])
 
@@ -112,7 +121,13 @@ export function FileBrowser() {
             ev.stopPropagation()
           }}
         >
-          <div className='inline-block overflow-scroll' style={{ height: `280px`, width: `280px` }}>
+          <div
+            className='inline-block overflow-scroll'
+            style={{ height: `280px`, width: `280px` }}
+            onClick={() => {
+              scroller.current.scrollTo(280 * 0, 0)
+            }}
+          >
             <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
               <span onClick={addEmptyPackage} className='cursor-pointer underline'>
                 + Add Package
@@ -152,9 +167,9 @@ export function FileBrowser() {
                           //
                           useOSFiles.setState({
                             activePackageID: activePackageID,
-                            activeModuleID: '',
-                            activeCodeGroupID: '',
-                            activeCodeFileID: '',
+                            activeModuleID: false,
+                            activeCodeGroupID: false,
+                            activeCodeFileID: false,
                           })
                         }}
                       ></Input>
@@ -184,244 +199,269 @@ export function FileBrowser() {
               )
             })}
           </div>
+          {appModules.some((r) => r.appPackageID === activePackageID) && (
+            <div
+              className='inline-block overflow-scroll overflow-x-hidden'
+              style={{ height: `280px`, width: `280px` }}
+              onClick={() => {
+                scroller.current.scrollTo(280 * 1, 0)
+              }}
+            >
+              <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
+                <span
+                  onClick={async () => {
+                    //
+                    await useModules.getState().create({
+                      object: { appLoaderID: activeApp._id, appPackageID: activePackageID, moduleName: 'newModule' },
+                    })
 
-          <div className='inline-block overflow-scroll overflow-x-hidden' style={{ height: `280px`, width: `280px` }}>
-            <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
-              <span
-                onClick={async () => {
-                  //
-                  await useModules.getState().create({
-                    object: { appLoaderID: activeApp._id, appPackageID: activePackageID, moduleName: 'newModule' },
-                  })
+                    await load({ activeApp })
+                  }}
+                  className='cursor-pointer underline'
+                >
+                  + Add Module
+                </span>
+              </div>
 
-                  await load({ activeApp })
-                }}
-                className='cursor-pointer underline'
-              >
-                + Add Module
-              </span>
-            </div>
+              {appModules
+                .filter((r) => r.appPackageID === activePackageID)
+                .map((am) => {
+                  return (
+                    <div key={am._id} className='px-1'>
+                      <div className=' group flex items-center '>
+                        {activeModuleID === am._id ? (
+                          <>
+                            <Input
+                              key={am._id + 'package'}
+                              className='mb-1 bg-green-100'
+                              defaultValue={am.moduleName}
+                              onChange={(ev) => {
+                                //
 
-            {appModules
-              .filter((r) => r.appPackageID === activePackageID)
-              .map((am) => {
-                return (
-                  <div key={am._id} className='px-1'>
-                    <div className=' group flex items-center '>
-                      {activeModuleID === am._id ? (
-                        <>
-                          <Input
-                            key={am._id + 'package'}
-                            className='mb-1 bg-green-100'
-                            defaultValue={am.moduleName}
-                            onChange={(ev) => {
-                              //
+                                let value = ev.target.value
+                                am.moduleName = value
 
-                              let value = ev.target.value
-                              am.moduleName = value
+                                useOSFiles.setState({ appModules: [...appModules] })
 
-                              useOSFiles.setState({ appModules: [...appModules] })
-
-                              clearTimeout(ev.target.timer)
-                              ev.target.timer = setTimeout(async () => {
-                                useModules.getState().updateOne({ object: am })
-                              }, 1000)
-                            }}
-                          ></Input>
-                        </>
-                      ) : (
-                        <>
-                          <div
-                            onClick={() => {
-                              //
-                              useOSFiles.setState({
-                                activePackageID: activePackageID,
-                                activeModuleID: am._id,
-                                activeCodeGroupID: '',
-                                activeCodeFileID: '',
-                              })
-                            }}
-                            className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                          >
-                            {am.moduleName || 'untitled'}
-                          </div>
-                        </>
-                      )}
-                      <img
-                        key={am._id + 'del'}
-                        className='mb-1 hidden h-6 w-6 group-hover:inline-block'
-                        onClick={async () => {
-                          //
-                        }}
-                        src={`/gui/remove.svg`}
-                      ></img>
+                                clearTimeout(ev.target.timer)
+                                ev.target.timer = setTimeout(async () => {
+                                  useModules.getState().updateOne({ object: am })
+                                }, 1000)
+                              }}
+                            ></Input>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              onClick={() => {
+                                //
+                                useOSFiles.setState({
+                                  activePackageID: activePackageID,
+                                  activeModuleID: am._id,
+                                  activeCodeGroupID: false,
+                                  activeCodeFileID: false,
+                                })
+                              }}
+                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
+                            >
+                              {am.moduleName || 'untitled'}
+                            </div>
+                          </>
+                        )}
+                        <img
+                          key={am._id + 'del'}
+                          className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                          onClick={async () => {
+                            //
+                          }}
+                          src={`/gui/remove.svg`}
+                        ></img>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
-          </div>
-
-          <div className='inline-block overflow-scroll' style={{ height: `280px`, width: `280px` }}>
-            <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
-              <span
-                onClick={async () => {
-                  //
-                  await useCodeGroups.getState().create({
-                    object: {
-                      appLoaderID: activeApp._id,
-                      appModuleID: activeModuleID,
-                      groupName: 'newCodeGroups',
-                    },
-                  })
-
-                  await load({ activeApp })
-                }}
-                className='cursor-pointer underline'
-              >
-                + Add Code Group
-              </span>
+                  )
+                })}
             </div>
+          )}
 
-            {appCodeGroups
-              .filter((r) => r.appModuleID === activeModuleID)
-              .map((acg) => {
-                return (
-                  <div key={acg._id} className='px-1'>
-                    <div className=' group flex items-center '>
-                      {activeCodeGroupID === acg._id ? (
-                        <>
-                          <Input
-                            key={acg._id + 'package'}
-                            className='mb-1 bg-green-100'
-                            defaultValue={acg.groupName}
-                            onChange={(ev) => {
-                              //
+          {appCodeGroups.some((r) => r.appModuleID === activeModuleID) && (
+            <div
+              className='inline-block overflow-scroll'
+              style={{ height: `280px`, width: `280px` }}
+              onClick={() => {
+                scroller.current.scrollTo(280 * 2, 0)
+              }}
+            >
+              {
+                <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
+                  <span
+                    onClick={async () => {
+                      //
+                      await useCodeGroups.getState().create({
+                        object: {
+                          appLoaderID: activeApp._id,
+                          appModuleID: activeModuleID,
+                          groupName: 'newCodeGroups',
+                        },
+                      })
 
-                              let value = ev.target.value
-                              acg.groupName = value
+                      await load({ activeApp })
+                    }}
+                    className='cursor-pointer underline'
+                  >
+                    + Add Code Group
+                  </span>
+                </div>
+              }
 
-                              useOSFiles.setState({ appCodeGroups: [...appCodeGroups] })
+              {appCodeGroups
+                .filter((r) => r.appModuleID === activeModuleID)
+                .map((acg) => {
+                  return (
+                    <div key={acg._id} className='px-1'>
+                      <div className=' group flex items-center '>
+                        {activeCodeGroupID === acg._id ? (
+                          <>
+                            <Input
+                              key={acg._id + 'package'}
+                              className='mb-1 bg-green-100'
+                              defaultValue={acg.groupName}
+                              onChange={(ev) => {
+                                //
 
-                              clearTimeout(ev.target.timer)
-                              ev.target.timer = setTimeout(async () => {
-                                useCodeGroups.getState().updateOne({ object: acg })
-                              }, 1000)
-                            }}
-                          ></Input>
-                        </>
-                      ) : (
-                        <>
-                          <div
-                            onClick={() => {
-                              //
-                              useOSFiles.setState({
-                                activePackageID: activePackageID,
-                                activeModuleID: activeModuleID,
-                                activeCodeGroupID: acg._id,
-                                activeCodeFileID: '',
-                              })
-                            }}
-                            className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                          >
-                            {acg.groupName || 'untitled'}
-                          </div>
-                        </>
-                      )}
+                                let value = ev.target.value
+                                acg.groupName = value
 
-                      {/*  */}
-                      <img
-                        key={acg._id + 'del'}
-                        className='mb-1 hidden h-6 w-6 group-hover:inline-block'
-                        onClick={async () => {
-                          //
-                          if (window.prompt('remove group?', acg.groupName) === acg.groupName) {
-                            await useCodeGroups.getState().deleteOne({ object: acg })
-                            await load({ activeApp })
-                          }
-                        }}
-                        src={`/gui/remove.svg`}
-                      ></img>
+                                useOSFiles.setState({ appCodeGroups: [...appCodeGroups] })
+
+                                clearTimeout(ev.target.timer)
+                                ev.target.timer = setTimeout(async () => {
+                                  useCodeGroups.getState().updateOne({ object: acg })
+                                }, 1000)
+                              }}
+                            ></Input>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              onClick={() => {
+                                //
+                                useOSFiles.setState({
+                                  activePackageID: activePackageID,
+                                  activeModuleID: activeModuleID,
+                                  activeCodeGroupID: acg._id,
+                                  activeCodeFileID: false,
+                                })
+                              }}
+                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
+                            >
+                              {acg.groupName || 'untitled'}
+                            </div>
+                          </>
+                        )}
+
+                        {/*  */}
+                        <img
+                          key={acg._id + 'del'}
+                          className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                          onClick={async () => {
+                            //
+                            if (window.prompt('remove group?', acg.groupName) === acg.groupName) {
+                              await useCodeGroups.getState().deleteOne({ object: acg })
+                              await load({ activeApp })
+                            }
+                          }}
+                          src={`/gui/remove.svg`}
+                        ></img>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
-          </div>
-
-          <div className='inline-block overflow-scroll' style={{ height: `280px`, width: `280px` }}>
-            <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
-              <span
-                onClick={async () => {
-                  //
-                }}
-                className='cursor-pointer underline'
-              >
-                + Add Code File
-              </span>
+                  )
+                })}
             </div>
+          )}
 
-            {appCodeFiles
-              .filter((r) => r.appCodeGroupID === activeCodeGroupID)
-              .map((acf) => {
-                return (
-                  <div key={acf._id} className='px-1'>
-                    <div className=' group flex items-center '>
-                      {activeCodeFileID === acf._id ? (
-                        <>
-                          <Input
-                            key={acf._id + 'package'}
-                            className='mb-1 bg-green-100'
-                            defaultValue={acf.fileName}
-                            onChange={(ev) => {
-                              //
+          {appCodeFiles.some((r) => r.appCodeGroupID === activeCodeGroupID) && (
+            <div
+              className='inline-block overflow-scroll'
+              style={{ height: `280px`, width: `280px` }}
+              onClick={() => {
+                scroller.current.scrollTo(280 * 3, 0)
+              }}
+            >
+              <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
+                <span
+                  onClick={async () => {
+                    //
+                  }}
+                  className='cursor-pointer underline'
+                >
+                  + Add Code File
+                </span>
+              </div>
 
-                              let value = ev.target.value
-                              acf.fileName = value
+              {appCodeFiles
+                .filter((r) => r.appCodeGroupID === activeCodeGroupID)
+                .map((acf) => {
+                  return (
+                    <div key={acf._id} className='px-1'>
+                      <div className=' group flex items-center '>
+                        {activeCodeFileID === acf._id ? (
+                          <>
+                            <Input
+                              key={acf._id + 'package'}
+                              className='mb-1 bg-green-100'
+                              defaultValue={acf.fileName}
+                              onChange={(ev) => {
+                                //
 
-                              useOSFiles.setState({ appCodeFiles: [...appCodeFiles] })
+                                let value = ev.target.value
+                                acf.fileName = value
 
-                              clearTimeout(ev.target.timer)
-                              ev.target.timer = setTimeout(async () => {
-                                useCodeFiles.getState().updateOne({ object: acf })
-                              }, 1000)
-                            }}
-                          ></Input>
-                        </>
-                      ) : (
-                        <>
-                          <div
-                            onClick={() => {
-                              useOSFiles.setState({
-                                activePackageID: activePackageID,
-                                activeModuleID: activeModuleID,
-                                activeCodeGroupID: activeCodeGroupID,
-                                activeCodeFileID: acf._id,
-                              })
-                            }}
-                            className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
-                          >
-                            {acf.fileName || 'untitled'}
-                          </div>
-                        </>
-                      )}
+                                useOSFiles.setState({ appCodeFiles: [...appCodeFiles] })
 
-                      {/*  */}
-                      <img
-                        key={acf._id + 'del'}
-                        className='mb-1 hidden h-6 w-6 group-hover:inline-block'
-                        onClick={async () => {
-                          //
-                          if (window.prompt('remove group?', acf.fileName) === acf.fileName) {
-                            await useCodeFiles.getState().deleteOne({ object: acf })
-                            await load({ activeApp })
-                          }
-                        }}
-                        src={`/gui/remove.svg`}
-                      ></img>
+                                clearTimeout(ev.target.timer)
+                                ev.target.timer = setTimeout(async () => {
+                                  useCodeFiles.getState().updateOne({ object: acf })
+                                }, 1000)
+                              }}
+                            ></Input>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              onClick={() => {
+                                useOSFiles.setState({
+                                  activePackageID: activePackageID,
+                                  activeModuleID: activeModuleID,
+                                  activeCodeGroupID: activeCodeGroupID,
+                                  activeCodeFileID: acf._id,
+                                })
+                              }}
+                              className='mb-1 w-full rounded-lg border px-2 py-1 text-sm'
+                            >
+                              {acf.fileName || 'untitled'}
+                            </div>
+                          </>
+                        )}
+
+                        {/*  */}
+                        <img
+                          key={acf._id + 'del'}
+                          className='mb-1 hidden h-6 w-6 group-hover:inline-block'
+                          onClick={async () => {
+                            //
+                            if (window.prompt('remove group?', acf.fileName) === acf.fileName) {
+                              await useCodeFiles.getState().deleteOne({ object: acf })
+                              await load({ activeApp })
+                            }
+                          }}
+                          src={`/gui/remove.svg`}
+                        ></img>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
-          </div>
+                  )
+                })}
+            </div>
+          )}
         </div>
       </div>
     </>

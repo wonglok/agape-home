@@ -152,10 +152,12 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   window.agapeLoader['three-stdlib'] = () => import('three-stdlib')
 
   window.loadGeneral = async () => {
-    Promise.all(
-      Object.keys(window.agapeLoader).map((key) => {
-        let val = window.agapeLoader[key]()
-        window[key] = val
+    return await Promise.all(
+      Object.keys(window.agapeLoader).map(async (key) => {
+        let val = await window.agapeLoader[key]()
+        window.Globals = window.Globals || {}
+        window.Globals[key] = val
+
         return val
       }),
     )
@@ -193,13 +195,15 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
 
   // console.log(outputs)
 
-  let prom = window.loadGeneral()
+  await window.loadGeneral()
   loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then(async (r) => {
-    await prom
-
     let Compos = r.default
     if (Compos) {
-      mountRoot(<Compos></Compos>)
+      try {
+        mountRoot(<Compos></Compos>)
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     // if (typeof r?.GUI?.install === 'function') {

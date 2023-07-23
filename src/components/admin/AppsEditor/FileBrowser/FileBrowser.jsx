@@ -99,15 +99,6 @@ export function FileBrowser() {
 
   let addCodeGroup = async () => {
     //
-    await useCodeGroups.getState().create({
-      object: {
-        appLoaderID: activeApp._id,
-        appModuleID: activeModuleID,
-        groupName: 'newCodeGroups',
-      },
-    })
-
-    await load({ activeApp })
   }
 
   let scroller = useRef()
@@ -123,7 +114,7 @@ export function FileBrowser() {
       >
         <div className='' style={{ width: `calc(280px * 4)` }}>
           <div
-            className='inline-block overflow-scroll'
+            className='inline-block overflow-scroll border-r'
             style={{ height: `280px`, width: `280px` }}
             onClick={() => {
               scroller.current.scrollTo(-140 + 280 * 0, 0)
@@ -196,7 +187,7 @@ export function FileBrowser() {
           </div>
           {
             <div
-              className='inline-block overflow-scroll overflow-x-hidden'
+              className='inline-block overflow-scroll overflow-x-hidden border-r'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
                 scroller.current.scrollTo(-140 + 280 * 1, 0)
@@ -270,7 +261,7 @@ export function FileBrowser() {
 
           {
             <div
-              className='inline-block overflow-scroll'
+              className='inline-block overflow-scroll border-r'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
                 scroller.current.scrollTo(-140 + 280 * 2, 0)
@@ -355,7 +346,7 @@ export function FileBrowser() {
 
           {appCodeFiles.some((r) => r.appCodeGroupID === activeCodeGroupID) && (
             <div
-              className='inline-block overflow-scroll'
+              className='inline-block overflow-scroll border-r'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
                 scroller.current.scrollTo(-140 + 280 * 3, 0)
@@ -365,6 +356,17 @@ export function FileBrowser() {
                 <span
                   onClick={async () => {
                     //
+
+                    await useCodeFiles.getState().create({
+                      object: {
+                        appLoaderID: activeApp._id,
+                        appCodeGroupID: activeCodeGroupID,
+                        fileName: 'newCodeFile.js',
+                        content: "console.log('hi')",
+                      },
+                    })
+
+                    await load({ activeApp })
                   }}
                   className='cursor-pointer underline'
                 >

@@ -1,10 +1,11 @@
 import { Component, useEffect, useState } from 'react'
 import { appContent, buildApp } from '../../CodeCompiler/CodeCore'
 import { runInElement } from '../../CodeCompiler/runInElement'
-import { usePackages } from '../../Apps/usePackages'
-import { useModules } from '../../Apps/useModules'
-import { useCodeGroups } from '../../Apps/useCodeGroups'
-import { useCodeFiles } from '../../Apps/useCodeFiles'
+// import { usePackages } from '../../Apps/usePackages'
+// import { useModules } from '../../Apps/useModules'
+// import { useCodeGroups } from '../../Apps/useCodeGroups'
+// import { useCodeFiles } from '../../Apps/useCodeFiles'
+import { useSlug } from '../../URLs/useSlug'
 
 export function AppRunner({ appID }) {
   //
@@ -14,22 +15,29 @@ export function AppRunner({ appID }) {
       return
     }
     let load = async () => {
-      let appPackages = await usePackages.getState().findByAppID({ appLoaderID: appID })
-      let appModules = await useModules.getState().findByAppID({ appLoaderID: appID })
-      let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: appID })
-      let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: appID })
+      let codeArgs = await useSlug.getState().findCode3D({ appID: appID })
 
-      let args = {
-        appLoader: 'app-loader',
-        data: {
-          appPackages: appPackages,
-          appModules: appModules,
-          appCodeGroups: appCodeGroups,
-          appCodeFiles: appCodeFiles,
-        },
+      console.log(codeArgs)
+
+      if (codeArgs) {
+        run(codeArgs)
       }
 
-      run(args)
+      // let appPackages = await usePackages.getState().findByAppID({ appLoaderID: appID })
+      // let appModules = await useModules.getState().findByAppID({ appLoaderID: appID })
+      // let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: appID })
+      // let appCodeFiles = await useCodeFiles.getState().findByAppID({ appLoaderID: appID })
+
+      // let args = {
+      //   appLoader: 'app-loader',
+      //   data: {
+      //     appPackages: appPackages,
+      //     appModules: appModules,
+      //     appCodeGroups: appCodeGroups,
+      //     appCodeFiles: appCodeFiles,
+      //   },
+      // }
+      // run(args)
     }
 
     load()

@@ -1,10 +1,12 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { ABLoader, getID } from 'database/mongoose'
+import { ABLoader, AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { anyRole, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
 
 export default async function API(req, res) {
+  const session = await getServerSession(req, res, authOptions)
+
   let bodyData = JSON.parse(req.body)
 
   let payload = bodyData?.payload || {}
@@ -17,7 +19,44 @@ export default async function API(req, res) {
     })
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  if (bodyData.action === 'findCode3D') {
+    if (session && anyRole(session, ['editor', 'devroot'])) {
+    } else {
+      let result = await ABLoader.countDocuments({ defaultLinkID: payload?.appID })
+      if (result === 0) {
+        return res.status(404).json({
+          data: false,
+        })
+      }
+    }
+
+    let app = await AppLoader.findOne({ _id: payload?.appID })
+
+    let pArr = await AppPackage.find({ appLoaderID: payload?.appID })
+    let mArr = await AppModules.find({ appLoaderID: payload?.appID })
+    let gArr = await CodeGroup.find({ appLoaderID: payload?.appID })
+    let fArr = await CodeFile.find({ appLoaderID: payload?.appID })
+
+    app = JSON.parse(JSON.stringify(app))
+    let appPackages = JSON.parse(JSON.stringify(pArr))
+    let appModules = JSON.parse(JSON.stringify(mArr))
+    let appCodeGroups = JSON.parse(JSON.stringify(gArr))
+    let appCodeFiles = JSON.parse(JSON.stringify(fArr))
+
+    let args = {
+      appLoader: 'app-loader',
+      data: {
+        appPackages: appPackages,
+        appModules: appModules,
+        appCodeGroups: appCodeGroups,
+        appCodeFiles: appCodeFiles,
+      },
+    }
+
+    return res.json({
+      data: args,
+    })
+  }
 
   if (session && anyRole(session, ['editor', 'devroot'])) {
     let userID = session.user.name

@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCoreFiles } from '../FileBrowser/useCoreFiles'
 
 export function AppBrowser() {
   let router = useRouter()
   let { appID } = router.query
   let iframeEl = useRef()
+  let [src, setSRC] = useState(`/admin/editor-runner/${appID}`)
   useEffect(() => {
     if (!appID) {
       return
@@ -13,7 +14,6 @@ export function AppBrowser() {
 
     let bc = new BroadcastChannel(appID)
 
-    let timer = 0
     window.addEventListener('savedFile', () => {
       let st = useCoreFiles.getState()
       try {
@@ -21,22 +21,9 @@ export function AppBrowser() {
           return
         }
 
-        timer = setTimeout(() => {
-          if (iframeEl.current) {
-            iframeEl.current.src = `/admin/editor-runner/${appID}`
-            console.log('reload all')
-          }
-        }, 3000)
-
         bc.postMessage({ type: 'run', files: st, snap: Math.ceil(Math.random() * 100000) })
       } catch (e) {
         console.log(e)
-      }
-    })
-
-    bc.addEventListener('message', (ev) => {
-      if (ev?.data?.type === 'doneReload') {
-        clearTimeout(timer)
       }
     })
 
@@ -49,7 +36,7 @@ export function AppBrowser() {
   return (
     <>
       {/*  */}
-      <iframe ref={iframeEl} src={`/admin/editor-runner/${appID}`} style={{ width: '100%', height: '100%' }} />
+      <iframe ref={iframeEl} src={src} style={{ width: '100%', height: '100%' }} />
       {/*  */}
     </>
   )

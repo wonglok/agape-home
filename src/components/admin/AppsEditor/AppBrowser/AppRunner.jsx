@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Component, useEffect, useState } from 'react'
 import { appContent, buildApp } from '../../CodeCompiler/CodeCore'
 import { runInElement } from '../../CodeCompiler/runInElement'
 import { usePackages } from '../../Apps/usePackages'
@@ -50,8 +50,6 @@ export function AppRunner({ appID }) {
           data: ev.data.files,
         }
 
-        bc.postMessage({ type: 'done-running', snap: ev.data.snap })
-
         run(args)
       }
     }
@@ -78,5 +76,10 @@ export function AppRunner({ appID }) {
     })
   }
 
-  return <>{compos}</>
+  return (
+    <>
+      {compos}
+      {/* <ErrorBoundary>{compos}</ErrorBoundary> */}
+    </>
+  )
 }

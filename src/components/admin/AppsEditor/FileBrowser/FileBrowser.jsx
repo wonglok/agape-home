@@ -126,7 +126,7 @@ export function FileBrowser() {
             className='inline-block overflow-scroll'
             style={{ height: `280px`, width: `280px` }}
             onClick={() => {
-              scroller.current.scrollTo(280 * 0, 0)
+              scroller.current.scrollTo(-140 + 280 * 0, 0)
             }}
             onScrollCapture={(ev) => {
               ev.stopPropagation()
@@ -199,7 +199,7 @@ export function FileBrowser() {
               className='inline-block overflow-scroll overflow-x-hidden'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
-                scroller.current.scrollTo(280 * 1, 0)
+                scroller.current.scrollTo(-140 + 280 * 1, 0)
               }}
             >
               <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
@@ -273,7 +273,7 @@ export function FileBrowser() {
               className='inline-block overflow-scroll'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
-                scroller.current.scrollTo(280 * 2, 0)
+                scroller.current.scrollTo(-140 + 280 * 2, 0)
               }}
             >
               {
@@ -358,7 +358,7 @@ export function FileBrowser() {
               className='inline-block overflow-scroll'
               style={{ height: `280px`, width: `280px` }}
               onClick={() => {
-                scroller.current.scrollTo(280 * 3, 0)
+                scroller.current.scrollTo(-140 + 280 * 3, 0)
               }}
             >
               <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>

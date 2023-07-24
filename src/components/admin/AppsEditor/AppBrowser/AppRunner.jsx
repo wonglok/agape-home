@@ -58,7 +58,9 @@ export function AppRunner({ appID }) {
           data: ev.data.files,
         }
 
-        run(args)
+        run(args, () => {
+          bc.postMessage({ type: 'ran' })
+        })
       }
     }
 
@@ -70,11 +72,12 @@ export function AppRunner({ appID }) {
 
   let [compos, mountRoot] = useState(null)
 
-  let run = (args) => {
-    buildApp(args).then((outputs) => {
+  let run = (args, fnc = () => {}) => {
+    return buildApp(args).then((outputs) => {
       runInElement({
         mountRoot: (v) => {
           mountRoot(v)
+          fnc()
         },
         outputs: outputs,
         onClean: () => {

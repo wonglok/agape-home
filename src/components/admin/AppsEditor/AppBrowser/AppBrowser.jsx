@@ -14,6 +14,7 @@ export function AppBrowser() {
 
     let bc = new BroadcastChannel(appID)
 
+    let timer = 0
     window.addEventListener('savedFile', () => {
       let st = useCoreFiles.getState()
       try {
@@ -22,10 +23,22 @@ export function AppBrowser() {
         }
 
         bc.postMessage({ type: 'run', files: st, snap: Math.ceil(Math.random() * 100000) })
+
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          setSRC(`/admin/editor-runner/${appID}?snap=${Math.ceil(Math.random() * 100000)}`)
+          console.log('error reload')
+        })
       } catch (e) {
         console.log(e)
       }
     })
+
+    bc.onmessage = (ev) => {
+      if (ev.data?.type === 'ran') {
+        clearTimeout(timer)
+      }
+    }
 
     return () => {
       bc.closed = true

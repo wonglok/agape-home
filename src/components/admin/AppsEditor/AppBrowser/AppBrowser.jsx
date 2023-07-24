@@ -28,7 +28,7 @@ export function AppBrowser() {
         timer = setTimeout(() => {
           setSRC(`/admin/editor-runner/${appID}?snap=${Math.ceil(Math.random() * 100000)}`)
           console.log('error reload')
-        })
+        }, 1000)
       } catch (e) {
         console.log(e)
       }

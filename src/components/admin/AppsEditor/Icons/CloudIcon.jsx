@@ -2,8 +2,8 @@ import { useApps } from '../../Apps/useApps'
 import { Highlight } from './Highlight'
 
 export function CloudIcon() {
-  let tabName = 'code'
-  let tabDisplayName = 'Code'
+  let tabName = 'cloud'
+  let tabDisplayName = 'Cloud'
   return (
     <div
       onClick={() => {

@@ -142,23 +142,23 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
 
-  window.agapeLoader = window.agapeLoader || {}
+  let agapeLoader = {}
   // window.THREE = await import('three')
-  // window.agapeLoader.react = () => import('react')
-  window.agapeLoader['zustand'] = () => import('zustand')
-  window.agapeLoader['agape-sdk'] = () => import('agape-sdk')
-  window.agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
-  window.agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
-  window.agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
-  window.agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
-  window.agapeLoader['three-stdlib'] = () => import('three-stdlib')
+  // agapeLoader.react = () => import('react')
+  agapeLoader['zustand'] = () => import('zustand')
+  agapeLoader['agape-sdk'] = () => import('agape-sdk')
+  agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
+  agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
+  agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
+  agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
+  agapeLoader['three-stdlib'] = () => import('three-stdlib')
 
   window.loadGeneral = async () => {
     window.Globals = window.Globals || {}
     return await Promise.all(
-      Object.keys(window.agapeLoader).map(async (key) => {
+      Object.keys(agapeLoader).map(async (key) => {
         if (!window.Globals[key]) {
-          let val = await window.agapeLoader[key]()
+          let val = await agapeLoader[key]()
           window.Globals[key] = val
           return val
         } else {

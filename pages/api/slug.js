@@ -1,7 +1,7 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
 import { ABLoader, AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
-import { anyRole, authOptions } from './auth/[...nextauth]'
+import { matchAny, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
 
 export default async function API(req, res) {
@@ -20,7 +20,7 @@ export default async function API(req, res) {
   }
 
   if (bodyData.action === 'findCode3D') {
-    if (session && anyRole(session, ['editor', 'devroot'])) {
+    if (session && matchAny(session, ['editor', 'devroot'])) {
     } else {
       let result = await ABLoader.countDocuments({ defaultLinkID: payload?.appID })
       if (result === 0) {
@@ -58,7 +58,7 @@ export default async function API(req, res) {
     })
   }
 
-  if (session && anyRole(session, ['editor', 'devroot'])) {
+  if (session && matchAny(session, ['editor', 'devroot'])) {
     let userID = session.user.name
 
     let bodyData = JSON.parse(req.body)

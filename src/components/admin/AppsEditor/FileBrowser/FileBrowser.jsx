@@ -8,10 +8,12 @@ import { useModules } from '../../Apps/useModules'
 import { useCodeGroups } from '../../Apps/useCodeGroups'
 import { useCoreFiles } from './useCoreFiles'
 import { useCodeFiles } from '../../Apps/useCodeFiles'
+import { useAssetFiles } from '../../Apps/useAssetFiles'
 
 //
 export function FileBrowser() {
   let activeApp = useApps((r) => r.activeApp)
+  let appAssetFiles = useCoreFiles((r) => r.appAssetFiles)
   let appPackages = useCoreFiles((r) => r.appPackages)
   let appModules = useCoreFiles((r) => r.appModules)
   let appCodeGroups = useCoreFiles((r) => r.appCodeGroups)
@@ -23,6 +25,7 @@ export function FileBrowser() {
   let activeCodeFileID = useCoreFiles((r) => r.activeCodeFileID)
 
   let load = useCallback(async ({ activeAppID }) => {
+    let appAssetFiles = await useAssetFiles.getState().findByAppID({ appLoaderID: activeAppID })
     let appPackages = await usePackages.getState().findByAppID({ appLoaderID: activeAppID })
     let appModules = await useModules.getState().findByAppID({ appLoaderID: activeAppID })
     let appCodeGroups = await useCodeGroups.getState().findByAppID({ appLoaderID: activeAppID })
@@ -85,9 +88,9 @@ export function FileBrowser() {
       }
     })
 
-    useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles })
+    useCoreFiles.setState({ appPackages, appModules, appCodeGroups, appCodeFiles, appAssetFiles })
 
-    return { appPackages, appModules, appCodeGroups, appCodeFiles }
+    return { appPackages, appModules, appCodeGroups, appCodeFiles, appAssetFiles }
   }, [])
 
   useEffect(() => {
@@ -95,36 +98,38 @@ export function FileBrowser() {
       return
     }
 
-    load({ activeAppID: activeApp._id }).then(({ appPackages, appModules, appCodeGroups, appCodeFiles }) => {
-      let pid = appPackages[0]?._id
-      // let pid = ap._id
-      let mid = appModules.find((r) => r.appPackageID === pid)?._id
-      let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
-      let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+    load({ activeAppID: activeApp._id }).then(
+      ({ appPackages, appModules, appCodeGroups, appCodeFiles, appAssetFiles }) => {
+        let pid = appPackages[0]?._id
+        // let pid = ap._id
+        let mid = appModules.find((r) => r.appPackageID === pid)?._id
+        let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+        let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
 
-      useCoreFiles.setState({
-        activePackageID: pid,
-        activeModuleID: mid,
-        activeCodeGroupID: gid,
-        activeCodeFileID: fid,
-      })
+        useCoreFiles.setState({
+          activePackageID: pid,
+          activeModuleID: mid,
+          activeCodeGroupID: gid,
+          activeCodeFileID: fid,
+        })
 
-      // let pid = appPackages[0]?._id
+        // let pid = appPackages[0]?._id
 
-      // useCoreFiles.setState({ activePackageID: pid })
+        // useCoreFiles.setState({ activePackageID: pid })
 
-      // let mid = appModules.find((r) => r.appPackageID === pid)?._id
+        // let mid = appModules.find((r) => r.appPackageID === pid)?._id
 
-      // useCoreFiles.setState({ activeModuleID: mid })
+        // useCoreFiles.setState({ activeModuleID: mid })
 
-      // let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
+        // let gid = appCodeGroups.find((r) => r.appModuleID === mid)?._id
 
-      // useCoreFiles.setState({ activeCodeGroupID: gid })
+        // useCoreFiles.setState({ activeCodeGroupID: gid })
 
-      // let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
+        // let fid = appCodeFiles.find((r) => r.appCodeGroupID === gid)?._id
 
-      // useCoreFiles.setState({ activeCodeFileID: fid })
-    })
+        // useCoreFiles.setState({ activeCodeFileID: fid })
+      },
+    )
 
     return () => {
       //!SECTION
@@ -187,7 +192,8 @@ export function FileBrowser() {
         className='h-full w-full overflow-scroll bg-white'
         ref={scroller}
       >
-        <div className='' style={{ width: `calc(280px * 4)` }}>
+        <div className='' style={{ width: `calc(280px * 5)` }}>
+          {/*  */}
           <div
             className='inline-block overflow-scroll border-r'
             style={{ height: `280px`, width: `280px` }}

@@ -11,10 +11,10 @@ import {
   S3Client,
 } from '@aws-sdk/client-s3'
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
-import { matchAny } from '../auth/[...nextauth]'
+import { authOptions, matchAny } from '../auth/[...nextauth]'
 
 export default async function API(req, res) {
-  let session = await getServerSession(req, res)
+  let session = await getServerSession(req, res, authOptions)
 
   if (!session) {
     return res.status(406).json({
@@ -22,7 +22,7 @@ export default async function API(req, res) {
     })
   }
 
-  if (matchAny(['devroot'])) {
+  if (matchAny(['devroot', 'editor'])) {
   } else {
     return res.status(406).json({
       msg: 'bad auth',
@@ -73,7 +73,7 @@ export default async function API(req, res) {
       }),
     )
 
-    let folder = `${process.env.FILE_S3_STORAGE_FOLDER_ROOT}/${payload.username}`
+    let folder = `${process.env.FILE_S3_STORAGE_FOLDER_ROOT}/${process.env.NODE_ENV}`
     let post = await createPresignedPost(s3Client, {
       Bucket: `${process.env.FILE_S3_STORAGE_BUCKET}`,
       Key: `${folder}/${payload.fileName}`,

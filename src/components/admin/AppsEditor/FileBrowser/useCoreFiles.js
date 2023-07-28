@@ -6,6 +6,12 @@ export const useCoreFiles = create((set, get) => {
     appModules: [],
     appCodeGroups: [],
     appCodeFiles: [],
+
+    //!SECTION
+    appAssetFiles: [],
+    //
+    activeAssetFileID: '',
+
     //
 
     activePackageID: '',

@@ -1,12 +1,12 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
 import { AppModules, CodeFile, CodeGroup, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
-import { anyRole, authOptions } from './auth/[...nextauth]'
+import { matchAny, authOptions } from './auth/[...nextauth]'
 
 export default async function API(req, res) {
   const session = await getServerSession(req, res, authOptions)
 
-  if (session && anyRole(session, ['editor', 'devroot'])) {
+  if (session && matchAny(session, ['editor', 'devroot'])) {
     let userID = session.user.name
 
     let bodyData = JSON.parse(req.body)

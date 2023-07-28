@@ -1,7 +1,7 @@
 import { UserProfile, getID } from 'database/mongoose'
 import { getServerSession } from 'next-auth'
 import bcrypt from 'bcryptjs'
-import { anyRole, authOptions } from '../auth/[...nextauth]'
+import { matchAny, authOptions } from '../auth/[...nextauth]'
 export default async function Profiles(req, res) {
   let session = await getServerSession(req, res, authOptions)
 
@@ -11,7 +11,7 @@ export default async function Profiles(req, res) {
     })
   }
 
-  if (anyRole(session, ['devroot'])) {
+  if (matchAny(session, ['devroot'])) {
   } else {
     return res.status(406).json({
       msg: 'bad auth',

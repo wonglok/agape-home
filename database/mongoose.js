@@ -76,6 +76,31 @@ export const AppLoader = mongoose.models.AppLoader
 // -------
 
 // -------
+delete mongoose.models.AppAssetFiles
+if (!mongoose.models.AppAssetFiles) {
+  mongoose.model(
+    'AppAssetFiles',
+    new Schema(
+      {
+        //
+        appLoaderID: String,
+        displayName: String,
+        file: {},
+        parentID: String,
+        type: {
+          type: String,
+          default: 'folder',
+        },
+      },
+      { timestamps: { AppAssetFiles: 'AppAssetFiles', updatedAt: 'updatedAt' } },
+    ),
+  )
+}
+
+export const AppAssetFiles = mongoose.models.AppAssetFiles
+// -------
+
+// -------
 delete mongoose.models.AppPackage
 if (!mongoose.models.AppPackage) {
   mongoose.model(

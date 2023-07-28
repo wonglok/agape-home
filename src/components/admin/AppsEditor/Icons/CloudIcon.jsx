@@ -24,6 +24,9 @@ export function CloudIcon() {
         </svg>
         <div className='text-xs'>{tabDisplayName}</div>
       </div>
+      {/*  */}
+      {/*  */}
+      {/*  */}
       <Highlight tabName={tabName}></Highlight>
     </div>
   )

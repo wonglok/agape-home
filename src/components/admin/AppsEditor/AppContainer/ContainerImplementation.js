@@ -77,13 +77,23 @@ export const getDone = ({ set, get }) => {
     startDevServer: async () => {
       let webcontainerInstance = await get().bootPromise
       // Run `npm run start` to start the Express app
-      await webcontainerInstance.spawn('yarn', ['start'])
+      let process = await webcontainerInstance.spawn('yarn', ['start'])
 
       // Wait for `server-ready` event
       webcontainerInstance.on('server-ready', (port, url) => {
         set({ iFrameSRC: url, port })
       })
+
+      return () => {
+        //
+      }
     },
+
+    writeToFS: async ({ path, contents }) => {
+      let webcontainerInstance = await get().bootPromise
+      await webcontainerInstance.fs.writeFile(path, contents)
+    },
+
     //
   }
 }

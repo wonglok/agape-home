@@ -18,6 +18,7 @@ function CodeEditorInternal() {
   let activeNodeName = useContainer((r) => r.activeNodeName)
   let activeNodePath = useContainer((r) => r.activeNodePath)
   let activeNodeType = useContainer((r) => r.activeNodeType)
+  let writeToFS = useContainer((r) => r.writeToFS)
 
   function handleEditorValidation(markers) {
     markers.forEach((marker) => {
@@ -51,23 +52,30 @@ function CodeEditorInternal() {
       if (ev.key === 's' && (ev.metaKey || ev.ctrlKey)) {
         ev.preventDefault()
         setMessage('loading')
-        window.dispatchEvent(
-          new CustomEvent('savedFile', {
-            detail: {
-              //
-              activeNode,
-              activeNodeName,
-              activeNodePath,
-              activeNodeType,
-            },
-          }),
-        )
-        setTimeout(() => {
-          setMessage('done')
-          setTimeout(() => {
-            setMessage('')
-          }, 1000)
-        }, 10)
+
+        useContainer
+          .getState()
+          .writeToFS({ path: activeNodePath, contents: activeNode.file.contents })
+          .then(() => {
+            setTimeout(() => {
+              setMessage('done')
+              setTimeout(() => {
+                setMessage('')
+
+                window.dispatchEvent(
+                  new CustomEvent('savedFile', {
+                    detail: {
+                      //
+                      activeNode,
+                      activeNodeName,
+                      activeNodePath,
+                      activeNodeType,
+                    },
+                  }),
+                )
+              }, 1000)
+            }, 10)
+          })
 
         // useCodeFiles
         //   .getState()
@@ -96,7 +104,7 @@ function CodeEditorInternal() {
     return () => {
       window.removeEventListener('keydown', hh)
     }
-  }, [activeNode])
+  }, [activeNode, activeNodeName, activeNodePath, activeNodeType])
 
   let getExt = (fileName) => {
     let name = 'javascript'

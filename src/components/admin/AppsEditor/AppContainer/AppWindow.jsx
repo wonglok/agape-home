@@ -1,16 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useContainer } from './useContainer'
 
 export function AppWindow() {
   let iFrameSRC = useContainer((r) => r.iFrameSRC)
-
+  let ref = useRef()
   useEffect(() => {
     let fnc = () => {
-      let backup = iFrameSRC
-      useContainer.setState({ iFrameSRC: 'about:blank' })
-      setTimeout(() => {
-        useContainer.setState({ iFrameSRC: backup })
-      }, 10)
+      // ref.current.src = ''
+      // setTimeout(() => {
+      //   ref.current.src = iFrameSRC
+      // }, 1)
     }
 
     window.addEventListener('savedFile', fnc)
@@ -21,5 +20,5 @@ export function AppWindow() {
     ///
   }, [iFrameSRC])
 
-  return <>{<iframe className='h-full w-full' src={iFrameSRC || 'about:blank'}></iframe>}</>
+  return <>{<iframe ref={ref} className='h-full w-full' src={iFrameSRC || 'about:blank'}></iframe>}</>
 }

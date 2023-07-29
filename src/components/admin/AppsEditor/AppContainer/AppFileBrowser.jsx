@@ -11,17 +11,17 @@ let getType = (node) => {
   return type
 }
 
-let List = ({ node, level = 0 }) => {
+let List = ({ node, nodePath = '' }) => {
   return (
     <div>
       {Object.keys(node).map((nodeKey) => {
         return (
           <TreeNode
-            key={nodeKey + '-' + level}
+            key={nodeKey + '-' + nodePath}
             type={getType(node[nodeKey])}
             nodeName={nodeKey}
             node={node[nodeKey]}
-            level={level + 1}
+            nodePath={`${nodePath}/${nodeKey}`}
           ></TreeNode>
         )
       })}
@@ -55,17 +55,18 @@ export function AppFileBrowser() {
     <>
       {/*  */}
       <div className='mt-4'>
-        <List node={files} level={0}></List>
+        <List node={files} nodePath={''}></List>
       </div>
       {/*  */}
     </>
   )
 }
 
-function TreeNode({ type = 'directory', nodeName, node, level = 0 }) {
+function TreeNode({ type = 'directory', nodeName, node, nodePath = '/' }) {
   return (
     <>
       <div className='ml-4 mt-2'>
+        {/* <div>{nodePath}</div> */}
         <div
           className='mb-3 flex '
           onClick={() => {
@@ -74,7 +75,7 @@ function TreeNode({ type = 'directory', nodeName, node, level = 0 }) {
                 activeNode: node,
                 activeNodeType: type,
                 activeNodeName: nodeName,
-                activeNodePath: `${nodeName}-${level}`,
+                activeNodePath: `${nodePath}`,
               })
             }
           }}
@@ -85,7 +86,7 @@ function TreeNode({ type = 'directory', nodeName, node, level = 0 }) {
         <div>
           {type === 'directory' && (
             <>
-              <List node={node.directory} level={level}></List>
+              <List node={node.directory} nodePath={`${nodePath}`}></List>
             </>
           )}
         </div>

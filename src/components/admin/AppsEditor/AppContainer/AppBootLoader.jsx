@@ -3,15 +3,23 @@ import { useEffect } from 'react'
 
 export function AppBootLoader() {
   useEffect(() => {
+    let clean = () => {}
     Promise.resolve().then(async () => {
-      await useContainer
-        .getState()
-        .onInit()
-        .then(() => {})
+      await useContainer.getState().onInit()
       await useContainer.getState().startShell()
       await useContainer.getState().installDependencies()
-      await useContainer.getState().startDevServer()
+      let cleanup = await useContainer.getState().startDevServer()
+
+      clean = () => {
+        //
+        cleanup()
+        //
+      }
     })
+
+    return () => {
+      clean()
+    }
   }, [])
 
   return <></>

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 // import { Terminal } from 'xterm'
-import 'xterm/css/xterm.css'
 // import { FitAddon } from 'xterm-addon-fit'
+import 'xterm/css/xterm.css'
 import { useContainer } from './useContainer'
 
 export function AppTerminal() {

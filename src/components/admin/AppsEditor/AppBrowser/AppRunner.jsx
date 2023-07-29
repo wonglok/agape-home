@@ -6,6 +6,7 @@ import { runInElement } from '../../CodeCompiler/runInElement'
 // import { useCodeGroups } from '../../Apps/useCodeGroups'
 // import { useCodeFiles } from '../../Apps/useCodeFiles'
 import { useSlug } from '../../URLs/useSlug'
+import { Canvas } from '@react-three/fiber'
 
 export function AppRunner({ appID }) {
   //
@@ -16,8 +17,6 @@ export function AppRunner({ appID }) {
     }
     let load = async () => {
       let codeArgs = await useSlug.getState().findCode3D({ appID: appID })
-
-      console.log(codeArgs)
 
       if (codeArgs) {
         run(codeArgs)
@@ -72,10 +71,18 @@ export function AppRunner({ appID }) {
   }, [appID])
 
   let [compos, mountRoot] = useState(null)
+  let [cHTML, mountCustomHTML] = useState(null)
 
   let run = (args, fnc = () => {}) => {
     return buildApp(args).then((outputs) => {
       runInElement({
+        mountCustomHTML: (v) => {
+          mountCustomHTML(v)
+        },
+        mountRoot: (v) => {
+          mountRoot(v)
+          fnc()
+        },
         mountRoot: (v) => {
           mountRoot(v)
           fnc()
@@ -90,7 +97,9 @@ export function AppRunner({ appID }) {
 
   return (
     <>
-      {compos}
+      <Canvas>{compos}</Canvas>
+      {cHTML}
+
       {/* <ErrorBoundary>{compos}</ErrorBoundary> */}
     </>
   )

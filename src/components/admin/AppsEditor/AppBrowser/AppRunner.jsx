@@ -49,6 +49,7 @@ export function AppRunner({ appID }) {
     if (!appID) {
       return
     }
+
     let bc = new BroadcastChannel(appID)
 
     bc.onmessage = (ev) => {

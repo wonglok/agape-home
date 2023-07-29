@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export const useApps = create(() => {
   let url = `/api/apps`
   return {
-    activeTab: 'code',
+    activeTab: 'container',
     activeApp: false,
 
     apps: [],

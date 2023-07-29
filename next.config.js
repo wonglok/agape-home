@@ -72,23 +72,23 @@ module.exports = (_phase, { defaultConfig }) => {
     }
   })
 
-  // finalConfig.headers = async () => {
-  //   return [
-  //     {
-  //       source: '/:any*',
-  //       headers: [
-  //         {
-  //           key: 'Cross-Origin-Embedder-Policy',
-  //           value: 'require-corp',
-  //         },
-  //         {
-  //           key: 'Cross-Origin-Opener-Policy',
-  //           value: 'same-origin',
-  //         },
-  //       ],
-  //     },
-  //   ]
-  // }
+  finalConfig.headers = async () => {
+    return [
+      {
+        source: '/:any*',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+        ],
+      },
+    ]
+  }
 
   // finalConfig.output = 'export'
   return finalConfig

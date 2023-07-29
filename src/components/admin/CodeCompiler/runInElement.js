@@ -145,6 +145,8 @@ export let runInElement = async ({ mountRoot, outputs, onClean }) => {
   let agapeLoader = {}
   // window.THREE = await import('three')
   // agapeLoader.react = () => import('react')
+  agapeLoader['react'] = () => import('react')
+  agapeLoader['three'] = () => import('three')
   agapeLoader['zustand'] = () => import('zustand')
   agapeLoader['agape-sdk'] = () => import('agape-sdk')
   agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')

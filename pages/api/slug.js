@@ -3,7 +3,6 @@ import { ABLoader, AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID
 import { getServerSession } from 'next-auth/next'
 import { matchAny, authOptions } from './auth/[...nextauth]'
 import slugify from 'slugify'
-import { buildApp } from '@/components/admin/CodeCompiler/CodeCore'
 
 export default async function API(req, res) {
   const session = await getServerSession(req, res, authOptions)

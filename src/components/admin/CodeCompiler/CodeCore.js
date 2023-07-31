@@ -1,10 +1,12 @@
 import path from 'path'
 import { transform } from 'sucrase'
-import { useEffect, useRef, useState } from 'react'
 // "rollup": "2.56.3",
 import { rollup } from 'rollup'
+import MyPackage from '../../../../package.json'
+// import THREEText from
+
 // import { rollup } from
-import { runInElement } from './runInElement'
+// import { runInElement } from './runInElement'
 // import { downloadCode } from './downloadCode'
 
 //useEffect
@@ -28,6 +30,7 @@ export let buildApp = async (input) => {
   let fileList = []
 
   data.appPackages.forEach((appPackage) => {
+    //
     data.appModules
       .filter((r) => r.appPackageID === appPackage._id)
       .forEach((appModule) => {
@@ -75,7 +78,7 @@ export let buildApp = async (input) => {
     plugins: [
       {
         name: 'rollup-in-browser-example',
-        resolveId(importee, importer) {
+        async resolveId(importee, importer) {
           if (!importer) {
             // console.log(importee, 'importee')
             return importee
@@ -95,8 +98,14 @@ export let buildApp = async (input) => {
           //   // return `${rollupLocalhost}${address}`
           // }
 
-          if (importee.indexOf('three') === 0) {
-            return `${location.origin}/agape-sdk/three150/build/three.module.js`
+          // console.log()
+
+          if (MyPackage.dependencies[importee]) {
+            return importee
+          }
+
+          if (importee === 'three') {
+            return importee
           }
 
           if (importee.indexOf('three/examples/') === 0) {
@@ -107,6 +116,10 @@ export let buildApp = async (input) => {
         },
 
         async load(id) {
+          if (id === 'three') {
+            return await import('raw-loader!three').then((r) => r.default)
+          }
+
           if (id.indexOf('http') === 0) {
             return fetch(id)
               .then((r) => r.text())
@@ -183,7 +196,7 @@ export let buildApp = async (input) => {
 
   let rawOutputs = parcel.output
 
-  console.log('[rawOutputs]', rawOutputs)
+  // console.log('[rawOutputs]', rawOutputs)
   let outputs = rawOutputs
 
   // console.log(outputs, 'outputs')

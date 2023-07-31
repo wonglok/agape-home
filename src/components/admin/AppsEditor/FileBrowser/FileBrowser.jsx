@@ -192,13 +192,13 @@ export function FileBrowser() {
         className='h-full w-full overflow-scroll bg-white'
         ref={scroller}
       >
-        <div className='' style={{ width: `calc(280px * 5)` }}>
+        <div className='' style={{ width: `calc(230px * 5)` }}>
           {/*  */}
           <div
             className='inline-block overflow-scroll border-r'
-            style={{ height: `280px`, width: `280px` }}
+            style={{ height: `230px`, width: `230px` }}
             onClick={() => {
-              scroller.current.scrollTo(-140 + 280 * 0, 0)
+              scroller.current.scrollTo(-140 + 230 * 0, 0)
             }}
             onScrollCapture={(ev) => {
               ev.stopPropagation()
@@ -279,9 +279,9 @@ export function FileBrowser() {
           {
             <div
               className='inline-block overflow-scroll overflow-x-hidden border-r'
-              style={{ height: `280px`, width: `280px` }}
+              style={{ height: `230px`, width: `230px` }}
               onClick={() => {
-                scroller.current.scrollTo(-140 + 280 * 1, 0)
+                scroller.current.scrollTo(-140 + 230 * 1, 0)
               }}
             >
               <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>
@@ -370,9 +370,9 @@ export function FileBrowser() {
           {
             <div
               className='inline-block overflow-scroll border-r'
-              style={{ height: `280px`, width: `280px` }}
+              style={{ height: `230px`, width: `230px` }}
               onClick={() => {
-                scroller.current.scrollTo(-140 + 280 * 2, 0)
+                scroller.current.scrollTo(-140 + 230 * 2, 0)
               }}
             >
               {
@@ -467,9 +467,9 @@ export function FileBrowser() {
           {
             <div
               className='inline-block overflow-scroll border-r'
-              style={{ height: `280px`, width: `280px` }}
+              style={{ height: `230px`, width: `230px` }}
               onClick={() => {
-                scroller.current.scrollTo(-140 + 280 * 3, 0)
+                scroller.current.scrollTo(-140 + 230 * 3, 0)
               }}
             >
               <div className=' mb-2 border border-gray-200 bg-gray-100 p-2 text-xs text-gray-500'>

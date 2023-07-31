@@ -24,8 +24,6 @@ export default async function Profiles(req, res) {
     })
   }
 
-  //
-
   let userID = session.user.name
 
   let bodyData = JSON.parse(req.body)

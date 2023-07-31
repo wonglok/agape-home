@@ -8,7 +8,7 @@ export function IconBar() {
   return (
     <>
       <HomeIcon></HomeIcon>
-      <ContainerIcon></ContainerIcon>
+      {/* <ContainerIcon></ContainerIcon> */}
       <CodeIcon></CodeIcon>
       <CloudIcon></CloudIcon>
       <StoreIcon></StoreIcon>

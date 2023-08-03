@@ -176,7 +176,7 @@ export function AdminLayoutDeveloper({ children }) {
                         onClick={() => {
                           //
                           console.log('logout')
-                          signOut()
+                          signOut({ redirect: `/system` })
                         }}
                       >
                         Logout

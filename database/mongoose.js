@@ -36,18 +36,6 @@ if (!mongoose.models.ABLoader) {
 
     defaultLinkID: String,
     linkType: String,
-    // type: {
-    //   type: String,
-    //   default: 'project',
-    // },
-    // projectID: String,
-    // abTests: [
-    //   {
-    //     name: String,
-    //     weight: Number,
-    //     projectID: Types.ObjectId,
-    //   },
-    // ],
   })
 }
 
@@ -180,6 +168,26 @@ if (!mongoose.models.CodeFile) {
 }
 
 export const CodeFile = mongoose.models.CodeFile
+// -------
+
+// // -------
+// delete mongoose.models.SwanInstall
+// if (!mongoose.models.SwanInstall) {
+//   mongoose.model(
+//     'SwanInstall',
+//     new Schema(
+//       {
+//         //
+//         title: String,
+//       },
+//       { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+//     ),
+//   )
+// }
+
+// export const SwanInstall = mongoose.models.SwanInstall
+// // -------
+
 // -------
 
 // -------

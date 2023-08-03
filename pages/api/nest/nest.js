@@ -3,75 +3,64 @@
 // import { getServerSession } from 'next-auth/next'
 // import { matchAny, authOptions } from '../auth/[...nextauth]'
 // import slugify from 'slugify'
-import { renderToString } from 'react-dom/server'
-import { ServerRuntime } from '@/component-server/Server'
+
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../auth/[...nextauth]'
 
 export default async function API(req, res) {
   let result = {}
   let context = {}
+  const session = await getServerSession(req, res, authOptions)
 
-  let waitSet = new Set()
+  return new Promise(async (resolve, reject) => {
+    //
 
-  let errList = []
-  function ensureWork(cb = async () => {}) {
-    let randID = Math.random()
-    waitSet.add(randID)
-    try {
-      cb()
-        .then(() => {
-          waitSet.delete(randID)
-        })
-        .catch((error) => {
-          errList.push(error)
-        })
-    } catch (e) {
-      errList.push(e)
-    }
-  }
-
-  async function ensureContextValue(key) {
-    return new Promise((resolve) => {
-      //t
-      let tt = setInterval(() => {
-        //
-        let value = context[key]
-        if (value) {
-          clearInterval(tt)
-          resolve(value)
-        }
-        //
-      })
+    await runOperations({
+      context,
+      result,
+      tasks: [
+        {
+          opName: 'requireLogin',
+        },
+        {
+          opName: 'dbFind',
+          dbName: '',
+          contextName: '',
+        },
+      ],
     })
-  }
 
-  async function writeContextValue(key, value) {
-    context[key] = value
-  }
-
-  renderToString(
-    <ServerRuntime
-      writeContextValue={writeContextValue}
-      ensureContextValue={ensureContextValue}
-      ensureWork={ensureWork}
-      context={context}
-      result={result}
-      payload={{}}
-    />,
-  )
-
-  return new Promise((resolve, reject) => {
-    let tt = setInterval(() => {
-      if (errList.length > 0) {
-        clearInterval(tt)
-        setTimeout(() => {
-          reject(res.status(500).json({ errors: errList }))
-        }, 500)
-      }
-
-      if (waitSet.size === 0) {
-        clearInterval(tt)
-        resolve(res.json(result))
-      }
-    })
+    resolve(res.json({ ok: true }))
+    //
   })
 }
+
+let MyOperations = {
+  dbFind: async ({ task, context, result }) => {
+    //
+    let { dbNam, contextName } = task
+  },
+}
+
+async function runOperations({ tasks, context, result }) {
+  //
+  try {
+    for (let task of tasks) {
+      //
+      let opName = task.opName
+      //
+      await MyOperations[opName]({ task, context, result })
+    }
+  } catch (e) {
+    //
+    context.hasError = true
+    context.error = e
+  }
+}
+
+// cloud op
+//
+
+// SWAN
+
+//

@@ -25,15 +25,15 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'find') {
-      let result = await AppPackage.find({})
-        .sort({ _id: -1 })
-        .skip(payload.offset || 0)
-        .limit(payload.limit || 512)
+      let result = await AppPackage.find({}).sort({ _id: -1 })
+      // .skip(payload.offset || 0)
+      // .limit(payload.limit || 512)
 
       return res.json({
         data: result,
       })
     }
+
     if (bodyData.action === 'findByAppID') {
       let result = await AppPackage.find({
         appLoaderID: payload.appLoaderID,

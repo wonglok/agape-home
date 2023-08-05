@@ -65,7 +65,7 @@ export function UpdateSwan({ data }) {
               </div>
             </div>
             <div className='md:w-2/3'>
-              <div className='flex'>
+              <div className='mb-2 flex'>
                 {/* <div className='appearance-none rounded rounded-r-none border-2 border-gray-200 bg-gray-200 py-2 pl-4 pr-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'>
                 /private/
               </div> */}
@@ -104,6 +104,14 @@ export function UpdateSwan({ data }) {
                   ❌
                 </button>
               </div>
+
+              <div>
+                <div>
+                  <button className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'>
+                    Create System
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -112,6 +120,9 @@ export function UpdateSwan({ data }) {
 
         {/*  */}
 
+        {/*  */}
+
+        {/*
         {data.type === 'development' && (
           <div className='w-full max-w-xl'>
             <div className='md:flex md:items-start'>
@@ -150,7 +161,7 @@ export function UpdateSwan({ data }) {
                         }}
                         className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
                       >
-                        Create a Version
+                        Create a Prototype Instance
                       </button>
                     </div>
                   </div>
@@ -158,31 +169,7 @@ export function UpdateSwan({ data }) {
               </div>
             </div>
           </div>
-        )}
-
-        {/*  */}
-
-        <div className='w-full max-w-xl'>
-          <div className='md:flex md:items-start'>
-            <div className='pt-2 md:w-1/3'>
-              <label
-                className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
-                htmlFor='inline-full-name'
-              >
-                Swan Versions:
-              </label>
-            </div>
-            <div className='md:w-2/3'>
-              <div className='flex'>
-                <div className='w-full rounded p-2 pl-0'>
-                  {/*  */}
-
-                  {/*  */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        )} */}
 
         {/*  */}
 

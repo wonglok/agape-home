@@ -54,7 +54,7 @@ export function CreateSwan() {
                 }}
                 className='focus:shadow-outline rounded bg-purple-500 px-4 py-2 font-bold text-white shadow hover:bg-purple-400 focus:outline-none'
               >
-                Create a Swan 🦢
+                Create a Swan Project 🦢
               </button>
             </div>
           </div>

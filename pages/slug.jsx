@@ -22,9 +22,12 @@ export default function Page() {
         }
       })
   }, [asPath])
-  //findSlug
 
   return <>{appID && <AppRunner appID={appID}></AppRunner>}</>
 }
+
+//
+
+//
 
 //

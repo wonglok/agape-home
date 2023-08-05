@@ -80,7 +80,7 @@ export function UpdateSwan({ data }) {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Swan Title:
+                Title:
               </label>
               <div className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'>
                 <>{ui.rename}</>

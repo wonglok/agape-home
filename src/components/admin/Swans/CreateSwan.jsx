@@ -14,7 +14,7 @@ export function CreateSwan() {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-title'
               >
-                New Title
+                Swan Title
               </label>
             </div>
             <div className='flex md:w-2/3'>

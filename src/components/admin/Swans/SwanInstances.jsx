@@ -10,9 +10,9 @@ export function SwanInstances() {
       <AdminGate>
         <h2 className='daysfont mb-3 text-2xl underline'>SWAN Project</h2>
         {/*  */}
-
-        <CreateSwan></CreateSwan>
-        <ListSwan></ListSwan>
+        {/*  */}
+        {/*  */}
+        {/*  */}
       </AdminGate>
       <URLModalOut></URLModalOut>
     </>

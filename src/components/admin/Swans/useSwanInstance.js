@@ -3,7 +3,7 @@ import { create } from 'zustand'
 export const useSwanInstance = create(() => {
   let url = `/api/swan-instance`
   return {
-    swans: [],
+    swanInstances: [],
     create: ({ object = {} }) => {
       try {
         return (
@@ -66,15 +66,15 @@ export const useSwanInstance = create(() => {
         console.error(e)
       }
     },
-    findByAppID: ({ appLoaderID }) => {
+    findBySwanID: ({ swanID }) => {
       try {
         return (
           fetch(url, {
             method: 'POST',
             body: JSON.stringify({
-              action: 'findByAppID',
+              action: 'findBySwanID',
               payload: {
-                appLoaderID,
+                swanID,
               },
             }),
             withCredentials: true,

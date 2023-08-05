@@ -1,8 +1,11 @@
 import { useRouter } from 'next/router'
-import { AdminGate } from '../AdminLayout/AdminGate'
-import { URLModalOut } from '../Apps/Tunnel'
-import { useSwanProject } from './useSwanProject'
+import { AdminGate } from '../../AdminLayout/AdminGate'
+import { URLModalOut } from '../../Apps/Tunnel'
+import { useSwanProject } from './../useSwanProject'
 import { useEffect } from 'react'
+import { useSwanInstance } from './../useSwanInstance'
+import { CreateSwanInstance } from './CreateSwanInstance'
+import { ListSwanInstances } from './ListSwanInstances'
 
 export function SwanInstances() {
   let router = useRouter()
@@ -12,6 +15,9 @@ export function SwanInstances() {
   let activeSwan = useSwanProject((r) => r.activeSwan)
 
   useEffect(() => {
+    if (!swanID) {
+      return
+    }
     useSwanProject.setState({ activeSwanID: swanID })
     useSwanProject
       .getState()
@@ -30,10 +36,12 @@ export function SwanInstances() {
     <>
       {/*  */}
       <AdminGate>
-        <h2 className='daysfont mb-3 text-2xl underline'>SWAN Project</h2>
-        {/*  */}
-        {activeSwan?.title}
-        {/*  */}
+        <div className='flex items-center'>
+          <h2 className='daysfont mr-2 text-2xl '>SWAN: {activeSwan?.title}</h2>
+        </div>
+        <div className='mb-3 text-sm text-gray-500'>Serverless Web Aapplication Node</div>
+        <CreateSwanInstance></CreateSwanInstance>
+        <ListSwanInstances></ListSwanInstances>
       </AdminGate>
       <URLModalOut></URLModalOut>
     </>

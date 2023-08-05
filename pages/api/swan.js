@@ -17,6 +17,7 @@ export default async function API(req, res) {
     if (bodyData.action === 'create') {
       let newItem = await Swan.create({
         title: payload.object.title || '',
+        type: payload.object.type || '',
       })
 
       return res.json({

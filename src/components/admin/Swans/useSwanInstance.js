@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
-export const useSwan = create(() => {
-  let url = `/api/swan`
+export const useSwanInstance = create(() => {
+  let url = `/api/swan-instance`
   return {
     swans: [],
     create: ({ object = {} }) => {

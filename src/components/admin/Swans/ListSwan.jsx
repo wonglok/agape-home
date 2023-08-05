@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
-import { useSwan } from './useSwan'
+import { useSwanGroup } from './useSwanGroup'
 import { UpdateSwan } from './UpdateSwan'
 
 export function ListSwan() {
-  let swans = useSwan((r) => r.swans)
+  let swans = useSwanGroup((r) => r.swans)
   useEffect(() => {
-    useSwan
+    useSwanGroup
       .getState()
       .find({})
       .then((r) => {
-        useSwan.setState({ swans: r })
+        useSwanGroup.setState({ swans: r })
       })
   }, [])
 
@@ -22,7 +22,7 @@ export function ListSwan() {
       {swans.map((data) => {
         return (
           <div key={data._id}>
-            <UpdateSwan data={data}></UpdateSwan>
+            <UpdateSwan key={data._id + 'sw'} data={data}></UpdateSwan>
           </div>
         )
       })}

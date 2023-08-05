@@ -177,8 +177,8 @@ if (!mongoose.models.Swan) {
     'Swan',
     new Schema(
       {
-        // unzip -> upload -> set swanName
         title: String,
+        type: String,
       },
       { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
     ),
@@ -194,8 +194,6 @@ if (!mongoose.models.SwanInstance) {
     new Schema(
       {
         swanID: String,
-        // type
-        type: String, // dev / prod
 
         // unzip -> upload -> set swanName
         title: String,

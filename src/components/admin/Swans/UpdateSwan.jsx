@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import { useSwan } from './useSwan'
+import { useSwanGroup } from './useSwanGroup'
+import { useSwanInstance } from './useSwanInstance'
 
 export function UpdateSwan({ data }) {
   let titleEl = useRef()
@@ -12,11 +13,11 @@ export function UpdateSwan({ data }) {
     setUI((st) => {
       return {
         ...st,
-        rename: `Loading...`,
+        rename: `Upading...`,
       }
     })
 
-    useSwan
+    useSwanGroup
       .getState()
       .updateOne({ object: data })
 
@@ -24,7 +25,7 @@ export function UpdateSwan({ data }) {
         setUI((st) => {
           return {
             ...st,
-            rename: `Updated...`,
+            rename: `Successful!`,
           }
         })
 
@@ -47,8 +48,6 @@ export function UpdateSwan({ data }) {
       })
   }
 
-  //
-
   return (
     <>
       <div>
@@ -66,7 +65,7 @@ export function UpdateSwan({ data }) {
               </div>
             </div>
             <div className='md:w-2/3'>
-              <div className='mb-2 flex'>
+              <div className='flex'>
                 {/* <div className='appearance-none rounded rounded-r-none border-2 border-gray-200 bg-gray-200 py-2 pl-4 pr-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'>
                 /private/
               </div> */}
@@ -74,6 +73,7 @@ export function UpdateSwan({ data }) {
                   className='w-full appearance-none  rounded-none  border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                   type='text'
                   ref={titleEl}
+                  key={data._id + 'title'}
                   defaultValue={data.title}
                   placeholder='title'
                   onKeyDown={(e) => {
@@ -92,23 +92,101 @@ export function UpdateSwan({ data }) {
                     //
 
                     if (window.prompt('Are you sure to remove "' + data.title + '"?', data.title) === data.title) {
-                      useSwan.getState().deleteOne({ object: data })
-                      useSwan.setState((st) => {
+                      useSwanGroup.getState().deleteOne({ object: data })
+                      useSwanGroup.setState((st) => {
                         return { ...st, swans: st.swans.filter((r) => r._id !== data._id) }
                       })
                     }
                   }}
                   // eslint-disable-next-line tailwindcss/no-custom-classname
-                  className=' focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                  className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
                 >
                   ❌
                 </button>
               </div>
-              <div>123</div>
-              <div>123</div>
             </div>
           </div>
         </div>
+
+        {/*  */}
+
+        {/*  */}
+
+        {data.type === 'development' && (
+          <div className='w-full max-w-xl'>
+            <div className='md:flex md:items-start'>
+              <div className='pt-2 md:w-1/3'>
+                <label
+                  className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
+                  htmlFor='inline-full-name'
+                ></label>
+              </div>
+              <div className='md:w-2/3'>
+                <div className='flex'>
+                  <div className='w-full rounded p-2 pl-0'>
+                    <div>
+                      <button
+                        onClick={async () => {
+                          let data = await useSwanInstance.getState().create({
+                            object: {
+                              swanID: data._id,
+                              title: '',
+                              type: 'development',
+                            },
+                          })
+
+                          useSwanGroup.setState((st) => {
+                            return { ...st, swans: [...st.swans, data] }
+                          })
+
+                          useSwanGroup
+                            .getState()
+                            .find({})
+                            .then((data) => {
+                              useSwanGroup.setState({ swans: data })
+                            })
+
+                          console.log(data)
+                        }}
+                        className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
+                      >
+                        Create a Version
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/*  */}
+
+        <div className='w-full max-w-xl'>
+          <div className='md:flex md:items-start'>
+            <div className='pt-2 md:w-1/3'>
+              <label
+                className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
+                htmlFor='inline-full-name'
+              >
+                Swan Versions:
+              </label>
+            </div>
+            <div className='md:w-2/3'>
+              <div className='flex'>
+                <div className='w-full rounded p-2 pl-0'>
+                  {/*  */}
+
+                  {/*  */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/*  */}
+
+        {/*  */}
       </div>
     </>
   )

@@ -1,8 +1,8 @@
 // import { getID } from 'agape-sdk/src/utils/getID'
-import { AppLoader, AppModules, AppPackage, CodeFile, CodeGroup, getID, getMongoID } from 'database/mongoose'
+import { Swan } from 'database/mongoose'
 import { getServerSession } from 'next-auth/next'
 import { matchAny, authOptions } from './auth/[...nextauth]'
-import slugify from 'slugify'
+// import slugify from 'slugify'
 
 export default async function API(req, res) {
   const session = await getServerSession(req, res, authOptions)
@@ -14,14 +14,9 @@ export default async function API(req, res) {
 
     let payload = bodyData.payload || {}
 
-    //
     if (bodyData.action === 'create') {
-      if (payload.object.slug[0] === '/') {
-        payload.object.slug = payload.object.slug.replace('/', '')
-      }
-
-      let newItem = await AppLoader.create({
-        slug: slugify(payload.object.slug || '', '-') || '',
+      let newItem = await Swan.create({
+        title: payload.object.title || '',
       })
 
       return res.json({
@@ -30,10 +25,17 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'find') {
-      let result = await AppLoader.find({})
-        .sort({ createdAt: -1 })
-        .skip(payload.offset || 0)
-        .limit(payload.limit || 512)
+      let cmd = Swan.find({}).sort({ createdAt: -1 })
+
+      if (typeof payload.offset !== 'undefined') {
+        cmd = cmd.skip(payload.offset || 0)
+      }
+
+      if (typeof payload.limit !== 'undefined') {
+        cmd = cmd.limit(payload.limit || 512)
+      }
+
+      let result = await cmd
 
       return res.json({
         data: result,
@@ -41,7 +43,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'findAll') {
-      let result = await AppLoader.find({}).sort({ createdAt: -1 })
+      let result = await Swan.find({}).sort({ createdAt: -1 })
 
       return res.json({
         data: result,
@@ -49,7 +51,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'findOne') {
-      let result = await AppLoader.findOne({ _id: payload?.object?._id })
+      let result = await Swan.findOne({ _id: payload?.object?._id })
 
       return res.json({
         data: result,
@@ -57,12 +59,8 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'updateOne') {
-      if (payload.object.slug[0] === '/') {
-        payload.object.slug = payload.object.slug.replace('/', '')
-      }
-
-      let updated = await AppLoader.findByIdAndUpdate(payload?.object?._id, { ...payload?.object })
-      let result = await AppLoader.findOne({ _id: payload?.object._id })
+      let updated = await Swan.findByIdAndUpdate(payload?.object?._id, { ...payload?.object })
+      let result = await Swan.findOne({ _id: payload?.object._id })
 
       return res.json({
         data: result,
@@ -70,7 +68,7 @@ export default async function API(req, res) {
     }
 
     if (bodyData.action === 'deleteOne') {
-      let result = await AppLoader.findByIdAndRemove(payload?.object._id)
+      let result = await Swan.findByIdAndRemove(payload?.object._id)
 
       return res.json({
         data: result,

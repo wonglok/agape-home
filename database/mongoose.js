@@ -156,7 +156,6 @@ if (!mongoose.models.CodeFile) {
     'CodeFile',
     new Schema(
       {
-        //
         appLoaderID: String,
         appCodeGroupID: String,
         fileName: String,
@@ -170,19 +169,42 @@ if (!mongoose.models.CodeFile) {
 export const CodeFile = mongoose.models.CodeFile
 // -------
 
+// SWAN
 // -------
+delete mongoose.models.Swan
+if (!mongoose.models.Swan) {
+  mongoose.model(
+    'Swan',
+    new Schema(
+      {
+        // unzip -> upload -> set swanName
+        title: String,
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
+}
+export const Swan = mongoose.models.Swan
+
+// ------- // installation creates
 delete mongoose.models.SwanInstance
 if (!mongoose.models.SwanInstance) {
   mongoose.model(
     'SwanInstance',
     new Schema(
       {
+        swanID: String,
+        // type
+        type: String, // dev / prod
+
+        // unzip -> upload -> set swanName
+        title: String,
         //
-        swanName: String,
-        // unzip -> upload -> set install files
-        installedFiles: [{}],
-        // unzip -> upload -> set db files
-        swanDBSchemas: [{}],
+        // unzip -> upload -> set installedFiles
+        frontEndFiles: [{}],
+        //
+        // unzip -> upload -> set dbSChemas
+        dbSchemas: [{}],
       },
       { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
     ),
@@ -194,7 +216,7 @@ export const SwanInstance = mongoose.models.SwanInstance
 
 // ------
 // operate ->
-// swanID + taskSlug
+// swanInstanceID + taskSlug
 // -------
 // swanInstanceID
 // -------

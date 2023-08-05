@@ -34,6 +34,7 @@ export default async function API(req, res) {
         data: result,
       })
     }
+
     if (bodyData.action === 'findByAppID') {
       let result = await AppAssetFiles.find({
         appLoaderID: payload.appLoaderID,

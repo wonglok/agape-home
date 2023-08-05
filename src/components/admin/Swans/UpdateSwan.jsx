@@ -37,6 +37,7 @@ export function UpdateSwan({ data }) {
               rename: '',
             }
           })
+          useSwanGroup.setState({ swans: [...swans] })
         }, 1000)
       })
       .catch((r) => {
@@ -49,6 +50,7 @@ export function UpdateSwan({ data }) {
       })
   }
 
+  let swans = useSwanGroup((r) => r.swans)
   return (
     <>
       <div>
@@ -80,6 +82,7 @@ export function UpdateSwan({ data }) {
                   onKeyDown={(e) => {
                     clearTimeout(e.target.timer)
                     e.target.timer = setTimeout(() => {
+                      data.title = e.target.value
                       work(e)
                     }, 500)
 

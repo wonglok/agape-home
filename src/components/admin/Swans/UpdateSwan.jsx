@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useSwanGroup } from './useSwanGroup'
-import { useSwanInstance } from './useSwanInstance'
+// import { useSwanInstance } from './useSwanInstance'
 import Link from 'next/link'
 
 export function UpdateSwan({ data }) {

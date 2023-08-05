@@ -6,7 +6,7 @@ import { useSwanGroup } from '../Swans/useSwanGroup'
 
 export function Menu() {
   let router = useRouter()
-  let swans = useSwanGroup((r) => r.swans)
+  useSwanGroup((r) => r.swans)
 
   let getLinkClass = ({ path }) => {
     if (router.asPath === path) {

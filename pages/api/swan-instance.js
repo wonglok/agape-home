@@ -54,6 +54,16 @@ export default async function API(req, res) {
       })
     }
 
+    if (bodyData.action === 'countBySwanID') {
+      let result = await SwanInstance.countDocuments({
+        swanID: payload.swanID,
+      }).sort({ _id: -1 })
+
+      return res.json({
+        data: result,
+      })
+    }
+
     if (bodyData.action === 'findAll') {
       let result = await SwanInstance.find({}).sort({ createdAt: -1 })
 

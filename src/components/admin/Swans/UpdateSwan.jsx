@@ -1,7 +1,26 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSwanProject } from './useSwanProject'
 // import { useSwanInstance } from './useSwanInstance'
 import Link from 'next/link'
+import { useSwanInstance } from './useSwanInstance'
+import { Tooltip } from 'antd'
+function CountBySwanIDGate({ fallback = null, swanID, children }) {
+  //
+  let [show, setShow] = useState(false)
+
+  useEffect(() => {
+    useSwanInstance
+      .getState()
+      .countBySwanID({ swanID })
+      .then((r) => {
+        if (r === 0) {
+          setShow(true)
+        }
+      })
+  }, [swanID])
+  //
+  return <>{show ? children : fallback}</>
+}
 
 export function UpdateSwan({ data }) {
   let titleEl = useRef()
@@ -91,22 +110,37 @@ export function UpdateSwan({ data }) {
                     }
                   }}
                 />
-                <button
-                  onClick={() => {
-                    //
-
-                    if (window.prompt('Are you sure to remove "' + data.title + '"?', data.title) === data.title) {
-                      useSwanProject.getState().deleteOne({ object: data })
-                      useSwanProject.setState((st) => {
-                        return { ...st, swans: st.swans.filter((r) => r._id !== data._id) }
-                      })
-                    }
-                  }}
-                  // eslint-disable-next-line tailwindcss/no-custom-classname
-                  className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                <CountBySwanIDGate
+                  fallback={
+                    <Tooltip title='Please remove all prototypes before removing this'>
+                      <button
+                        disabled
+                        // eslint-disable-next-line tailwindcss/no-custom-classname
+                        className='focus:shadow-outline inline-block cursor-pointer rounded rounded-l-none bg-orange-400 px-4 py-2 font-bold text-white shadow focus:outline-none'
+                      >
+                        🙏🏻
+                      </button>
+                    </Tooltip>
+                  }
+                  swanID={data._id}
                 >
-                  ❌
-                </button>
+                  <button
+                    onClick={() => {
+                      //
+
+                      if (window.prompt('Are you sure to remove "' + data.title + '"?', data.title) === data.title) {
+                        useSwanProject.getState().deleteOne({ object: data })
+                        useSwanProject.setState((st) => {
+                          return { ...st, swans: st.swans.filter((r) => r._id !== data._id) }
+                        })
+                      }
+                    }}
+                    // eslint-disable-next-line tailwindcss/no-custom-classname
+                    className='focus:shadow-outline inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                  >
+                    ❌
+                  </button>
+                </CountBySwanIDGate>
               </div>
 
               <div>

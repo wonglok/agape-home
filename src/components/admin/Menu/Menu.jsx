@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getMenuItems } from './MenuItems'
-import { useSwanGroup } from '../Swans/useSwanGroup'
-// import { useSwanGroup } from '../Swans/useSwanGroup'
+import { useSwanProject } from '../Swans/useSwanProject'
+import { useEffect } from 'react'
+// import { useSwanProject } from '../Swans/useSwanProject'
 
 export function Menu() {
   let router = useRouter()
-  useSwanGroup((r) => r.swans)
+  useSwanProject((r) => r.swans)
 
   let getLinkClass = ({ path }) => {
     if (router.asPath === path) {
@@ -16,6 +17,14 @@ export function Menu() {
     }
   }
 
+  useEffect(() => {
+    useSwanProject
+      .getState()
+      .find({})
+      .then((r) => {
+        useSwanProject.setState({ swans: r })
+      })
+  }, [])
   return (
     <ul className='menu rounded-box mb-3 w-full bg-base-100 px-2 pt-2 shadow-xl first-letter:p-2'>
       <style
@@ -56,19 +65,21 @@ export function Menu() {
       })}
 
       {/*
-            {it.hasSwans && router.pathname.includes(it.link) && router.pathname.includes(`/admin/swan`) && (
-              <>
-                {swans?.map((sc) => {
-                  return (
-                    <div className='ml-3' key={sc._id + 'link'}>
-                      <li className=''>
-                        <Link href={`/admin/swan/${sc._id}`}>{sc.title}</Link>
-                      </li>
-                    </div>
-                  )
-                })}
-              </>
-            )} */}
+          {it.hasSwans && router.pathname.includes(it.link) && router.pathname.includes(`/admin/swan`) && (
+            <>
+              {swans?.map((sc) => {
+                return (
+                  <div className='ml-3' key={sc._id + 'link'}>
+                    <li className=''>
+                      <Link href={`/admin/swan/${sc._id}`}>{sc.title}</Link>
+                    </li>
+                  </div>
+                )
+              })}
+            </>
+          )}
+
+        */}
 
       {/*  */}
     </ul>

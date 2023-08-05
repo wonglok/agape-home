@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useSwanGroup } from './useSwanGroup'
+import { useSwanProject } from './useSwanProject'
 // import { useSwanInstance } from './useSwanInstance'
 import Link from 'next/link'
 
@@ -18,7 +18,7 @@ export function UpdateSwan({ data }) {
       }
     })
 
-    useSwanGroup
+    useSwanProject
       .getState()
       .updateOne({ object: data })
 
@@ -37,7 +37,7 @@ export function UpdateSwan({ data }) {
               rename: '',
             }
           })
-          useSwanGroup.setState({ swans: [...swans] })
+          useSwanProject.setState({ swans: [...swans] })
         }, 1000)
       })
       .catch((r) => {
@@ -50,7 +50,7 @@ export function UpdateSwan({ data }) {
       })
   }
 
-  let swans = useSwanGroup((r) => r.swans)
+  let swans = useSwanProject((r) => r.swans)
   return (
     <>
       <div>
@@ -96,8 +96,8 @@ export function UpdateSwan({ data }) {
                     //
 
                     if (window.prompt('Are you sure to remove "' + data.title + '"?', data.title) === data.title) {
-                      useSwanGroup.getState().deleteOne({ object: data })
-                      useSwanGroup.setState((st) => {
+                      useSwanProject.getState().deleteOne({ object: data })
+                      useSwanProject.setState((st) => {
                         return { ...st, swans: st.swans.filter((r) => r._id !== data._id) }
                       })
                     }
@@ -150,15 +150,15 @@ export function UpdateSwan({ data }) {
                             },
                           })
 
-                          useSwanGroup.setState((st) => {
+                          useSwanProject.setState((st) => {
                             return { ...st, swans: [...st.swans, data] }
                           })
 
-                          useSwanGroup
+                          useSwanProject
                             .getState()
                             .find({})
                             .then((data) => {
-                              useSwanGroup.setState({ swans: data })
+                              useSwanProject.setState({ swans: data })
                             })
 
                           console.log(data)

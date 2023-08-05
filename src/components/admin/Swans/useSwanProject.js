@@ -1,9 +1,11 @@
 import { create } from 'zustand'
 
-export const useSwanGroup = create(() => {
+export const useSwanProject = create(() => {
   let url = `/api/swan`
   return {
     swans: [],
+    activeSwan: false,
+    activeSwanID: false,
     create: ({ object = {} }) => {
       try {
         return (
@@ -44,38 +46,6 @@ export const useSwanGroup = create(() => {
             body: JSON.stringify({
               action: 'find',
               payload: {},
-            }),
-            withCredentials: true,
-            credentials: 'same-origin',
-            mode: 'same-origin',
-          })
-            //
-            .then(async (r) => {
-              if (r.ok) {
-                return await r.json()
-              } else {
-                throw await r.text()
-              }
-            })
-            //
-            .then((r) => {
-              return r.data
-            })
-        )
-      } catch (e) {
-        console.error(e)
-      }
-    },
-    findByAppID: ({ appLoaderID }) => {
-      try {
-        return (
-          fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
-              action: 'findByAppID',
-              payload: {
-                appLoaderID,
-              },
             }),
             withCredentials: true,
             credentials: 'same-origin',

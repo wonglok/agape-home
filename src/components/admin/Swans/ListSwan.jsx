@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
-import { useSwanGroup } from './useSwanGroup'
+import { useSwanProject } from './useSwanProject'
 import { UpdateSwan } from './UpdateSwan'
 
 export function ListSwan() {
-  let swans = useSwanGroup((r) => r.swans)
+  let swans = useSwanProject((r) => r.swans)
   useEffect(() => {
-    useSwanGroup
+    useSwanProject
       .getState()
       .find({})
       .then((r) => {
-        useSwanGroup.setState({ swans: r })
+        useSwanProject.setState({ swans: r })
       })
   }, [])
 

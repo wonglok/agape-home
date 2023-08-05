@@ -1,4 +1,4 @@
-import { useSwanGroup } from '../Swans/useSwanGroup'
+import { useSwanProject } from '../Swans/useSwanProject'
 
 const getID = () => {
   return '_' + Math.random().toString(36).slice(2, 9)
@@ -54,7 +54,7 @@ export const getMenuItems = () => {
         </>
       ),
     },
-    ...useSwanGroup.getState().swans.map((sw) => {
+    ...useSwanProject.getState().swans.map((sw) => {
       return {
         id: getID(),
         link: `/admin/swan/${sw._id}`,

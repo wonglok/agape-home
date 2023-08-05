@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { useSwanGroup } from './useSwanGroup'
+import { useSwanProject } from './useSwanProject'
 
 export function CreateSwan() {
   let title = useRef()
@@ -32,22 +32,22 @@ export function CreateSwan() {
             <div className='md:w-2/3'>
               <button
                 onClick={async () => {
-                  let data = await useSwanGroup.getState().create({
+                  let data = await useSwanProject.getState().create({
                     object: {
                       title: title?.current?.value || '',
                       type: 'development',
                     },
                   })
 
-                  useSwanGroup.setState((st) => {
+                  useSwanProject.setState((st) => {
                     return { ...st, swans: [...st.swans, data] }
                   })
 
-                  useSwanGroup
+                  useSwanProject
                     .getState()
                     .find({})
                     .then((data) => {
-                      useSwanGroup.setState({ swans: data })
+                      useSwanProject.setState({ swans: data })
                     })
 
                   console.log(data)

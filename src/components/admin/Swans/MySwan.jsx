@@ -10,6 +10,7 @@ export function MySwan() {
       <AdminGate>
         <h2 className='daysfont mb-3 text-2xl underline'>SWAN - Serverless Web Aapplication Node</h2>
         {/*  */}
+
         <CreateSwan></CreateSwan>
         <ListSwan></ListSwan>
       </AdminGate>

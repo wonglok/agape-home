@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useSwanGroup } from './useSwanGroup'
 import { useSwanInstance } from './useSwanInstance'
+import Link from 'next/link'
 
 export function UpdateSwan({ data }) {
   let titleEl = useRef()
@@ -106,11 +107,11 @@ export function UpdateSwan({ data }) {
               </div>
 
               <div>
-                <div>
+                <Link href={`/admin/swan/${data._id}`}>
                   <button className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'>
-                    Create System
+                    Edit Project
                   </button>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

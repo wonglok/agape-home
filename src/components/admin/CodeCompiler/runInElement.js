@@ -137,7 +137,7 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
   })
 }
 
-export let runInElement = async ({ outputs, onDone = () => {} }) => {
+export let runInElement = async ({ appID, outputs, onDone = () => {} }) => {
   window.React = React
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
@@ -191,7 +191,7 @@ export let runInElement = async ({ outputs, onDone = () => {} }) => {
   for (let output of outputs) {
     loaderUtils.addImportMap({
       imports: {
-        [`${output.facadeModuleId}`]: URL.createObjectURL(
+        [`${appID}${output.facadeModuleId}`]: URL.createObjectURL(
           new Blob([`${output.code}`], {
             type: `application/javascript`,
           }),
@@ -203,5 +203,5 @@ export let runInElement = async ({ outputs, onDone = () => {} }) => {
   // console.log(outputs)
 
   await window.loadGeneral()
-  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then(onDone)
+  loaderUtils.load(`${appID}rollup://localhost/app-loader/entry/main/index.js`).then(onDone)
 }

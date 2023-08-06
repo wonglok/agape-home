@@ -41,6 +41,7 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
   let run = (args, ran = () => {}) => {
     return buildApp(args).then((outputs) => {
       runInElement({
+        appID,
         outputs: outputs,
         onDone: async (mExport) => {
           if (mode === 'development') {

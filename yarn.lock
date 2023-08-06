@@ -8708,7 +8708,7 @@ tsutils@^3.21.0:
 
 tunnel-rat@^0.1.2:
   version "0.1.2"
-  resolved "https://registry.npmjs.org/tunnel-rat/-/tunnel-rat-0.1.2.tgz#1717efbc474ea2d8aa05a91622457a6e201c0aeb"
+  resolved "https://registry.yarnpkg.com/tunnel-rat/-/tunnel-rat-0.1.2.tgz#1717efbc474ea2d8aa05a91622457a6e201c0aeb"
   integrity sha512-lR5VHmkPhzdhrM092lI2nACsLO4QubF0/yoOhzX7c+wIpbN1GjHNzCc91QlpxBi+cnx8vVJ+Ur6vL5cEoQPFpQ==
   dependencies:
     zustand "^4.3.2"

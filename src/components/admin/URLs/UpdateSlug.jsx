@@ -45,6 +45,7 @@ export function UpdateSlug({ data }) {
                 Page:
               </label>
             </div>
+
             <div className='flex md:w-2/3'>
               <button
                 onClick={() => {}}

@@ -32,7 +32,7 @@ export function LoaderType({ data }) {
             className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'
           >
             <option value={undefined}>Select Content Type</option>
-            <option value={'code3d'}>3D Code</option>
+            <option value={'code3d'}>Swan Pages</option>
           </select>
 
           {data.linkType === 'code3d' && (

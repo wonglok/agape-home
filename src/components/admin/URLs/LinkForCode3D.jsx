@@ -1,9 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useApps } from '../Apps/useApps'
 import { useSlug } from './useSlug'
 
 export function LinkForCode3D({ data }) {
   let apps = useApps((r) => r.apps)
+  let refSel = useRef()
+
+  useEffect(() => {
+    if (refSel.current) {
+      refSel.current.value = data.defaultLinkID
+    }
+  }, [data, apps])
 
   useEffect(() => {
     useApps
@@ -19,6 +26,7 @@ export function LinkForCode3D({ data }) {
   return (
     <>
       <select
+        ref={refSel}
         defaultValue={data.defaultLinkID}
         onChange={(ev) => {
           //

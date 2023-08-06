@@ -14,7 +14,7 @@ export function CreateApp() {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Unique Title / URL
+                Swan Name
               </label>
             </div>
             <div className='flex md:w-2/3'>
@@ -22,7 +22,7 @@ export function CreateApp() {
                 className='w-full appearance-none rounded rounded-l-none border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
-                placeholder='about-me'
+                placeholder='vending-machine-fashion'
               />
             </div>
           </div>

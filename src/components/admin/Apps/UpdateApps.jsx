@@ -44,7 +44,7 @@ export function UpdateApps({ data }) {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Private Page
+                Widget
               </label>
             </div>
             <div className='flex md:w-2/3'>

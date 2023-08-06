@@ -146,24 +146,9 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
 
 export let runInElement = async ({ appID, outputs, onDone = () => {} }) => {
   window.React = React
-  // window.ReactDOM = ReactDOM
   window.THREE = THREE
 
-  // let agapeLoader = {}
-  // // window.THREE = await import('three')
-  // // agapeLoader.react = () => import('react')
-  // agapeLoader['react'] = () => import('react')
-  // agapeLoader['three'] = () => import('three')
-  // agapeLoader['zustand'] = () => import('zustand')
-  // agapeLoader['agape-sdk'] = () => import('agape-sdk')
-  // agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
-  // agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
-  // agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
-  // agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
-  // agapeLoader['three-stdlib'] = () => import('three-stdlib')
-
   window.Globals = window.Globals || {}
-
   window.Globals['react'] = React
   window.Globals['three'] = THREE
   window.Globals['zustand'] = Zustand
@@ -174,38 +159,7 @@ export let runInElement = async ({ appID, outputs, onDone = () => {} }) => {
   window.Globals['@react-three/postprocessing'] = ReactThreePostProc
   window.Globals['three-stdlib'] = THREESTDLIB
 
-  // window.loadGeneral = async () => {
-  //   window.Globals = window.Globals || {}
-  //   return await Promise.all(
-  //     Object.keys(agapeLoader).map(async (key) => {
-  //       if (!window.Globals[key]) {
-  //         let val = await agapeLoader[key]()
-  //         window.Globals[key] = val
-  //         return val
-  //       } else {
-  //         return window.Globals[key]
-  //       }
-  //     }),
-  //   )
-  // }
-
-  // window.getThree = () => import('three')
-  // window.getR3F = () => import('@react-three/fiber')
-  // window.getDrei = () => import('@react-three/drei')
-  // window.getPost = () => import('@react-three/postprocessing')
-  // window.getXR = () => import('@react-three/xr')
-  // window.getValtio = () => import('valtio')
-
-  // loaderUtils.addImportMap({
-  //   imports: {
-  //     [`three`]: '/vendor/three-r149/build/three.module.js',
-  //     [`three/examples/`]: '/vendor/three-r149/examples/',
-  //   },
-  // })
-
   let loaderUtils = await getLoader()
-
-  // console.log(outputs)
 
   for (let output of outputs) {
     loaderUtils.addImportMap({

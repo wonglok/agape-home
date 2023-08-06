@@ -14,12 +14,18 @@ export function CreateSlug() {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Page URL Slug
+                Page URL
               </label>
             </div>
-            <div className='md:w-2/3'>
+            <div className='flex md:w-2/3'>
+              <button
+                onClick={() => {}}
+                className=' focus:shadow-outline inline-block cursor-pointer rounded-l bg-blue-200 px-4 py-2 text-black shadow hover:bg-blue-400 focus:outline-none'
+              >
+                {typeof location !== 'undefined' && location?.origin}/
+              </button>
               <input
-                className='w-full appearance-none rounded border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
+                className='w-full appearance-none rounded-r border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
                 placeholder='about-me'

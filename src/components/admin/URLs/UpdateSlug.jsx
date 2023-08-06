@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useSlug } from './useSlug'
 import slugify from 'slugify'
 import { LoaderType } from './LoaderType'
+import Link from 'next/link'
 
 export function UpdateSlug({ data }) {
   let slugEl = useRef()
@@ -138,9 +139,11 @@ export function UpdateSlug({ data }) {
             </div>
             <div className='md:w-2/3'>
               <div className='flex'>
-                <button className='rounded-xl border-2 border-orange-300 bg-orange-600 p-2 px-6 text-white'>
-                  3D World Editor
-                </button>
+                <Link href={`/admin/world-editor/${data._id}`}>
+                  <button className='rounded-xl border-2 border-blue-300 bg-blue-600 p-2 px-6 text-white'>
+                    3D World Editor
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

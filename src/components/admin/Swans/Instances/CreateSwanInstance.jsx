@@ -23,7 +23,8 @@ export function CreateSwanInstance() {
                 className='w-full appearance-none rounded rounded-l-none border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={title}
-                placeholder='1-st-version'
+                defaultValue={'development-v1'}
+                placeholder='development'
               />
             </div>
           </div>

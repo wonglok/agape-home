@@ -137,7 +137,7 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
   })
 }
 
-export let runInElement = async ({ mountSharedContent = () => {}, mountCustomHTML, mountRoot, outputs, onClean }) => {
+export let runInElement = async ({ outputs, onDone = () => {} }) => {
   window.React = React
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
@@ -203,25 +203,5 @@ export let runInElement = async ({ mountSharedContent = () => {}, mountCustomHTM
   // console.log(outputs)
 
   await window.loadGeneral()
-  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then(async (r) => {
-    let Compos = r.default
-    if (Compos) {
-      try {
-        mountRoot(<Compos></Compos>)
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    let getHTML = r.getHTML
-    if (getHTML) {
-      mountCustomHTML(getHTML())
-    }
-
-    mountSharedContent(<r.SharedContent></r.SharedContent>)
-
-    // if (typeof r?.GUI?.install === 'function') {
-    //   r.GUI.install({ mountRoot, onClean, loader: loaderUtils })
-    // }
-  })
+  loaderUtils.load('rollup://localhost/app-loader/entry/main/index.js').then(onDone)
 }

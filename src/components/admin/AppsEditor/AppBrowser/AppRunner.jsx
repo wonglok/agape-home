@@ -7,6 +7,7 @@ import { runInElement } from '../../CodeCompiler/runInElement'
 // import { useCodeFiles } from '../../Apps/useCodeFiles'
 import { useSlug } from '../../URLs/useSlug'
 import { Canvas } from '@react-three/fiber'
+import Head from 'next/head'
 
 export function AppRunner({ appID }) {
   //
@@ -71,9 +72,7 @@ export function AppRunner({ appID }) {
     }
   }, [appID])
 
-  let [compos, mountRoot] = useState(null)
-  let [shared, mountShared] = useState(null)
-  let [cHTML, mountCustomHTML] = useState(null)
+  let [root, mountRoot] = useState(null)
 
   let run = (args, fnc = () => {}) => {
     return (
@@ -81,17 +80,46 @@ export function AppRunner({ appID }) {
         //
         .then((outputs) => {
           runInElement({
-            mountSharedContent: (v) => {
-              mountShared(v)
-            },
-            mountCustomHTML: (v) => {
-              mountCustomHTML(v)
-            },
-            mountRoot: (v) => {
-              mountRoot(v)
-              fnc()
-            },
+            // mountSharedContent: (v) => {
+            //   mountShared(v)
+            // },
+            // mountCustomHTML: (v) => {
+            //   mountCustomHTML(v)
+            // },
+            // mountRoot: (v) => {
+            //   mountRoot(v)
+            //   fnc()
+            // },
             outputs: outputs,
+            onDone: async (mExport) => {
+              let DeveloperPreview = mExport.DeveloperPreview
+              let SmartObject = mExport.SmartObject
+              let OverlayHTML = mExport.OverlayHTML
+
+              mountRoot(
+                <DeveloperPreview
+                  smartObject={<SmartObject></SmartObject>}
+                  overlayHTML={<OverlayHTML></OverlayHTML>}
+                ></DeveloperPreview>,
+              )
+
+              // let Compos = r.default
+              // if (Compos) {
+              //   try {
+              //     mountRoot(<Compos></Compos>)
+              //   } catch (e) {
+              //     console.log(e)
+              //   }
+              // }
+              // let getHTML = r.getHTML
+              // if (getHTML) {
+              //   mountCustomHTML(getHTML())
+              // }
+              // mountSharedContent(<r.SharedContent></r.SharedContent>)
+              // if (typeof r?.GUI?.install === 'function') {
+              //   r.GUI.install({ mountRoot, onClean, loader: loaderUtils })
+              // }
+            },
             onClean: () => {
               //
             },
@@ -102,13 +130,10 @@ export function AppRunner({ appID }) {
 
   return (
     <>
-      <Canvas>
-        {compos}
-        {shared}
-      </Canvas>
-
-      {cHTML}
-
+      <Head>
+        <link href='/css/tailwind2.2.19.css' rel='stylesheet' />
+      </Head>
+      {root}
       {/* <ErrorBoundary>{compos}</ErrorBoundary> */}
     </>
   )

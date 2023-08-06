@@ -1,33 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
-import { useSwanProject } from './useSwanProject'
-// import { useSwanInstance } from './useSwanInstance'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
-import { useSwanInstance } from './useSwanInstance'
-import { Tooltip } from 'antd'
-function CountBySwanIDGate({ fallback = null, swanID, children }) {
-  //
-  let [show, setShow] = useState(false)
+import { useSwanProject } from '../useSwanProject'
+import { useSwanTask } from '../useSwanTask'
 
-  useEffect(() => {
-    useSwanInstance
-      .getState()
-      .countBySwanID({ swanID })
-      .then((r) => {
-        if (r === 0) {
-          setShow(true)
-        }
-      })
-  }, [swanID])
-  //
-  return <>{show ? children : fallback}</>
-}
-
-export function UpdateSwan({ data }) {
-  let titleEl = useRef()
+export function UpdateSwanTask({ data }) {
+  let slugEl = useRef()
 
   let [ui, setUI] = useState({
     rename: '',
   })
+
+  let swanTasks = useSwanTask((r) => r.swanTasks)
 
   let work = (e) => {
     setUI((st) => {
@@ -37,7 +20,7 @@ export function UpdateSwan({ data }) {
       }
     })
 
-    useSwanProject
+    useSwanTask
       .getState()
       .updateOne({ object: data })
 
@@ -56,7 +39,7 @@ export function UpdateSwan({ data }) {
               rename: '',
             }
           })
-          useSwanProject.setState({ swans: [...swans] })
+          useSwanTask.setState({ swanTasks: [...swanTasks] })
         }, 1000)
       })
       .catch((r) => {
@@ -69,7 +52,8 @@ export function UpdateSwan({ data }) {
       })
   }
 
-  let swans = useSwanProject((r) => r.swans)
+  let activeSwanID = useSwanProject((r) => r.activeSwanID)
+  let activeInstanceID = useSwanProject((r) => r.activeInstanceID)
 
   return (
     <>
@@ -95,14 +79,14 @@ export function UpdateSwan({ data }) {
                 <input
                   className='w-full appearance-none  rounded-none  border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                   type='text'
-                  ref={titleEl}
-                  key={data._id + 'title'}
-                  defaultValue={data.title}
-                  placeholder='title'
+                  ref={slugEl}
+                  key={data._id + 'slug'}
+                  defaultValue={data.slug}
+                  placeholder='slug'
                   onKeyDown={(e) => {
                     clearTimeout(e.target.timer)
                     e.target.timer = setTimeout(() => {
-                      data.title = e.target.value
+                      data.slug = e.target.value
                       work(e)
                     }, 500)
 
@@ -111,43 +95,28 @@ export function UpdateSwan({ data }) {
                     }
                   }}
                 />
-                <CountBySwanIDGate
-                  fallback={
-                    <Tooltip title='Please remove all sub-prototypes before deleting this one'>
-                      <button
-                        disabled
-                        // eslint-disable-next-line tailwindcss/no-custom-classname
-                        className='focus:shadow-outline inline-block cursor-pointer rounded rounded-l-none bg-orange-400 px-4 py-2 font-bold text-white shadow focus:outline-none'
-                      >
-                        🙏🏻
-                      </button>
-                    </Tooltip>
-                  }
-                  swanID={data._id}
-                >
-                  <button
-                    onClick={() => {
-                      //
+                <button
+                  onClick={() => {
+                    //
 
-                      if (window.prompt('Are you sure to remove "' + data.title + '"?', data.title) === data.title) {
-                        useSwanProject.getState().deleteOne({ object: data })
-                        useSwanProject.setState((st) => {
-                          return { ...st, swans: st.swans.filter((r) => r._id !== data._id) }
-                        })
-                      }
-                    }}
-                    // eslint-disable-next-line tailwindcss/no-custom-classname
-                    className='focus:shadow-outline inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
-                  >
-                    ❌
-                  </button>
-                </CountBySwanIDGate>
+                    if (window.prompt('Are you sure to remove "' + data.slug + '"?', data.slug) === data.slug) {
+                      useSwanTask.getState().deleteOne({ object: data })
+                      useSwanTask.setState((st) => {
+                        return { ...st, swanTasks: st.swanTasks.filter((r) => r._id !== data._id) }
+                      })
+                    }
+                  }}
+                  // eslint-disable-next-line tailwindcss/no-custom-classname
+                  className='focus:shadow-outline mr-2 inline-block cursor-pointer rounded rounded-l-none bg-red-200 px-4 py-2 font-bold text-white shadow hover:bg-red-400 focus:outline-none'
+                >
+                  ❌
+                </button>
               </div>
 
               <div>
-                <Link href={`/admin/swan/${data._id}`}>
+                <Link href={`/admin/swan/${activeSwanID}/${activeInstanceID}/${data._id}/edit`}>
                   <button className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'>
-                    Edit Project
+                    Edit Swan Task
                   </button>
                 </Link>
               </div>
@@ -177,23 +146,23 @@ export function UpdateSwan({ data }) {
                     <div>
                       <button
                         onClick={async () => {
-                          let data = await useSwanInstance.getState().create({
+                          let data = await useSwanTask.getState().create({
                             object: {
                               swanID: data._id,
-                              title: '',
+                              slug: '',
                               type: 'development',
                             },
                           })
 
-                          useSwanProject.setState((st) => {
+                          useSwanTask.setState((st) => {
                             return { ...st, swans: [...st.swans, data] }
                           })
 
-                          useSwanProject
+                          useSwanTask
                             .getState()
                             .find({})
                             .then((data) => {
-                              useSwanProject.setState({ swans: data })
+                              useSwanTask.setState({ swans: data })
                             })
 
                           console.log(data)

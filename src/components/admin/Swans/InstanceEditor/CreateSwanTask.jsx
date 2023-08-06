@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
-import { useSwanInstance } from '../useSwanInstance'
+import { useSwanTask } from '../useSwanTask'
 import { useSwanProject } from '../useSwanProject'
+import slugify from 'slugify'
 
-export function CreateSwanInstance() {
-  let title = useRef()
-  let swanInstances = useSwanInstance((r) => r.swanInstances)
+export function CreateSwanTask() {
+  let slug = useRef()
+  let swanTasks = useSwanTask((r) => r.swanTasks)
 
   useEffect(() => {
-    title.current.value = 'development' + `--v${swanInstances.length + 1}`
-  }, [swanInstances])
+    slug.current.value = 'task' + `-v${swanTasks.length + 1}`
+  }, [swanTasks])
   return (
     <>
       <div className='h-5'></div>
@@ -18,18 +19,18 @@ export function CreateSwanInstance() {
             <div className='md:w-1/3'>
               <label
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
-                htmlFor='inline-full-title'
+                htmlFor='inline-full-slug'
               >
-                Prototype Title
+                Task Title
               </label>
             </div>
             <div className='flex md:w-2/3'>
               <input
                 className='w-full appearance-none rounded rounded-l-none border-2 border-gray-200 bg-gray-200 py-2 pl-2 pr-4 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
-                ref={title}
-                defaultValue={`development`}
-                placeholder='development'
+                ref={slug}
+                defaultValue={`task`}
+                placeholder='task'
               />
             </div>
           </div>
@@ -39,30 +40,30 @@ export function CreateSwanInstance() {
             <div className='md:w-2/3'>
               <button
                 onClick={async () => {
-                  let data = await useSwanInstance.getState().create({
+                  let data = await useSwanTask.getState().create({
                     object: {
-                      swanID: useSwanProject.getState().activeSwanID,
-                      title: title?.current?.value || '',
-                      type: 'development',
+                      swanInstanceID: useSwanProject.getState().activeInstanceID,
+                      slug: slugify(slug?.current?.value || '') || '',
+                      task: {},
                     },
                   })
 
-                  useSwanInstance.setState((st) => {
-                    return { ...st, swanInstances: [...st.swanInstances, data] }
+                  useSwanTask.setState((st) => {
+                    return { ...st, swanTasks: [...st.swanTasks, data] }
                   })
 
-                  useSwanInstance
+                  useSwanTask
                     .getState()
-                    .findBySwanID({ swanID: useSwanProject.getState().activeSwanID })
+                    .findByInstanceID({ swanInstanceID: useSwanProject.getState().activeInstanceID })
                     .then((data) => {
-                      useSwanInstance.setState({ swanInstances: data })
+                      useSwanTask.setState({ swanTasks: data })
                     })
 
                   console.log(data)
                 }}
                 className='focus:shadow-outline rounded bg-purple-500 px-4 py-2 font-bold text-white shadow hover:bg-purple-400 focus:outline-none'
               >
-                Create a Prototype 🦢
+                Create a Task 🦢
               </button>
             </div>
           </div>

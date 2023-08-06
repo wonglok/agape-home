@@ -1,3 +1,4 @@
+import { useSwanInstance } from '../Swans/useSwanInstance'
 import { useSwanProject } from '../Swans/useSwanProject'
 
 const getID = () => {
@@ -72,6 +73,7 @@ export const getMenuItems = () => {
         ),
       }
     }),
+
     {
       id: getID(),
       link: '/admin/3d-code',

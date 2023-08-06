@@ -225,13 +225,14 @@ if (!mongoose.models.SwanTask) {
     new Schema(
       {
         swanInstanceID: String,
-        swanTaskSlug: String,
+        slug: String,
         task: {},
       },
       { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
     ),
   )
 }
+export const SwanTask = mongoose.models.SwanTask
 
 // -------
 export const getID = () => {

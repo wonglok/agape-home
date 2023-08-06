@@ -3,7 +3,6 @@ import { AdminGate } from '../../AdminLayout/AdminGate'
 import { URLModalOut } from '../../Apps/Tunnel'
 import { useSwanProject } from './../useSwanProject'
 import { useEffect } from 'react'
-import { useSwanInstance } from './../useSwanInstance'
 import { CreateSwanInstance } from './CreateSwanInstance'
 import { ListSwanInstances } from './ListSwanInstances'
 

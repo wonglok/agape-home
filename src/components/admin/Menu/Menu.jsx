@@ -25,6 +25,7 @@ export function Menu() {
         useSwanProject.setState({ swans: r })
       })
   }, [])
+
   return (
     <ul className='menu rounded-box mb-3 w-full bg-base-100 px-2 pt-2 shadow-xl first-letter:p-2'>
       <style

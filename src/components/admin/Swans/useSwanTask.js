@@ -1,13 +1,9 @@
 import { create } from 'zustand'
 
-export const useSwanProject = create(() => {
-  let url = `/api/swan`
+export const useSwanTask = create(() => {
+  let url = `/api/swan-task`
   return {
-    swans: [],
-    activeSwan: false,
-    activeSwanID: false,
-    activeInstance: false,
-    activeInstanceID: false,
+    swanTasks: [],
     create: ({ object = {} }) => {
       try {
         return (
@@ -48,6 +44,38 @@ export const useSwanProject = create(() => {
             body: JSON.stringify({
               action: 'find',
               payload: {},
+            }),
+            withCredentials: true,
+            credentials: 'same-origin',
+            mode: 'same-origin',
+          })
+            //
+            .then(async (r) => {
+              if (r.ok) {
+                return await r.json()
+              } else {
+                throw await r.text()
+              }
+            })
+            //
+            .then((r) => {
+              return r.data
+            })
+        )
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    findByInstanceID: ({ swanInstanceID }) => {
+      try {
+        return (
+          fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'findByInstanceID',
+              payload: {
+                swanInstanceID,
+              },
             }),
             withCredentials: true,
             credentials: 'same-origin',

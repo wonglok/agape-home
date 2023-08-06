@@ -133,16 +133,19 @@ export function UpdateSlug({ data }) {
           <div className='mb-3 md:flex md:items-center'>
             <div className='md:w-1/3'>
               <label className='mb-1 block pr-4 text-gray-500 md:mb-0 md:text-right' htmlFor='inline-full-name'>
-                <div className='inline-block text-sm'>Actions:</div>
+                <div className='inline-block text-sm'> Tools:</div>
               </label>
             </div>
             <div className='md:w-2/3'>
-              <div className='flex'>123</div>
-              {/*  */}
+              <div className='flex'>
+                <button className='rounded-xl border-2 border-orange-300 bg-orange-600 p-2 px-6 text-white'>
+                  3D World Editor
+                </button>
+              </div>
             </div>
           </div>
 
-          {data && <LoaderType data={data}></LoaderType>}
+          {/* {data && <LoaderType data={data}></LoaderType>} */}
         </div>
       </div>
     </>

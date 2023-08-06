@@ -116,7 +116,7 @@ export function UpdateSwanInstance({ data }) {
               <div>
                 <Link href={`/admin/swan/${activeSwanID}/${data._id}/edit`}>
                   <button className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'>
-                    Edit Project
+                    Edit Swan Instance
                   </button>
                 </Link>
               </div>

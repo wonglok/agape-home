@@ -18,7 +18,7 @@ export function AppEditor() {
           <IconBar></IconBar>
         </div>
         <div
-          className=' bg-gradient-to-t from-slate-200 to-slate-400'
+          className=' relative bg-gradient-to-t from-slate-200 to-slate-400'
           style={{
             height: 'calc(100% - 70px)',
           }}

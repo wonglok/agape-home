@@ -137,7 +137,7 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
   })
 }
 
-export let runInElement = async ({ mountCustomHTML, mountRoot, outputs, onClean }) => {
+export let runInElement = async ({ mountSharedContent = () => {}, mountCustomHTML, mountRoot, outputs, onClean }) => {
   window.React = React
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
@@ -217,6 +217,8 @@ export let runInElement = async ({ mountCustomHTML, mountRoot, outputs, onClean 
     if (getHTML) {
       mountCustomHTML(getHTML())
     }
+
+    mountSharedContent(<r.SharedContent></r.SharedContent>)
 
     // if (typeof r?.GUI?.install === 'function') {
     //   r.GUI.install({ mountRoot, onClean, loader: loaderUtils })

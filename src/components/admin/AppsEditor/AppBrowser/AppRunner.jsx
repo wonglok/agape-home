@@ -1,5 +1,5 @@
-import { Component, useEffect, useState } from 'react'
-import { appContent, buildApp } from '../../CodeCompiler/CodeCore'
+import { useEffect, useState } from 'react'
+import { buildApp } from '../../CodeCompiler/CodeCore'
 import { runInElement } from '../../CodeCompiler/runInElement'
 // import { usePackages } from '../../Apps/usePackages'
 // import { useModules } from '../../Apps/useModules'
@@ -19,7 +19,7 @@ export function AppRunner({ appID }) {
       let codeArgs = await useSlug.getState().findCode3D({ appID: appID })
 
       if (codeArgs) {
-        console.log(codeArgs)
+        // console.log(codeArgs)
         run(codeArgs)
       }
 
@@ -72,33 +72,41 @@ export function AppRunner({ appID }) {
   }, [appID])
 
   let [compos, mountRoot] = useState(null)
+  let [shared, mountShared] = useState(null)
   let [cHTML, mountCustomHTML] = useState(null)
 
   let run = (args, fnc = () => {}) => {
-    return buildApp(args).then((outputs) => {
-      runInElement({
-        mountCustomHTML: (v) => {
-          mountCustomHTML(v)
-        },
-        mountRoot: (v) => {
-          mountRoot(v)
-          fnc()
-        },
-        mountRoot: (v) => {
-          mountRoot(v)
-          fnc()
-        },
-        outputs: outputs,
-        onClean: () => {
-          //
-        },
-      })
-    })
+    return (
+      buildApp(args)
+        //
+        .then((outputs) => {
+          runInElement({
+            mountSharedContent: (v) => {
+              mountShared(v)
+            },
+            mountCustomHTML: (v) => {
+              mountCustomHTML(v)
+            },
+            mountRoot: (v) => {
+              mountRoot(v)
+              fnc()
+            },
+            outputs: outputs,
+            onClean: () => {
+              //
+            },
+          })
+        })
+    )
   }
 
   return (
     <>
-      <Canvas>{compos}</Canvas>
+      <Canvas>
+        {compos}
+        {shared}
+      </Canvas>
+
       {cHTML}
 
       {/* <ErrorBoundary>{compos}</ErrorBoundary> */}

@@ -26,8 +26,8 @@ export function MyAdmin() {
         </div>
 
         <div className='mr-3 inline-block'>
-          <Link href={`/admin/3d-code`}>
-            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>3D Code</button>
+          <Link href={`/admin/swan`}>
+            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>Swan</button>
           </Link>
         </div>
 

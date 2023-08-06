@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function HomeIcon() {
   return (
-    <Link href={`/admin/3d-code`}>
+    <Link href={`/admin/swan`}>
       <div className=' mx-1  flex flex-col items-center justify-center '>
         <div
           className='flex flex-col items-center justify-center rounded-xl bg-gray-100 shadow-inner shadow-gray-300'

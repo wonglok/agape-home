@@ -5,25 +5,15 @@ import { URLModalOut } from '../Apps/Tunnel'
 export function My3DCode() {
   return (
     <>
-      {/*  */}
       <AdminGate>
-        <h2 className='daysfont mb-3 text-2xl underline'>3D Code</h2>
-        {/* <TestButton></TestButton> */}
-        {/* <CodeCompiler></CodeCompiler> */}
-        {/* <CodeCoreRunner></CodeCoreRunner> */}
+        <h2 className='daysfont text-2xl'>S.W.A.N. Widgets</h2>
+        <div className='mb-3 text-sm text-gray-500'>Serverless Web Aapplication Node</div>
         <PageApps></PageApps>
-        {/* <PageURL></PageURL> */}
       </AdminGate>
       <URLModalOut></URLModalOut>
     </>
   )
 }
-
-//
-
-//
-
-//
 
 //
 

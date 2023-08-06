@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useSwanProject } from './useSwanProject'
 // import { useSwanInstance } from './useSwanInstance'
 import Link from 'next/link'
-import { useSwanInstance } from './useSwanInstance'
 import { Tooltip } from 'antd'
+import { useSwanTask } from './useSwanTask'
 function CountBySwanIDGate({ fallback = null, swanID, children }) {
   //
   let [show, setShow] = useState(false)
 
   useEffect(() => {
-    useSwanInstance
+    useSwanTask
       .getState()
       .countBySwanID({ swanID })
       .then((r) => {

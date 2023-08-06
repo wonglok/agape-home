@@ -19,6 +19,7 @@ export function AppRunner({ appID }) {
       let codeArgs = await useSlug.getState().findCode3D({ appID: appID })
 
       if (codeArgs) {
+        console.log(codeArgs)
         run(codeArgs)
       }
 

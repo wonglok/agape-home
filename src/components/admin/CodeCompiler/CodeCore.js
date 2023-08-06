@@ -196,7 +196,7 @@ export let buildApp = async (input) => {
 
   let rawOutputs = parcel.output
 
-  // console.log('[rawOutputs]', rawOutputs)
+  console.log('[rawOutputs]', rawOutputs)
   let outputs = rawOutputs
 
   // console.log(outputs, 'outputs')

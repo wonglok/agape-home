@@ -66,15 +66,15 @@ export const useSwanTask = create(() => {
         console.error(e)
       }
     },
-    findByInstanceID: ({ swanInstanceID }) => {
+    countBySwanID: ({ swanID }) => {
       try {
         return (
           fetch(url, {
             method: 'POST',
             body: JSON.stringify({
-              action: 'findByInstanceID',
+              action: 'countBySwanID',
               payload: {
-                swanInstanceID,
+                swanID,
               },
             }),
             withCredentials: true,

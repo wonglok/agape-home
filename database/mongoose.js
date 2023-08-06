@@ -167,8 +167,8 @@ if (!mongoose.models.CodeFile) {
 }
 
 export const CodeFile = mongoose.models.CodeFile
-// -------
 
+// -------
 // SWAN
 // -------
 delete mongoose.models.Swan
@@ -179,27 +179,10 @@ if (!mongoose.models.Swan) {
       {
         title: String,
         type: String,
-      },
-      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
-    ),
-  )
-}
-export const Swan = mongoose.models.Swan
 
-// ------- // installation creates
-delete mongoose.models.SwanInstance
-if (!mongoose.models.SwanInstance) {
-  mongoose.model(
-    'SwanInstance',
-    new Schema(
-      {
-        swanID: String,
-        //
-        // unzip -> upload -> set swanName
-        title: String,
-        //
         // unzip -> upload -> set installedFiles
         frontEndFiles: [{}],
+
         //
         // unzip -> upload -> set dbSChemas
         dbSchemas: [{}],
@@ -209,12 +192,8 @@ if (!mongoose.models.SwanInstance) {
   )
 }
 
-export const SwanInstance = mongoose.models.SwanInstance
-// -------
+export const Swan = mongoose.models.Swan
 
-// ------
-// operate ->
-// swanInstanceID + taskSlug
 // -------
 // swanInstanceID
 // -------
@@ -224,7 +203,7 @@ if (!mongoose.models.SwanTask) {
     'SwanTask',
     new Schema(
       {
-        swanInstanceID: String,
+        swanID: String,
         slug: String,
         task: {},
       },

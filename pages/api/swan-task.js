@@ -21,15 +21,26 @@ export default async function API(req, res) {
       payload.object.slug = slugify(payload.object.slug || '', '-')
       payload.object.slug = payload.object.slug || ''
 
-      let newItem = await SwanTask.create({
+      let count = await SwanTask.countDocuments({
         slug: payload.object.slug,
-        swanInstanceID: payload.object.swanInstanceID,
-        task: {},
+        swanID: payload.object.swanID,
       })
 
-      return res.json({
-        data: newItem,
-      })
+      if (count === 0) {
+        let newItem = await SwanTask.create({
+          slug: payload.object.slug,
+          swanID: payload.object.swanID,
+          task: {},
+        })
+
+        return res.json({
+          data: newItem,
+        })
+      } else {
+        return res.status(406).json({
+          error: 'taken',
+        })
+      }
     }
 
     if (bodyData.action === 'find') {
@@ -50,9 +61,18 @@ export default async function API(req, res) {
       })
     }
 
-    if (bodyData.action === 'findByInstanceID') {
+    if (bodyData.action === 'countBySwanID') {
+      let result = await SwanTask.count({
+        swanID: payload.swanID,
+      }).sort({ _id: -1 })
+
+      return res.json({
+        data: result,
+      })
+    }
+    if (bodyData.action === 'findBySwanID') {
       let result = await SwanTask.find({
-        swanInstanceID: payload.swanInstanceID,
+        swanID: payload.swanID,
       }).sort({ _id: -1 })
 
       return res.json({

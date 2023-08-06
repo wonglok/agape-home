@@ -5,6 +5,13 @@ import * as React from 'react'
 // import * as ReactDOM from 'react-dom/client'
 // import * as R3F from
 import * as THREE from 'three'
+import * as Zustand from 'zustand'
+import * as AgapeSDK from 'agape-sdk'
+import * as ReactThreeFiber from '@react-three/fiber'
+import * as ReactThreeDrei from '@react-three/drei'
+import * as ReactThreePostProc from '@react-three/postprocessing'
+import * as ReactThreeXR from '@react-three/xr'
+import * as THREESTDLIB from 'three-stdlib'
 
 export const DefaultSetting = {
   onFetch: ({ url, options }) => {
@@ -142,33 +149,45 @@ export let runInElement = async ({ appID, outputs, onDone = () => {} }) => {
   // window.ReactDOM = ReactDOM
   window.THREE = THREE
 
-  let agapeLoader = {}
-  // window.THREE = await import('three')
-  // agapeLoader.react = () => import('react')
-  agapeLoader['react'] = () => import('react')
-  agapeLoader['three'] = () => import('three')
-  agapeLoader['zustand'] = () => import('zustand')
-  agapeLoader['agape-sdk'] = () => import('agape-sdk')
-  agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
-  agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
-  agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
-  agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
-  agapeLoader['three-stdlib'] = () => import('three-stdlib')
+  // let agapeLoader = {}
+  // // window.THREE = await import('three')
+  // // agapeLoader.react = () => import('react')
+  // agapeLoader['react'] = () => import('react')
+  // agapeLoader['three'] = () => import('three')
+  // agapeLoader['zustand'] = () => import('zustand')
+  // agapeLoader['agape-sdk'] = () => import('agape-sdk')
+  // agapeLoader['@react-three/fiber'] = () => import('@react-three/fiber')
+  // agapeLoader['@react-three/drei'] = () => import('@react-three/drei')
+  // agapeLoader['@react-three/xr'] = () => import('@react-three/xr')
+  // agapeLoader['@react-three/postprocessing'] = () => import('@react-three/postprocessing')
+  // agapeLoader['three-stdlib'] = () => import('three-stdlib')
 
-  window.loadGeneral = async () => {
-    window.Globals = window.Globals || {}
-    return await Promise.all(
-      Object.keys(agapeLoader).map(async (key) => {
-        if (!window.Globals[key]) {
-          let val = await agapeLoader[key]()
-          window.Globals[key] = val
-          return val
-        } else {
-          return window.Globals[key]
-        }
-      }),
-    )
-  }
+  window.Globals = window.Globals || {}
+
+  window.Globals['react'] = React
+  window.Globals['three'] = THREE
+  window.Globals['zustand'] = Zustand
+  window.Globals['agape-sdk'] = AgapeSDK
+  window.Globals['@react-three/fiber'] = ReactThreeFiber
+  window.Globals['@react-three/drei'] = ReactThreeDrei
+  window.Globals['@react-three/xr'] = ReactThreeXR
+  window.Globals['@react-three/postprocessing'] = ReactThreePostProc
+  window.Globals['three-stdlib'] = THREESTDLIB
+
+  // window.loadGeneral = async () => {
+  //   window.Globals = window.Globals || {}
+  //   return await Promise.all(
+  //     Object.keys(agapeLoader).map(async (key) => {
+  //       if (!window.Globals[key]) {
+  //         let val = await agapeLoader[key]()
+  //         window.Globals[key] = val
+  //         return val
+  //       } else {
+  //         return window.Globals[key]
+  //       }
+  //     }),
+  //   )
+  // }
 
   // window.getThree = () => import('three')
   // window.getR3F = () => import('@react-three/fiber')
@@ -202,6 +221,6 @@ export let runInElement = async ({ appID, outputs, onDone = () => {} }) => {
 
   // console.log(outputs)
 
-  await window.loadGeneral()
+  // await window.loadGeneral()
   loaderUtils.load(`${appID}rollup://localhost/app-loader/entry/main/index.js`).then(onDone)
 }

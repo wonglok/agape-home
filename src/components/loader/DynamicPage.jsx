@@ -3,13 +3,12 @@ import { useSlug } from '@/components/admin/URLs/useSlug'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-export default function Page() {
+export function DynamicPage() {
   let router = useRouter()
   let asPath = router.asPath
+  let slug = asPath.replace('/', '')
   let [appID, setAppID] = useState(false)
   useEffect(() => {
-    let slug = asPath.replace('/', '')
-
     useSlug
       .getState()
       .findSlug({ slug: slug })
@@ -21,14 +20,10 @@ export default function Page() {
           setAppID(r.defaultLinkID)
         }
       })
-  }, [asPath])
+  }, [slug])
 
   return <>{appID && <AppRunner appID={appID}></AppRunner>}</>
 }
-
-//
-
-//
 
 //
 

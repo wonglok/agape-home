@@ -54,8 +54,9 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
 
                 mountRoot(
                   <DeveloperPreview
-                    smartObject={<SmartObject></SmartObject>}
-                    overlayHTML={<OverlayHTML></OverlayHTML>}
+                    appID={appID}
+                    smartObject={<SmartObject appID={appID}></SmartObject>}
+                    overlayHTML={<OverlayHTML appID={appID}></OverlayHTML>}
                   ></DeveloperPreview>,
                 )
               }
@@ -65,8 +66,8 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
                 let SmartObject = mExport.SmartObject
                 let OverlayHTML = mExport.OverlayHTML
 
-                mountRoot(<SmartObject></SmartObject>)
-                mountHTML(<OverlayHTML></OverlayHTML>)
+                mountRoot(<SmartObject appID={appID}></SmartObject>)
+                mountHTML(<OverlayHTML appID={appID}></OverlayHTML>)
               }
 
               ran()

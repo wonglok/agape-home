@@ -1,10 +1,13 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useSlug } from './useSlug'
 import slugify from 'slugify'
 import { LoaderType } from './LoaderType'
 
 export function UpdateSlug({ data }) {
   let slugEl = useRef()
+  let [ui, setUI] = useState({
+    rename: '',
+  })
 
   let set = (e, v = 'focus:border-green-500') => {
     e.target.classList.remove('focus:border-purple-500')
@@ -15,19 +18,46 @@ export function UpdateSlug({ data }) {
   }
   let work = (e) => {
     //!SECTION
+    setUI((st) => {
+      return {
+        ...st,
+        rename: `Upading...`,
+      }
+    })
+
     data.slug = slugify(slugEl.current.value || '', '-')
     useSlug
       .getState()
       .updateOne({ object: data })
 
       .then(() => {
+        setUI((st) => {
+          return {
+            ...st,
+            rename: `Successful...`,
+          }
+        })
+
         set(e, 'focus:border-green-500')
 
         setTimeout(() => {
+          setUI((st) => {
+            return {
+              ...st,
+              rename: ``,
+            }
+          })
+
           set(e, 'focus:border-purple-500')
         }, 1000)
       })
       .catch((r) => {
+        setUI((st) => {
+          return {
+            ...st,
+            rename: `Error...`,
+          }
+        })
         set(e, 'focus:border-red-500')
       })
   }
@@ -44,6 +74,12 @@ export function UpdateSlug({ data }) {
               >
                 Page:
               </label>
+              <label
+                className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
+                htmlFor='inline-full-name'
+              >
+                {ui.rename}
+              </label>
             </div>
 
             <div className='flex md:w-2/3'>
@@ -55,13 +91,19 @@ export function UpdateSlug({ data }) {
               </button>
               <input
                 //
-
                 className='w-full appearance-none  border-2 border-gray-200 bg-gray-200 px-4 py-2 leading-tight text-gray-700 focus:border-purple-500 focus:bg-white focus:outline-none'
                 type='text'
                 ref={slugEl}
                 defaultValue={data.slug}
                 placeholder='home-page'
                 onKeyDown={(e) => {
+                  setUI((st) => {
+                    return {
+                      ...st,
+                      rename: `Upading...`,
+                    }
+                  })
+
                   clearTimeout(e.target.timer)
                   e.target.timer = setTimeout(() => {
                     work(e)

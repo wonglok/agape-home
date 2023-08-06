@@ -42,10 +42,16 @@ export function UpdateSlug({ data }) {
                 className='mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right'
                 htmlFor='inline-full-name'
               >
-                Page /
+                Page:
               </label>
             </div>
             <div className='flex md:w-2/3'>
+              <button
+                onClick={() => {}}
+                className=' focus:shadow-outline inline-block cursor-pointer rounded-l bg-blue-200 px-4 py-2 text-black shadow hover:bg-blue-400 focus:outline-none'
+              >
+                /
+              </button>
               <input
                 //
 
@@ -53,7 +59,7 @@ export function UpdateSlug({ data }) {
                 type='text'
                 ref={slugEl}
                 defaultValue={data.slug}
-                placeholder='about-me'
+                placeholder='home-page'
                 onKeyDown={(e) => {
                   clearTimeout(e.target.timer)
                   e.target.timer = setTimeout(() => {

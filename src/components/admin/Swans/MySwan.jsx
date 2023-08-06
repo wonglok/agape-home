@@ -8,10 +8,8 @@ export function MySwan() {
     <>
       {/*  */}
       <AdminGate>
-        <h2 className='daysfont text-2xl'>SWAN Projects</h2>
+        <h2 className='daysfont text-2xl'>S.W.A.N. Projects</h2>
         <div className='mb-3 text-sm text-gray-500'>Serverless Web Aapplication Node</div>
-        {/*  */}
-
         <CreateSwan></CreateSwan>
         <ListSwan></ListSwan>
       </AdminGate>

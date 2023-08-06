@@ -18,7 +18,6 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
     let codeArgs = await useSlug.getState().findCode3D({ appID: appID })
 
     if (codeArgs) {
-      // console.log(codeArgs)
       run(codeArgs)
     }
 
@@ -40,44 +39,40 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
   }
 
   let run = (args, ran = () => {}) => {
-    return (
-      buildApp(args)
-        //
-        .then((outputs) => {
-          runInElement({
-            outputs: outputs,
-            onDone: async (mExport) => {
-              if (mode === 'development') {
-                let DeveloperPreview = mExport.DeveloperPreview
-                let SmartObject = mExport.SmartObject
-                let OverlayHTML = mExport.OverlayHTML
+    return buildApp(args).then((outputs) => {
+      runInElement({
+        outputs: outputs,
+        onDone: async (mExport) => {
+          if (mode === 'development') {
+            let DeveloperPreview = mExport.DeveloperPreview
+            let SmartObject = mExport.SmartObject
+            let OverlayHTML = mExport.OverlayHTML
 
-                mountRoot(
-                  <DeveloperPreview
-                    appID={appID}
-                    smartObject={<SmartObject appID={appID}></SmartObject>}
-                    overlayHTML={<OverlayHTML appID={appID}></OverlayHTML>}
-                  ></DeveloperPreview>,
-                )
-              }
+            mountRoot(
+              <DeveloperPreview
+                appID={appID}
+                smartObject={<SmartObject appID={appID}></SmartObject>}
+                overlayHTML={<OverlayHTML appID={appID}></OverlayHTML>}
+              ></DeveloperPreview>,
+            )
+          }
 
-              if (mode === 'smartobject') {
-                // let DeveloperPreview = mExport.DeveloperPreview
-                let SmartObject = mExport.SmartObject
-                let OverlayHTML = mExport.OverlayHTML
+          if (mode === 'smartobject') {
+            // let DeveloperPreview = mExport.DeveloperPreview
+            let SmartObject = mExport.SmartObject
+            let OverlayHTML = mExport.OverlayHTML
 
-                mountRoot(<SmartObject appID={appID}></SmartObject>)
-                mountHTML(<OverlayHTML appID={appID}></OverlayHTML>)
-              }
+            mountRoot(<SmartObject appID={appID}></SmartObject>)
+            mountHTML(<OverlayHTML appID={appID}></OverlayHTML>)
+          }
 
-              ran()
-            },
-            onClean: () => {
-              //
-            },
-          })
-        })
-    )
+          ran()
+        },
+        onClean: () => {
+          //
+        },
+      })
+    })
   }
 
   useEffect(() => {

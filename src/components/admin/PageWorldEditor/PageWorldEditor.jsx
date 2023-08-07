@@ -40,9 +40,30 @@ export function PageWorldEditor() {
           <div style={{ width: 'calc(100% - 280px - 280px)', height: `calc(100%)` }}>
             <div className='h-full w-full bg-gray-100'>
               <div className='flex h-full w-full items-center justify-center'>
-                <button className='m-1 rounded-xl bg-gray-200 p-2 px-4 text-sm hover:bg-gray-300'>Page View</button>
-                <button className='m-1 rounded-xl bg-gray-200 p-2 px-4 text-sm hover:bg-gray-300'>Room View</button>
-                <button className='m-1 rounded-xl bg-gray-200 p-2 px-4 text-sm hover:bg-gray-300'>Sky View</button>
+                <button
+                  onClick={() => {
+                    //
+                  }}
+                  className='m-1 rounded-lg bg-gray-200 p-2 px-4 text-sm shadow-md hover:bg-gray-300'
+                >
+                  Page View
+                </button>
+                <button
+                  onClick={() => {
+                    //
+                  }}
+                  className='m-1 rounded-lg bg-gray-200 p-2 px-4 text-sm shadow-md hover:bg-gray-300'
+                >
+                  Room View
+                </button>
+                <button
+                  onClick={() => {
+                    //
+                  }}
+                  className='m-1 rounded-lg bg-gray-200 p-2 px-4 text-sm shadow-md hover:bg-gray-300'
+                >
+                  Sky View
+                </button>
               </div>
             </div>
           </div>
@@ -61,7 +82,7 @@ export function PageWorldEditor() {
             <div className='h-full w-full bg-gray-200'>Outliner</div>
           </div>
           <div style={{ width: 'calc(100% - 280px - 280px)', height: `calc(100%)` }}>
-            <PageWorldRunner></PageWorldRunner>
+            <PageWorldRunner isEditor> </PageWorldRunner>
           </div>
           <div style={{ width: '280px', height: `calc(100%)` }}>
             <div className='h-full w-full  bg-gray-200'>Settings</div>

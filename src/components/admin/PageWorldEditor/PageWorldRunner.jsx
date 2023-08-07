@@ -6,13 +6,23 @@ import tunnel from 'tunnel-rat'
 
 const t = tunnel()
 
-export function PageWorldRunner() {
+export function PageWorldRunner({ isEditor = false }) {
   return (
     <div className='relative h-full w-full bg-white'>
       <Canvas>
-        <color attach='background' args={['#cccccc']} />
-        <gridHelper args={[10, 10, '#f00', '#000']} />
-        <OrbitControls object-position={[0, 3, 5]}></OrbitControls>
+        {isEditor ? (
+          <>
+            <color attach='background' args={['#cccccc']} />
+            <gridHelper args={[10, 10, '#f00', '#000']} />
+            <OrbitControls object-position={[0, 3, 5]}></OrbitControls>
+          </>
+        ) : (
+          <>
+            {/*  */}
+
+            {/*  */}
+          </>
+        )}
 
         <group position={[-1, 0, 0]}>
           <SmartObject appID={`64cf6ede51ea34baac32cdd2`}></SmartObject>

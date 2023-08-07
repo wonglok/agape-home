@@ -122,8 +122,6 @@ function Internal({ useStore, mounter, glb, fromPos = [0, 0, 0] }) {
 
               <GateMousee collider={collider} mouse3d={destObj}></GateMousee>
 
-              {/*  */}
-
               {createPortal(
                 <>
                   <Sphere scale={0.3}>

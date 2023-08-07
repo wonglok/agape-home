@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { LoaderGLB } from '../../../main.jsx'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 
 export function ProductView({ useStore }) {
@@ -33,6 +33,7 @@ export function ProductView({ useStore }) {
             }, [glb])
             return (
               <>
+                <PerspectiveCamera makeDefault near={0.1} far={100}></PerspectiveCamera>
                 <OrbitControls
                   object-position={[0, 5, 10]}
                   target={[0, 4, 0]}

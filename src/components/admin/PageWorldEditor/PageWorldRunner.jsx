@@ -3,18 +3,19 @@ import { OrbitControls } from '@react-three/drei'
 import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
 import { useState } from 'react'
 import tunnel from 'tunnel-rat'
+import { AgapeEngine } from './Runner/AgapeEngine'
 
-const t = tunnel()
+export const tRunner = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {
   return (
     <div className='relative h-full w-full bg-white'>
-      <Canvas>
+      <Canvas gl={{ logarithmicDepthBuffer: true }}>
         {isEditor ? (
           <>
-            <color attach='background' args={['#cccccc']} />
-            <gridHelper args={[10, 10, '#f00', '#000']} />
-            <OrbitControls object-position={[0, 3, 5]}></OrbitControls>
+            {/* <color attach='background' args={['#cccccc']} />
+            <gridHelper args={[10, 10, '#f00', '#000']} /> */}
+            {/* <OrbitControls object-position={[0, 3, 5]}></OrbitControls> */}
           </>
         ) : (
           <>
@@ -24,6 +25,8 @@ export function PageWorldRunner({ isEditor = false }) {
           </>
         )}
 
+        <AgapeEngine tRunner={tRunner}></AgapeEngine>
+
         <group position={[-1, 0, 0]}>
           <SmartObject appID={`64cf6ede51ea34baac32cdd2`}></SmartObject>
         </group>
@@ -32,7 +35,7 @@ export function PageWorldRunner({ isEditor = false }) {
         </group>
       </Canvas>
 
-      <t.Out></t.Out>
+      <tRunner.Out></tRunner.Out>
     </div>
   )
 }
@@ -50,7 +53,7 @@ function SmartObject({ appID }) {
           mode={'smartobject'}
         ></AppRunner>
       )}
-      <t.In>{html}</t.In>
+      <tRunner.In>{html}</tRunner.In>
     </>
   )
 }

@@ -30,7 +30,7 @@ export function Background({ useStore }) {
         let envMap = gen.fromEquirectangular(tx)
         envMap.mapping = CubeReflectionMapping
 
-        // scene.background = envMap.texture;
+        scene.background = envMap.texture
         scene.environment = envMap.texture
       }
 
@@ -43,7 +43,7 @@ export function Background({ useStore }) {
           .then((tx) => {
             tx.mapping = EquirectangularReflectionMapping
 
-            // scene.background = tx;
+            scene.background = tx
             scene.environment = tx
           })
           .catch((r) => {

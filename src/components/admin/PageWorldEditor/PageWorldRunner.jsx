@@ -7,7 +7,12 @@ export const tRunner = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {
   return (
-    <div className='relative h-full w-full bg-white'>
+    <div
+      className='relative h-full w-full bg-white'
+      onKeyDownCapture={(ev) => {
+        ev.stopPropagation()
+      }}
+    >
       <Canvas gl={{ logarithmicDepthBuffer: true }}>
         {isEditor ? (
           <></>
@@ -38,6 +43,7 @@ export function PageWorldRunner({ isEditor = false }) {
 
 function SmartObject({ appID }) {
   let [html, setHTML] = useState(null)
+
   return (
     <>
       {appID && (

@@ -2,11 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSlug } from '../URLs/useSlug'
-import { Canvas } from '@react-three/fiber'
-import { Box, MeshTransmissionMaterial, OrbitControls } from '@react-three/drei'
-import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
-import tunnel from 'tunnel-rat'
-const t = tunnel()
+import { PageWorldRunner } from './PageWorldRunner'
 
 export function PageWorldEditor() {
   let router = useRouter()
@@ -65,7 +61,7 @@ export function PageWorldEditor() {
             <div className='h-full w-full bg-gray-200'>Outliner</div>
           </div>
           <div style={{ width: 'calc(100% - 280px - 280px)', height: `calc(100%)` }}>
-            <RunnerTester></RunnerTester>
+            <PageWorldRunner></PageWorldRunner>
           </div>
           <div style={{ width: '280px', height: `calc(100%)` }}>
             <div className='h-full w-full  bg-gray-200'>Settings</div>
@@ -73,42 +69,5 @@ export function PageWorldEditor() {
         </div>
       </div>
     </>
-  )
-}
-
-function SmartObject({ appID }) {
-  let [html, setHTML] = useState(null)
-  return (
-    <>
-      <AppRunner
-        appID={appID}
-        mountHTML={(v) => {
-          setHTML(v)
-        }}
-        mode={'smartobject'}
-      ></AppRunner>
-      <t.In>{html}</t.In>
-    </>
-  )
-}
-
-function RunnerTester() {
-  return (
-    <div className='relative h-full w-full bg-white'>
-      <Canvas>
-        <color attach='background' args={['#bababa']} />
-        <gridHelper args={[10, 10, '#f00', '#000']} />
-        <OrbitControls object-position={[0, 3, 5]}></OrbitControls>
-
-        <group position={[-1, 0, 0]}>
-          <SmartObject appID={`64cf6ede51ea34baac32cdd2`}></SmartObject>
-        </group>
-        <group position={[1, 0, 0]}>
-          <SmartObject appID={`64bd9f9325ff27c7519d352d`}></SmartObject>
-        </group>
-      </Canvas>
-
-      <t.Out></t.Out>
-    </div>
   )
 }

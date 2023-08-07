@@ -1,10 +1,8 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
 import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
 import { useState } from 'react'
 import tunnel from 'tunnel-rat'
 import { AgapeEngine } from './Runner/AgapeEngine'
-
 export const tRunner = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {
@@ -12,11 +10,7 @@ export function PageWorldRunner({ isEditor = false }) {
     <div className='relative h-full w-full bg-white'>
       <Canvas gl={{ logarithmicDepthBuffer: true }}>
         {isEditor ? (
-          <>
-            {/* <color attach='background' args={['#cccccc']} />
-            <gridHelper args={[10, 10, '#f00', '#000']} /> */}
-            {/* <OrbitControls object-position={[0, 3, 5]}></OrbitControls> */}
-          </>
+          <></>
         ) : (
           <>
             {/*  */}
@@ -27,11 +21,13 @@ export function PageWorldRunner({ isEditor = false }) {
 
         <AgapeEngine tRunner={tRunner}></AgapeEngine>
 
-        <group position={[-1, 0, 0]}>
-          <SmartObject appID={`64cf6ede51ea34baac32cdd2`}></SmartObject>
-        </group>
-        <group position={[1, 0, 0]}>
-          <SmartObject appID={`64bd9f9325ff27c7519d352d`}></SmartObject>
+        <group position={[0, 1, -5]}>
+          <group position={[-1, 0, 0]}>
+            <SmartObject appID={`64cf6ede51ea34baac32cdd2`}></SmartObject>
+          </group>
+          <group position={[1, 0, 0]}>
+            <SmartObject appID={`64bd9f9325ff27c7519d352d`}></SmartObject>
+          </group>
         </group>
       </Canvas>
 

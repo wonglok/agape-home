@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSlug } from '../URLs/useSlug'
 import { PageWorldRunner } from './PageWorldRunner'
+import { SetupPostProcessingArea } from './Runner/SetupPostProcessingArea/SetupPostProcessingArea'
 
 export function PageWorldEditor() {
   let router = useRouter()
@@ -85,7 +86,9 @@ export function PageWorldEditor() {
             <PageWorldRunner isEditor> </PageWorldRunner>
           </div>
           <div style={{ width: '280px', height: `calc(100%)` }}>
-            <div className='h-full w-full  bg-gray-200'>Settings</div>
+            <div className='h-full w-full  bg-gray-200'>
+              <SetupPostProcessingArea></SetupPostProcessingArea>
+            </div>
           </div>
         </div>
       </div>

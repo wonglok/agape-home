@@ -1,36 +1,18 @@
-import { Background, Joystick, PPSwitch, SceneStateManager } from 'agape-sdk'
+import { Background, Joystick, PPSwitch } from 'agape-sdk'
 import { GameModeAdapter } from './GameModeAdapter'
-import { RESTLoader } from './RESTLoader'
+import { useAgapeStore } from './useAgapeStore'
 
 export function AgapeEngine({ tRunner }) {
   return (
     <>
-      <SceneStateManager
-        ReadyCompos={function ReadyCompos({ useStore }) {
-          let ready = useStore((r) => r.ready)
+      <GameModeAdapter useStore={useAgapeStore}></GameModeAdapter>
+      <Background useStore={useAgapeStore}></Background>
+      <PPSwitch useStore={useAgapeStore}></PPSwitch>
 
-          return (
-            <>
-              {/*  */}
-              {/* <Loader projectID={projectID} useStore={useStore}></Loader> */}
-              <RESTLoader useStore={useStore}></RESTLoader>
-
-              {ready && (
-                <>
-                  <GameModeAdapter useStore={useStore}></GameModeAdapter>
-                  <Background useStore={useStore}></Background>
-                  <PPSwitch useStore={useStore}></PPSwitch>
-                </>
-              )}
-
-              <tRunner.In>
-                <div id='guilayer'></div>
-                <JoyStickHTML useStore={useStore}></JoyStickHTML>
-              </tRunner.In>
-            </>
-          )
-        }}
-      ></SceneStateManager>
+      <tRunner.In>
+        <div id='guilayer'></div>
+        <JoyStickHTML useStore={useAgapeStore}></JoyStickHTML>
+      </tRunner.In>
     </>
   )
 }

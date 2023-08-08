@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSlug } from '../URLs/useSlug'
 import { PageWorldRunner } from './PageWorldRunner'
 import { SetupPostProcessingArea } from './Runner/SetupPostProcessingArea/SetupPostProcessingArea'
-
+import { getData } from './Runner/Data'
+import copyToClipboard from 'copy-to-clipboard'
 export function PageWorldEditor() {
   let router = useRouter()
   let query = router.query || {}
@@ -60,6 +61,7 @@ export function PageWorldEditor() {
                 <button
                   onClick={() => {
                     //
+                    //
                   }}
                   className='m-1 rounded-lg bg-gray-200 p-2 px-4 text-sm shadow-md hover:bg-gray-300'
                 >
@@ -87,6 +89,20 @@ export function PageWorldEditor() {
           </div>
           <div style={{ width: '280px', height: `calc(100%)` }}>
             <div className='h-full w-full  bg-gray-200'>
+              <div className='py-2 text-center'>
+                <button
+                  className='bg-blue-500 p-3 text-white'
+                  onClick={() => {
+                    //
+                    let json = JSON.stringify(getData())
+
+                    copyToClipboard(json)
+                    //
+                  }}
+                >
+                  Save PostProcessing
+                </button>
+              </div>
               <SetupPostProcessingArea></SetupPostProcessingArea>
             </div>
           </div>

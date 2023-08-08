@@ -41,8 +41,7 @@ export const Data = {
   projectMeta: {
     envURL: '/agape-sdk/hdr/concret.hdr',
     myAvatarURL: '/assets/2023-04-07-walk/lok-groom.glb',
-    colliderGLBURL:
-      'https://cdn.agape.town/team-drive/development/_f56aacd84822a8fd7657100f421b845f/loop2-v1_md5_fa66d147f801d57be7410469dc9917bc.glb',
+    colliderGLBURL: '/agape-sdk/glb/nyc.glb',
     gameMode: 'room',
     postprocessing: 'game',
     insepction: 'normal',
@@ -123,4 +122,8 @@ export const Data = {
     },
     from: '_c697f9046686d21da12a3e0c6d7e3370',
   },
+}
+
+export const getData = () => {
+  return Data
 }

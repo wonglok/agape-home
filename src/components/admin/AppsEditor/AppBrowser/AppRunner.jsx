@@ -45,9 +45,9 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
         outputs: outputs,
         onDone: async (mExport) => {
           if (mode === 'development') {
-            let DeveloperPreview = mExport.DeveloperPreview
-            let SmartObject = mExport.SmartObject
-            let OverlayHTML = mExport.OverlayHTML
+            let DeveloperPreview = mExport.DeveloperPreview || (() => null)
+            let SmartObject = mExport.SmartObject || (() => null)
+            let OverlayHTML = mExport.OverlayHTML || (() => null)
 
             mountRoot(
               <DeveloperPreview
@@ -60,8 +60,8 @@ export function AppRunner({ appID, mode = 'development', mountHTML = () => {} })
 
           if (mode === 'smartobject') {
             // let DeveloperPreview = mExport.DeveloperPreview
-            let SmartObject = mExport.SmartObject
-            let OverlayHTML = mExport.OverlayHTML
+            let SmartObject = mExport.SmartObject || (() => null)
+            let OverlayHTML = mExport.OverlayHTML || (() => null)
 
             mountRoot(<SmartObject appID={appID}></SmartObject>)
             mountHTML(<OverlayHTML appID={appID}></OverlayHTML>)

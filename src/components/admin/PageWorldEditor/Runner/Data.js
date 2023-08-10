@@ -1,43 +1,5 @@
 export const Data = {
-  sceneList: [
-    // {
-    //   oid: '_6662399c78b723865fada9c992a0a0eb',
-    //   oidParent: '',
-    //   projectID: '_1ceba52d0deec9748fd73cf8d550f1c5',
-    //   teamID: '_f56aacd84822a8fd7657100f421b845f',
-    //   gismo: '',
-    //   displayName: 'GLB File',
-    //   nodeType: 'glb',
-    //   position: [0.7005368570646899, 3.817647716119839, -4.570196563081412],
-    //   rotation: [10.3, 0.10977331198769757, 0, 'XYZ'],
-    //   scale: [0.1, 0.1, 0.1],
-    //   glbURL:
-    //     'https://cdn.agape.town/team-drive/development/_f56aacd84822a8fd7657100f421b845f/spear_of_adun_md5_4ef5d34883aee42d6db5c4fe2bc91437.glb',
-    //   signature: '_1fd9ffd7d6161bea744382c4cea09a30',
-    // },
-    // {
-    //   oid: '_a877b65f85c91a7e3644fdacf99239c9',
-    //   oidParent: '',
-    //   projectID: '_1ceba52d0deec9748fd73cf8d550f1c5',
-    //   teamID: '_f56aacd84822a8fd7657100f421b845f',
-    //   gismo: '',
-    //   displayName: 'Particle Emitter',
-    //   nodeType: 'particleEmitter',
-    //   position: [0, 0, 0],
-    //   rotation: [0, 0, 0],
-    //   scale: [1, 1, 1],
-    //   objectName: 'LandscapeBody',
-    //   unitGLBURL: '/agape-sdk/glb/diamond-geo.glb',
-    //   unitScale: 0.1,
-    //   performanceProfile: 'middle',
-    //   surfaceEmissionForce: 0.652,
-    //   playerAttractionForce: 0.87,
-    //   playerSpinningForce: 1,
-    //   playerPropulsionForce: 0.522,
-    //   shieldRadius: 10.435,
-    //   signature: '_2456f1fcd876e0567a263ccac85e5746',
-    // },
-  ],
+  sceneList: [],
   projectMeta: {
     envURL: '/agape-sdk/hdr/concret.hdr',
     myAvatarURL: '/assets/2023-04-07-walk/lok-groom.glb',
@@ -47,9 +9,9 @@ export const Data = {
     insepction: 'normal',
     tab: 'light',
     postProcessingConfig: {
-      multisampling: 0,
+      multisampling: 4,
       emissiveIntensity: 1,
-      envMapIntensity: 1,
+      envMapIntensity: 0.2,
       ssrPass: {
         useThisOne: false,
         intensity: 1,
@@ -75,13 +37,13 @@ export const Data = {
         useNormalMap: true,
         useRoughnessMap: true,
         resolutionScale: 1,
-        velocityResolutionScale: 0.1,
+        velocityResolutionScale: 0.125,
       },
       bloomPass: {
         useThisOne: true,
         mipmapBlur: true,
-        luminanceThreshold: 0.6700000000000003,
-        intensity: 4.89,
+        luminanceThreshold: 0.21000000000000024,
+        intensity: 5.33,
         resolutionScale: 1,
       },
       wavePass: {
@@ -103,14 +65,7 @@ export const Data = {
         radialModulation: true,
         modulationOffset: 0.5,
       },
-      colorPass: {
-        useThisOne: true,
-        hue: 0,
-        satuation: 0,
-        brightness: 0.0,
-        contrast: 0.0,
-        saturation: 0,
-      },
+      colorPass: { useThisOne: true, hue: 0, satuation: 0, brightness: -0.17, contrast: 0.3, saturation: 0.04 },
       from: 0.6039740982326269,
       aoPass: {
         useThisOne: false,
@@ -122,8 +77,4 @@ export const Data = {
     },
     from: '_c697f9046686d21da12a3e0c6d7e3370',
   },
-}
-
-export const getData = () => {
-  return Data
 }

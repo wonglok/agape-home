@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSlug } from '../URLs/useSlug'
 import { PageWorldRunner } from './PageWorldRunner'
 import { SetupPostProcessingArea } from './Runner/SetupPostProcessingArea/SetupPostProcessingArea'
-import { getData } from './Runner/Data'
 import copyToClipboard from 'copy-to-clipboard'
+import { getData } from './Runner/useAgapeStore'
 export function PageWorldEditor() {
   let router = useRouter()
   let query = router.query || {}
@@ -94,7 +94,7 @@ export function PageWorldEditor() {
                   className='bg-blue-500 p-3 text-white'
                   onClick={() => {
                     //
-                    let json = JSON.stringify(getData())
+                    let json = JSON.stringify(getData(), null, 2)
 
                     copyToClipboard(json)
                     //

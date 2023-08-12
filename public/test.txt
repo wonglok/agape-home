@@ -1,0 +1,56 @@
+          var $yx6n1$reactthreefiber = require("@react-three/fiber");
+          var $yx6n1$reactthreedrei = require("@react-three/drei");
+
+          function $parcel$export(e, n, v, s) {
+            Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
+          }
+
+          $parcel$export(module.exports, "VendingMachine", () => $b9d7e2de057bd5f1$exports);
+          var $b9d7e2de057bd5f1$exports = {};
+
+          $parcel$export($b9d7e2de057bd5f1$exports, "SmartObject", () => $b9d7e2de057bd5f1$export$78c20916d9c2c015);
+          $parcel$export($b9d7e2de057bd5f1$exports, "OverlayHTML", () => $b9d7e2de057bd5f1$export$57f3e0343e93f841);
+          $parcel$export($b9d7e2de057bd5f1$exports, "DeveloperPreview", () => $b9d7e2de057bd5f1$export$243e4dacb66fd9ef);
+
+
+          function $b9d7e2de057bd5f1$export$78c20916d9c2c015() {
+              return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement((0, $yx6n1$reactthreedrei.Box), {
+                  __source: {
+                      fileName: "src/VendingMachine/VendingMachine.jsx",
+                      lineNumber: 7,
+                      columnNumber: 7
+                  },
+                  __self: this
+              }));
+          }
+          function $b9d7e2de057bd5f1$export$57f3e0343e93f841() {
+              return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("div", {
+                  style: {
+                      top: `0px`,
+                      left: `0px`,
+                      position: "absolute",
+                      padding: "10px",
+                      backgroundColor: "red"
+                  },
+                  __source: {
+                      fileName: "src/VendingMachine/VendingMachine.jsx",
+                      lineNumber: 15,
+                      columnNumber: 7
+                  },
+                  __self: this
+              }, "YoHTML2"));
+          }
+          function $b9d7e2de057bd5f1$export$243e4dacb66fd9ef({ smartObject: smartObject, overlayHTML: overlayHTML }) {
+              return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement((0, $yx6n1$reactthreefiber.Canvas), {
+                  __source: {
+                      fileName: "src/VendingMachine/VendingMachine.jsx",
+                      lineNumber: 33,
+                      columnNumber: 7
+                  },
+                  __self: this
+              }, smartObject), overlayHTML);
+          }
+
+
+
+          //# sourceMappingURL=main.js.map

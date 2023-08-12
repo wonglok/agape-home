@@ -13,10 +13,24 @@ export function TabAdapter() {
       {activeTab === 'cloud' && (
         <div className=' absolute left-0 top-0 h-full w-full bg-white bg-opacity-80'>
           {/*  */}
-          123
+          Cloud
           {/*  */}
         </div>
       )}
+
+      {activeTab === 'data' && (
+        <div className=' absolute left-0 top-0 h-full w-full bg-white bg-opacity-80'>
+          {/*  */}
+          Data
+          {/*  */}
+        </div>
+      )}
+
+      {/* {activeTab === 'container' && (
+        <div className=' absolute left-0 top-0 h-full w-full bg-white bg-opacity-80'>
+          <TabContainer></TabContainer>
+        </div>
+      )} */}
       {/* {activeTab === 'container' && <TabContainer></TabContainer>} */}
       {/*  */}
     </>

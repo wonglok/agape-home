@@ -11,7 +11,7 @@ export const Data = {
     postProcessingConfig: {
       multisampling: 4,
       emissiveIntensity: 1,
-      envMapIntensity: 0.2,
+      envMapIntensity: 0.11000000000000001,
       ssrPass: {
         useThisOne: false,
         intensity: 1,
@@ -65,7 +65,14 @@ export const Data = {
         radialModulation: true,
         modulationOffset: 0.5,
       },
-      colorPass: { useThisOne: true, hue: 0, satuation: 0, brightness: -0.17, contrast: 0.3, saturation: 0.04 },
+      colorPass: {
+        useThisOne: true,
+        hue: 0,
+        satuation: 0,
+        brightness: -0.02000000000000001,
+        contrast: 0.3,
+        saturation: 0.04,
+      },
       from: 0.6039740982326269,
       aoPass: {
         useThisOne: false,
@@ -75,6 +82,5 @@ export const Data = {
         color: '#000000',
       },
     },
-    from: '_c697f9046686d21da12a3e0c6d7e3370',
   },
 }

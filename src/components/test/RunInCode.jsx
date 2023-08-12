@@ -9,9 +9,11 @@ import * as THREESTDLIB from 'three-stdlib'
 
 import { useEffect } from 'react'
 import * as React from 'react'
+import { io } from 'socket.io-client'
 
 export function RunInCode() {
   let [insert, setInsert] = React.useState(null)
+  let [socket, setSocket] = React.useState(null)
   useEffect(() => {
     window.Globals = window.Globals || {}
     window['React'] = React
@@ -28,26 +30,71 @@ export function RunInCode() {
     let run = async () => {
       let loaderUtils = await getLoader()
 
-      loaderUtils.load(`/dataRun.js`).then((r) => {
-        setInsert(
-          <r.Preview
-            smartObject={<r.SmartObject></r.SmartObject>}
-            overlayHTML={<r.OverlayHTML></r.OverlayHTML>}
-          ></r.Preview>,
-        )
+      let socket = io(`http://localhost:8521/`, {})
+
+      setSocket(socket)
+      socket.on('file', () => {
+        ///
+
+        loaderUtils.load(`http://localhost:8521/dist/main.module.js?yo=${Math.random()}`).then((r) => {
+          console.log(r)
+
+          setInsert(
+            <r.Preview
+              smartObject={<r.SmartObject></r.SmartObject>}
+              overlayHTML={<r.HTMLOverlay></r.HTMLOverlay>}
+            ></r.Preview>,
+          )
+        })
+
+        // //
+        // loaderUtils.addImportMap({
+        //   imports: {
+        //     [`_${inbound.hash}rollup://localhost/app.js`]: URL.createObjectURL(
+        //       new Blob([`${inbound.content}`], {
+        //         type: `application/javascript`,
+        //       }),
+        //     ),
+        //   },
+        // })
       })
+
+      socket.emit('request')
+
+      // loaderUtils.load(`/dataRun.js`).then((r) => {
+      //   setInsert(
+      //     <r.Preview
+      //       smartObject={<r.SmartObject></r.SmartObject>}
+      //       overlayHTML={<r.HTMLOverlay></r.HTMLOverlay>}
+      //     ></r.Preview>,
+      //   )
+      // })
     }
 
     //
     run()
     //
   }, [])
-  return <>{insert}</>
+  return (
+    <>
+      <button
+        onClick={() => {
+          //
+          socket.emit('request')
+        }}
+      >
+        LiveLink
+      </button>
+      {insert}
+    </>
+  )
 }
 
 export const DefaultSetting = {
   onFetch: ({ url, options }) => {
-    return fetch(url, options)
+    return fetch(url, options).catch((r) => {
+      return `console.log('error')`
+    })
   },
   onResolve: ({ id, parentUrl, resolve }) => {
     if (parentUrl.indexOf('blob:') === 0) {

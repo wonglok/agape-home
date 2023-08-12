@@ -33,20 +33,26 @@ export function RunInCode() {
       let socket = io(`http://localhost:8521/`, {})
 
       setSocket(socket)
-      socket.on('file', () => {
+      let tt = 0
+      socket.on('reload', (ev) => {
         ///
+        clearInterval(tt)
+        tt = setTimeout(() => {
+          let baseURL = `http://localhost:8521`
 
-        loaderUtils.load(`http://localhost:8521/dist/main.module.js?yo=${Math.random()}`).then((r) => {
-          console.log(r)
+          loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
+            console.log(r)
 
-          setInsert(
-            <r.Preview
-              smartObject={<r.SmartObject></r.SmartObject>}
-              overlayHTML={<r.HTMLOverlay></r.HTMLOverlay>}
-            ></r.Preview>,
-          )
-        })
-
+            setInsert(
+              <r.Ctx baseURL={baseURL}>
+                <r.Preview
+                  smartObject={<r.SmartObject></r.SmartObject>}
+                  htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
+                ></r.Preview>
+              </r.Ctx>,
+            )
+          })
+        }, 1000)
         // //
         // loaderUtils.addImportMap({
         //   imports: {

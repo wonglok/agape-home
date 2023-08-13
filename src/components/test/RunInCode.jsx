@@ -21,7 +21,6 @@ export function RunSwan({ appID }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
-  let [socket, setSocket] = React.useState(null)
   useEffect(() => {
     window['React'] = React
 
@@ -62,22 +61,9 @@ export function RunSwan({ appID }) {
       }
 
       let socket = io(`http://localhost:8521`, {})
-
-      setSocket(socket)
-
-      let tt = 0
       socket.on('reload', (ev) => {
-        //
-        // console.log(ev)
-        //
-
-        clearInterval(tt)
-        tt = setTimeout(() => {
-          ///
-          loadCode()
-        }, 500)
+        loadCode()
       })
-
       loadCode()
     }
 

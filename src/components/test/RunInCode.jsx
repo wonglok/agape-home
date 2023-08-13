@@ -10,8 +10,84 @@ import * as THREESTDLIB from 'three-stdlib'
 import { useEffect } from 'react'
 import * as React from 'react'
 import { io } from 'socket.io-client'
+import tunnel from 'tunnel-rat'
 
-export function RunInCode() {
+let t = tunnel()
+export function CommonSwanHTML() {
+  return <t.Out></t.Out>
+}
+
+export function RunSwan({}) {
+  let [insertCTX, setInsertCTX] = React.useState(null)
+  let [insert3D, setInsert3D] = React.useState(null)
+  let [insertHTML, setInsertHTML] = React.useState(null)
+  let [socket, setSocket] = React.useState(null)
+  useEffect(() => {
+    window.Globals = window.Globals || {}
+    window['React'] = React
+    window.Globals['react'] = React
+    window.Globals['three'] = THREE
+    window.Globals['zustand'] = Zustand
+    // window.Globals['agape-sdk'] = AgapeSDK
+    window.Globals['@react-three/fiber'] = ReactThreeFiber
+    window.Globals['@react-three/drei'] = ReactThreeDrei
+    window.Globals['@react-three/xr'] = ReactThreeXR
+    window.Globals['@react-three/postprocessing'] = ReactThreePostProc
+    window.Globals['three-stdlib'] = THREESTDLIB
+
+    let run = async () => {
+      let loaderUtils = await getLoader()
+
+      let socket = io(`http://localhost:8521/`, {})
+
+      setSocket(socket)
+
+      let tt = 0
+      socket.on('reload', (ev) => {
+        //
+        console.log(ev)
+        //
+
+        clearInterval(tt)
+        tt = setTimeout(() => {
+          ///
+
+          let baseURL = `http://localhost:8521`
+
+          loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
+            console.log(r)
+
+            setInsertCTX(
+              <r.Ctx
+                baseURL={baseURL}
+                onOK={() => {
+                  setInsert3D(<r.SmartObject></r.SmartObject>)
+                  setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
+                }}
+              ></r.Ctx>,
+            )
+          })
+        }, 500)
+      })
+
+      socket.emit('request')
+    }
+
+    //
+    run()
+    //
+  }, [])
+  return (
+    <>
+      {insertCTX}
+      <t.In>{insertHTML}</t.In>
+      {insert3D}
+    </>
+  )
+}
+
+// mode = page / app
+export function RunInCode({ mode = 'page' }) {
   let [insert, setInsert] = React.useState(null)
   let [socket, setSocket] = React.useState(null)
   useEffect(() => {
@@ -33,48 +109,45 @@ export function RunInCode() {
       let socket = io(`http://localhost:8521/`, {})
 
       setSocket(socket)
+
       let tt = 0
       socket.on('reload', (ev) => {
-        ///
+        //
+        console.log(ev)
+        //
+
         clearInterval(tt)
         tt = setTimeout(() => {
+          ///
           let baseURL = `http://localhost:8521`
 
           loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
             console.log(r)
 
-            setInsert(
-              <r.Ctx baseURL={baseURL}>
-                <r.Preview
-                  smartObject={<r.SmartObject></r.SmartObject>}
-                  htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
-                ></r.Preview>
-              </r.Ctx>,
-            )
+            if (mode === 'page') {
+              setInsert(
+                <r.Ctx baseURL={baseURL}>
+                  <r.Preview
+                    smartObject={<r.SmartObject></r.SmartObject>}
+                    htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
+                  ></r.Preview>
+                </r.Ctx>,
+              )
+            } else {
+              setInsert(
+                <r.Ctx baseURL={baseURL}>
+                  <r.Preview
+                    smartObject={<r.SmartObject></r.SmartObject>}
+                    htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
+                  ></r.Preview>
+                </r.Ctx>,
+              )
+            }
           })
-        }, 1000)
-        // //
-        // loaderUtils.addImportMap({
-        //   imports: {
-        //     [`_${inbound.hash}rollup://localhost/app.js`]: URL.createObjectURL(
-        //       new Blob([`${inbound.content}`], {
-        //         type: `application/javascript`,
-        //       }),
-        //     ),
-        //   },
-        // })
+        }, 500)
       })
 
       socket.emit('request')
-
-      // loaderUtils.load(`/dataRun.js`).then((r) => {
-      //   setInsert(
-      //     <r.Preview
-      //       smartObject={<r.SmartObject></r.SmartObject>}
-      //       overlayHTML={<r.HTMLOverlay></r.HTMLOverlay>}
-      //     ></r.Preview>,
-      //   )
-      // })
     }
 
     //

@@ -7,7 +7,7 @@ export default function Multi() {
   return (
     <>
       <Canvas>
-        <group position={[0, 1, 0]}>
+        <group position={[0, 2, 0]}>
           <RunSwan key={'app1'}></RunSwan>
         </group>
         <group position={[0, 0, 0]}>

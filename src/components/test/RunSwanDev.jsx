@@ -17,10 +17,12 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwanDev({ baseURL = `http://localhost:8521` }) {
+export function RunSwanDev({ origin, route = `` }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
+
+  let baseURL = `${origin}${route}`
   useEffect(() => {
     window['React'] = React
 
@@ -38,24 +40,42 @@ export function RunSwanDev({ baseURL = `http://localhost:8521` }) {
     let run = async () => {
       let loaderUtils = await getLoader()
 
-      let loadCode = () => {
-        loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}}`).then((r) => {
-          setInsertCTX(
-            <React.Suspense fallback={null}>
-              <r.SwanLake
-                baseURL={baseURL}
-                onReady={() => {
-                  setInsert3D(<r.SmartObject></r.SmartObject>)
-                  setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
-                }}
-              ></r.SwanLake>
-            </React.Suspense>,
-          )
-        })
+      let loadCode = (i = 0) => {
+        loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}}`).then(
+          (r) => {
+            if (
+              r &&
+              typeof r.SwanLake === 'function' &&
+              typeof r.SmartObject === 'function' &&
+              typeof r.HTMLOverlay === 'function'
+            ) {
+              setInsertCTX(
+                <React.Suspense fallback={null}>
+                  <r.SwanLake
+                    baseURL={baseURL}
+                    onReady={() => {
+                      setInsert3D(<r.SmartObject></r.SmartObject>)
+                      setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
+                    }}
+                  ></r.SwanLake>
+                </React.Suspense>,
+              )
+            } else {
+              if (i < 10) {
+                setTimeout(() => {
+                  loadCode(i++)
+                }, 1000)
+              }
+            }
+          },
+          (err) => {
+            console.log(err)
+          },
+        )
       }
 
       if (process.env.NODE_ENV === 'development') {
-        let socket = io(`http://localhost:8521`, {})
+        let socket = io(`${origin}`, {})
         socket.on('reload', (ev) => {
           loadCode()
         })
@@ -66,7 +86,7 @@ export function RunSwanDev({ baseURL = `http://localhost:8521` }) {
     //
     run()
     //
-  }, [baseURL])
+  }, [baseURL, origin])
   return (
     <>
       {insertCTX}
@@ -78,9 +98,7 @@ export function RunSwanDev({ baseURL = `http://localhost:8521` }) {
 
 export const DefaultSetting = {
   onFetch: ({ url, options }) => {
-    return fetch(url, options).catch((r) => {
-      return `console.log('error')`
-    })
+    return fetch(url, options)
   },
   onResolve: ({ id, parentUrl, resolve }) => {
     if (parentUrl.indexOf('blob:') === 0) {

@@ -23,8 +23,9 @@ export function RunSwan({ appID }) {
   let [insertHTML, setInsertHTML] = React.useState(null)
   let [socket, setSocket] = React.useState(null)
   useEffect(() => {
-    window.Globals = window.Globals || {}
     window['React'] = React
+
+    window.Globals = window.Globals || {}
     window.Globals['react'] = React
     window.Globals['three'] = THREE
     window.Globals['zustand'] = Zustand
@@ -62,13 +63,13 @@ export function RunSwan({ appID }) {
               console.log(r)
 
               setInsertCTX(
-                <r.Ctx
+                <r.SwanLake
                   baseURL={baseURL}
-                  onOK={() => {
+                  onReady={() => {
                     setInsert3D(<r.SmartObject></r.SmartObject>)
                     setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
                   }}
-                ></r.Ctx>,
+                ></r.SwanLake>,
               )
             })
         }, 500)
@@ -110,6 +111,47 @@ export function RunInCode({ mode = 'page' }) {
     let run = async () => {
       let loaderUtils = await getLoader()
 
+      let runCode = () => {
+        let baseURL = `http://localhost:8521`
+
+        loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
+          // console.log(r)
+
+          if (mode === 'page') {
+            setInsert(
+              <r.SwanLake
+                preloader={
+                  <>
+                    <ReactThreeDrei.Text></ReactThreeDrei.Text>
+                  </>
+                }
+                baseURL={baseURL}
+              >
+                <r.Preview
+                  smartObject={<r.SmartObject></r.SmartObject>}
+                  htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
+                ></r.Preview>
+              </r.SwanLake>,
+            )
+          } else {
+            setInsert(
+              <r.SwanLake
+                preloader={
+                  <>
+                    <ReactThreeDrei.Text></ReactThreeDrei.Text>
+                  </>
+                }
+                baseURL={baseURL}
+              >
+                <r.Preview
+                  smartObject={<r.SmartObject></r.SmartObject>}
+                  htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
+                ></r.Preview>
+              </r.SwanLake>,
+            )
+          }
+        })
+      }
       let socket = io(`http://localhost:8521/`, {})
 
       setSocket(socket)
@@ -123,31 +165,7 @@ export function RunInCode({ mode = 'page' }) {
         clearInterval(tt)
         tt = setTimeout(() => {
           ///
-          let baseURL = `http://localhost:8521`
-
-          loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
-            console.log(r)
-
-            if (mode === 'page') {
-              setInsert(
-                <r.Ctx baseURL={baseURL}>
-                  <r.Preview
-                    smartObject={<r.SmartObject></r.SmartObject>}
-                    htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
-                  ></r.Preview>
-                </r.Ctx>,
-              )
-            } else {
-              setInsert(
-                <r.Ctx baseURL={baseURL}>
-                  <r.Preview
-                    smartObject={<r.SmartObject></r.SmartObject>}
-                    htmlOverlay={<r.HTMLOverlay></r.HTMLOverlay>}
-                  ></r.Preview>
-                </r.Ctx>,
-              )
-            }
-          })
+          runCode()
         }, 500)
       })
 

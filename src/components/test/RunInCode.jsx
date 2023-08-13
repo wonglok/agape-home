@@ -39,7 +39,29 @@ export function RunSwan({ appID }) {
     let run = async () => {
       let loaderUtils = await getLoader()
 
-      let socket = io(`http://localhost:8521/`, {})
+      let loadCode = () => {
+        let baseURL = `http://localhost:8521`
+
+        loaderUtils
+          .load(
+            `${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}&appID=${encodeURIComponent(appID)}`,
+          )
+          .then((r) => {
+            setInsertCTX(
+              <React.Suspense fallback={null}>
+                <r.SwanLake
+                  baseURL={baseURL}
+                  onReady={() => {
+                    setInsert3D(<r.SmartObject></r.SmartObject>)
+                    setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
+                  }}
+                ></r.SwanLake>
+              </React.Suspense>,
+            )
+          })
+      }
+
+      let socket = io(`http://localhost:8521`, {})
 
       setSocket(socket)
 
@@ -52,30 +74,11 @@ export function RunSwan({ appID }) {
         clearInterval(tt)
         tt = setTimeout(() => {
           ///
-
-          let baseURL = `http://localhost:8521`
-
-          loaderUtils
-            .load(
-              `${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}&appID=${encodeURIComponent(appID)}`,
-            )
-            .then((r) => {
-              console.log(r)
-
-              setInsertCTX(
-                <r.SwanLake
-                  baseURL={baseURL}
-                  onReady={() => {
-                    setInsert3D(<r.SmartObject></r.SmartObject>)
-                    setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
-                  }}
-                ></r.SwanLake>,
-              )
-            })
+          loadCode()
         }, 500)
       })
 
-      socket.emit('request')
+      loadCode()
     }
 
     //
@@ -111,7 +114,7 @@ export function RunInCode({ mode = 'page' }) {
     let run = async () => {
       let loaderUtils = await getLoader()
 
-      let runCode = () => {
+      let loadCode = () => {
         let baseURL = `http://localhost:8521`
 
         loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {

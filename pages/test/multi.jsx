@@ -10,14 +10,13 @@ export default function Multi() {
       <Canvas>
         <group position={[0, 1.5, 0]}>
           {/* Development */}
-          <RunSwanDev origin={`http://localhost:8521`} route={`/`}></RunSwanDev>
+          <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
         </group>
         <group position={[0, -1.5, 0]}>
           {/* App */}
-          <RunSwanDev origin={`http://localhost:8521`} route={`/other-swans/vending-machine`}></RunSwanDev>
+          <RunSwanDev origin={`http://localhost:8521`} appID={`my-swans/vending-machine`}></RunSwanDev>
         </group>
 
-        {/*  */}
         <BG></BG>
         <PerspectiveCamera fov={45} makeDefault position={[0, 0, 10]}></PerspectiveCamera>
         <OrbitControls

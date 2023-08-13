@@ -17,12 +17,12 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwanDev({ origin, route = `` }) {
+export function RunSwanDev({ origin, appID = `` }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
 
-  let baseURL = `${origin}${route}`
+  let baseURL = `${origin}/${appID}`
   useEffect(() => {
     window['React'] = React
 
@@ -49,6 +49,7 @@ export function RunSwanDev({ origin, route = `` }) {
               typeof r.SmartObject === 'function' &&
               typeof r.HTMLOverlay === 'function'
             ) {
+              console.log('refreshing...')
               setInsertCTX(
                 <React.Suspense fallback={null}>
                   <r.SwanLake
@@ -76,8 +77,12 @@ export function RunSwanDev({ origin, route = `` }) {
 
       if (process.env.NODE_ENV === 'development') {
         let socket = io(`${origin}`, {})
+        let ttt = 0
         socket.on('reload', (ev) => {
-          loadCode()
+          clearTimeout(ttt)
+          ttt = setTimeout(() => {
+            loadCode()
+          }, 100)
         })
         loadCode()
       }

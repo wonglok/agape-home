@@ -14,8 +14,12 @@ export default function Multi() {
           <RunSwan appID={'app2'}></RunSwan>
         </group>
 
+        {/*  */}
+
         <OrbitControls></OrbitControls>
         <Environment background files={`/hdr/grass.hdr`}></Environment>
+
+        {/*  */}
       </Canvas>
       <CommonSwanHTML></CommonSwanHTML>
       {/*  */}

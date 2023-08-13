@@ -45,7 +45,7 @@ export function RunSwan({ appID }) {
       let tt = 0
       socket.on('reload', (ev) => {
         //
-        console.log(ev)
+        // console.log(ev)
         //
 
         clearInterval(tt)

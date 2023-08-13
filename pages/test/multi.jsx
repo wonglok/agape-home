@@ -1,4 +1,4 @@
-import { CommonSwanHTML, RunSwan } from '@/components/test/RunInCode'
+import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
 import { Environment } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
@@ -8,10 +8,12 @@ export default function Multi() {
     <>
       <Canvas>
         <group position={[0, 2, 0]}>
-          <RunSwan appID={'app1'}></RunSwan>
+          {/* Development */}
+          <RunSwanDev></RunSwanDev>
         </group>
         <group position={[0, 0, 0]}>
-          <RunSwan appID={'app2'}></RunSwan>
+          {/* App */}
+          <RunSwanDev baseURL={`http://localhost:8521/other-swans/vm`}></RunSwanDev>
         </group>
 
         {/*  */}

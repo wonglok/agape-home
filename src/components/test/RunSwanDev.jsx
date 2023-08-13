@@ -17,7 +17,7 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwan({ appID }) {
+export function RunSwanDev({ baseURL = `http://localhost:8521` }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
@@ -39,38 +39,34 @@ export function RunSwan({ appID }) {
       let loaderUtils = await getLoader()
 
       let loadCode = () => {
-        let baseURL = `http://localhost:8521`
-
-        loaderUtils
-          .load(
-            `${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}&appID=${encodeURIComponent(appID)}`,
+        loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}}`).then((r) => {
+          setInsertCTX(
+            <React.Suspense fallback={null}>
+              <r.SwanLake
+                baseURL={baseURL}
+                onReady={() => {
+                  setInsert3D(<r.SmartObject></r.SmartObject>)
+                  setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
+                }}
+              ></r.SwanLake>
+            </React.Suspense>,
           )
-          .then((r) => {
-            setInsertCTX(
-              <React.Suspense fallback={null}>
-                <r.SwanLake
-                  baseURL={baseURL}
-                  onReady={() => {
-                    setInsert3D(<r.SmartObject></r.SmartObject>)
-                    setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
-                  }}
-                ></r.SwanLake>
-              </React.Suspense>,
-            )
-          })
+        })
       }
 
-      let socket = io(`http://localhost:8521`, {})
-      socket.on('reload', (ev) => {
+      if (process.env.NODE_ENV === 'development') {
+        let socket = io(`http://localhost:8521`, {})
+        socket.on('reload', (ev) => {
+          loadCode()
+        })
         loadCode()
-      })
-      loadCode()
+      }
     }
 
     //
     run()
     //
-  }, [])
+  }, [baseURL])
   return (
     <>
       {insertCTX}

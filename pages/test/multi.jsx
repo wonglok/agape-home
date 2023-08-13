@@ -8,10 +8,10 @@ export default function Multi() {
     <>
       <Canvas>
         <group position={[0, 2, 0]}>
-          <RunSwan key={'app1'}></RunSwan>
+          <RunSwan appID={'app1'}></RunSwan>
         </group>
         <group position={[0, 0, 0]}>
-          <RunSwan key={'app2'}></RunSwan>
+          <RunSwan appID={'app2'}></RunSwan>
         </group>
 
         <OrbitControls></OrbitControls>

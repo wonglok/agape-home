@@ -17,7 +17,7 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwan({}) {
+export function RunSwan({ appID }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
@@ -54,19 +54,23 @@ export function RunSwan({}) {
 
           let baseURL = `http://localhost:8521`
 
-          loaderUtils.load(`${baseURL}/main.module.js?hash=${Math.random()}`).then((r) => {
-            console.log(r)
-
-            setInsertCTX(
-              <r.Ctx
-                baseURL={baseURL}
-                onOK={() => {
-                  setInsert3D(<r.SmartObject></r.SmartObject>)
-                  setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
-                }}
-              ></r.Ctx>,
+          loaderUtils
+            .load(
+              `${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}&appID=${encodeURIComponent(appID)}`,
             )
-          })
+            .then((r) => {
+              console.log(r)
+
+              setInsertCTX(
+                <r.Ctx
+                  baseURL={baseURL}
+                  onOK={() => {
+                    setInsert3D(<r.SmartObject></r.SmartObject>)
+                    setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
+                  }}
+                ></r.Ctx>,
+              )
+            })
         }, 500)
       })
 

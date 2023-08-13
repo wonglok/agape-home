@@ -152,6 +152,9 @@ export function RunInCode({ mode = 'page' }) {
           }
         })
       }
+
+      runCode()
+
       let socket = io(`http://localhost:8521/`, {})
 
       setSocket(socket)

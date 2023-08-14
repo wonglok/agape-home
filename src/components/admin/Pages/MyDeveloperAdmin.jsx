@@ -8,6 +8,12 @@ export function MyDeveloperAdmin() {
       <AdminGate>
         <h2 className='daysfont text-2xl'>Developer Studio</h2>
         <div className='mb-3 text-xs text-gray-500'>{`Let's build something!`}</div>
+
+        <div>
+          {/* Runtime */}
+
+          {/* Runtime */}
+        </div>
       </AdminGate>
       <URLModalOut></URLModalOut>
     </>

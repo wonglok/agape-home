@@ -13,6 +13,7 @@ import { io } from 'socket.io-client'
 import tunnel from 'tunnel-rat'
 
 let t = tunnel()
+
 export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
@@ -27,10 +28,10 @@ export function RunSwanDev({ origin, appID = `` }) {
     window['React'] = React
 
     window.Globals = window.Globals || {}
+    // window.Globals['agape-sdk'] = AgapeSDK
     window.Globals['react'] = React
     window.Globals['three'] = THREE
     window.Globals['zustand'] = Zustand
-    // window.Globals['agape-sdk'] = AgapeSDK
     window.Globals['@react-three/fiber'] = ReactThreeFiber
     window.Globals['@react-three/drei'] = ReactThreeDrei
     window.Globals['@react-three/postprocessing'] = ReactThreePostProc

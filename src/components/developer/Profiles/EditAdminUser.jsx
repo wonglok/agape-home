@@ -16,9 +16,9 @@ export function EditAdminUser({ profile }) {
     username.current.value = profile.username
   }, [profile])
 
+  //
   let newPassword = useRef()
 
-  //
   return (
     <div>
       <div className='w-full max-w-xl'>

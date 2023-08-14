@@ -13,7 +13,7 @@ export function MyPages() {
     <>
       {/*  */}
       <AdminGate>
-        <h2 className='daysfont mb-3 text-2xl'>Pages & 3D Worlds</h2>
+        <h2 className='daysfont mb-3 text-2xl'>My Pages</h2>
         {/* <TestButton></TestButton> */}
         {/* <CodeCompiler></CodeCompiler> */}
         {/* <CodeCoreRunner></CodeCoreRunner> */}

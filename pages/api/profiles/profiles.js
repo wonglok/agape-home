@@ -64,12 +64,38 @@ export default async function Profiles(req, res) {
   if (bodyData.action === 'updateProfile') {
     let original = await UserProfile.findOne({ _id: payload.profile._id })
     payload.profile.passwordHash = original.passwordHash
+    //
     await UserProfile.findByIdAndUpdate(original._id, payload.profile)
     let updatedData = await UserProfile.findOne({ _id: payload.profile._id }, { passwordHash: 0 })
 
     return res.json({
       data: updatedData,
     })
+  }
+
+  if (bodyData.action === 'updatePassword') {
+    let original = await UserProfile.findOne({ _id: payload.profile._id })
+
+    try {
+      let salt = bcrypt.genSaltSync(10)
+      let hash = bcrypt.hashSync(payload.newPassword, salt)
+      payload.profile.passwordHash = hash
+
+      await UserProfile.findByIdAndUpdate(original._id, payload.profile)
+
+      let updatedData = await UserProfile.findOne({ _id: payload.profile._id }, { passwordHash: 0 })
+
+      return res.json({
+        data: updatedData,
+      })
+    } catch (e) {
+      console.log(e)
+
+      return res.status(500).json({
+        error: true,
+        msg: 'cannot update password',
+      })
+    }
   }
 
   //

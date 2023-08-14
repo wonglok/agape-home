@@ -155,6 +155,42 @@ export const useProfiles = create((set, get) => {
       }
     },
 
+    //
+    updatePassword: ({ profile, newPassword }) => {
+      //
+      try {
+        return (
+          fetch(`/api/profiles/profiles`, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'updatePassword',
+              payload: {
+                profile,
+                newPassword,
+              },
+            }),
+            withCredentials: true,
+            credentials: 'same-origin',
+            mode: 'same-origin',
+          })
+            .then(async (r) => {
+              if (r.ok) {
+                return await r.json()
+              } else {
+                throw await r.text()
+              }
+            })
+            //
+            .then((r) => {
+              return r.data
+            })
+          //
+        )
+      } catch (e) {
+        console.error(e)
+      }
+    },
+
     updateProfile: ({ profile }) => {
       //
       try {

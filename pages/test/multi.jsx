@@ -28,10 +28,7 @@ export default function Multi() {
         ></OrbitControls>
 
         {/* <Environment files={``}></Environment> */}
-
         {/* <color attach={'background'} args={['#cecece']}></color> */}
-
-        {/*  */}
       </Canvas>
       <CommonSwanHTML></CommonSwanHTML>
     </>

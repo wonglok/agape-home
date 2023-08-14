@@ -33,23 +33,24 @@ export function RunSwanDev({ origin, appID = `` }) {
     // window.Globals['agape-sdk'] = AgapeSDK
     window.Globals['@react-three/fiber'] = ReactThreeFiber
     window.Globals['@react-three/drei'] = ReactThreeDrei
-    window.Globals['@react-three/xr'] = ReactThreeXR
     window.Globals['@react-three/postprocessing'] = ReactThreePostProc
+    window.Globals['@react-three/xr'] = ReactThreeXR
     window.Globals['three-stdlib'] = THREESTDLIB
 
     let run = async () => {
       let loaderUtils = await getLoader()
 
       let loadCode = (i = 0) => {
-        loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent(Math.random())}}`).then(
+        loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent('_' + Math.random())}}`).then(
           (r) => {
+            //
             if (
               r &&
               typeof r.SwanLake === 'function' &&
               typeof r.SmartObject === 'function' &&
               typeof r.HTMLOverlay === 'function'
             ) {
-              console.log('refreshing...')
+              console.log('Refreshing...')
               setInsertCTX(
                 <React.Suspense fallback={null}>
                   <r.SwanLake
@@ -76,16 +77,17 @@ export function RunSwanDev({ origin, appID = `` }) {
       }
 
       if (process.env.NODE_ENV === 'development') {
-        let socket = io(`${origin}`, {})
-        let ttt = 0
-        socket.on('reload', (ev) => {
-          clearTimeout(ttt)
-          ttt = setTimeout(() => {
-            loadCode()
-          }, 100)
-        })
-        loadCode()
       }
+
+      let socket = io(`${origin}`, {})
+      let ttt = 0
+      socket.on('reload', (ev) => {
+        clearTimeout(ttt)
+        ttt = setTimeout(() => {
+          loadCode()
+        }, 100)
+      })
+      loadCode()
     }
 
     //

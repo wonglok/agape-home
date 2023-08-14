@@ -23,7 +23,7 @@ export function MyAdmin() {
     <>
       {/*  */}
       <AdminGate>
-        <h2 className='daysfont mb-3 text-2xl underline'>Welcome to Admin Portal</h2>
+        <h1 className='daysfont mb-3 text-2xl'>Admin Portal</h1>
 
         {/* <TestButton></TestButton> */}
         {/* <CodeCompiler></CodeCompiler> */}

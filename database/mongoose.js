@@ -211,9 +211,47 @@ if (!mongoose.models.SwanTask) {
     ),
   )
 }
-
 export const SwanTask = mongoose.models.SwanTask
 
+// -------
+//
+// -------
+delete mongoose.models.Runtime
+if (!mongoose.models.Runtime) {
+  mongoose.model(
+    'Runtime',
+    new Schema(
+      {
+        title: String,
+        type: String,
+        databaseSchema: {},
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
+}
+export const Runtime = mongoose.models.Runtime
+
+// -------
+//
+// -------
+
+delete mongoose.models.Endpoint
+if (!mongoose.models.Endpoint) {
+  mongoose.model(
+    'Endpoint',
+    new Schema(
+      {
+        runtimeID: String,
+        actionName: String,
+      },
+      { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
+    ),
+  )
+}
+
+// -------
+// -------
 // -------
 export const getID = () => {
   return '_' + Math.random().toString(36).slice(2, 9)

@@ -1,4 +1,3 @@
-//
 import { DeveloperGate } from '../AdminLayout/DeveloperGate'
 
 export function MyDevDash() {
@@ -13,8 +12,7 @@ export function MyDevDash() {
             <p className='text-sm text-gray-400'>{`Let's build something!`}</p>
             <button
               onClick={() => {
-                //
-                console.log('Create a Swan Development Runtime')
+                // console.log('Create a Swan Development Runtime')
               }}
               className='my-2 rounded-xl bg-gray-300 p-2 px-5  hover:bg-slate-200'
             >

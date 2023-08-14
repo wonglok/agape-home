@@ -1,7 +1,6 @@
 import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
-import { Environment, PerspectiveCamera, Text, useTexture } from '@react-three/drei'
+import { PerspectiveCamera, useTexture } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
 import { useEffect, useMemo } from 'react'
 import Lenis from '@studio-freight/lenis'
@@ -38,12 +37,19 @@ html.lenis {
       ></style>
 
       <div id='canvasdiv' className='absolute left-0 top-0 h-full w-full'>
-        <Canvas className=' '>
+        {/*  */}
+        <Canvas className=''>
+          {/*  */}
           <LenisYo></LenisYo>
+
+          {/*  */}
           <group position={[0, 1.5, 0]}>
             {/* Development */}
+
             <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
           </group>
+
+          {/*  */}
           <group position={[0, -1.5, 0]}>
             {/* App */}
             <RunSwanDev origin={`http://localhost:8521`} appID={`my-swans/vending-machine`}></RunSwanDev>
@@ -94,6 +100,7 @@ function LenisYo() {
     let time = performance.now()
     lenis.raf(time)
   })
+
   return null
 }
 

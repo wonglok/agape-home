@@ -46,20 +46,20 @@ export function RunSwanDev({ origin, appID = `` }) {
             //
             if (
               r &&
-              typeof r.SwanLake === 'function' &&
+              typeof r.SwanPreload === 'function' &&
               typeof r.SmartObject === 'function' &&
               typeof r.HTMLOverlay === 'function'
             ) {
               console.log('Refreshing...')
               setInsertCTX(
                 <React.Suspense fallback={null}>
-                  <r.SwanLake
+                  <r.SwanPreload
                     baseURL={baseURL}
                     onReady={() => {
                       setInsert3D(<r.SmartObject></r.SmartObject>)
                       setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
                     }}
-                  ></r.SwanLake>
+                  ></r.SwanPreload>
                 </React.Suspense>,
               )
             } else {

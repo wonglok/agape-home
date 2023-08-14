@@ -22,7 +22,7 @@ export function Triangle() {
   }
 }
 
-          `,
+            `,
           }}
         ></style>
         <svg width='56px' height='50px' viewBox='0 0 226 200' version='1.1'>

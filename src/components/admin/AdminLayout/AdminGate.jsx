@@ -28,7 +28,7 @@ export function AdminGate({ children }) {
                 signIn()
               }}
             >
-              Plaese Login
+              Please Login
             </button>
           </div>
         </>

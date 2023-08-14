@@ -6,7 +6,7 @@ const getID = () => {
 export const MenuItems = [
   {
     id: getID(),
-    link: '/developer',
+    link: '/system',
     content: (
       <>
         <svg
@@ -29,7 +29,7 @@ export const MenuItems = [
   },
   {
     id: getID(),
-    link: '/developer/user-create',
+    link: '/system/user-create',
     content: (
       <>
         <svg
@@ -52,7 +52,7 @@ export const MenuItems = [
   },
   {
     id: getID(),
-    link: '/developer/user',
+    link: '/system/user',
     content: (
       <>
         <svg

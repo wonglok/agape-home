@@ -21,7 +21,7 @@ export function ListOfProfiles() {
             <button
               className='mb-3 mr-3 rounded-lg bg-blue-200 p-3'
               onClick={() => {
-                router.push(`/developer/user/${r._id}`)
+                router.push(`/system/user/${r._id}`)
               }}
             >
               Edit

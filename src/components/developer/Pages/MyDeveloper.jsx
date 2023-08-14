@@ -11,12 +11,12 @@ export function MyDeveloper() {
       <DeveloperGate>
         <h2 className='daysfont text-2xl underline'>Welcome to AGAPE Backend</h2>
         <div>
-          <Link href={`/developer/user-create`}>
+          <Link href={`/system/user-create`}>
             <button className='mb-1 mr-3 bg-gray-200 p-3'>Create Admin User</button>
           </Link>
         </div>
         <div>
-          <Link href={`/developer/user`}>
+          <Link href={`/system/user`}>
             <button className='mb-1 mr-3 bg-gray-200 p-3'>View All Admin User</button>
           </Link>
         </div>

@@ -100,6 +100,8 @@ export function UpdateSwan({ data }) {
                   defaultValue={data.title}
                   placeholder='title'
                   onKeyDown={(e) => {
+                    //
+
                     clearTimeout(e.target.timer)
                     e.target.timer = setTimeout(() => {
                       data.title = e.target.value

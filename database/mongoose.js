@@ -184,12 +184,9 @@ if (!mongoose.models.Swan) {
         developmentSlug: String,
 
         productionURL: String,
+        productionSlug: String,
         productionFiles: [{}],
 
-        // unzip -> upload -> set installedFiles
-        frontEndFiles: [{}],
-
-        //
         // unzip -> upload -> set dbSChemas
         dbSchemas: [{}],
       },

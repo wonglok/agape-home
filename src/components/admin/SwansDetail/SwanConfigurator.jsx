@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useSwanProject } from '../Swans/useSwanProject'
 import nprogress from 'nprogress'
+import { Canvas, useThree } from '@react-three/fiber'
+import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
+import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
+import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
 
 export function SwanConfigurator({ swanID }) {
   useEffect(() => {
@@ -35,20 +39,23 @@ export function SwanConfigurator({ swanID }) {
       {activeSwan && (
         <>
           {/*  */}
+
+          <div className='flex'>
+            <input
+              className='bg-gray-200'
+              defaultValue={activeSwan.title}
+              onChange={(ev) => {
+                activeSwan.title = ev.target.value
+                update()
+              }}
+            ></input>
+          </div>
           <div className='flex'>
             <input
               className='bg-gray-200'
               defaultValue={activeSwan.developmentURL}
               onChange={(ev) => {
-                useSwanProject.setState((st) => {
-                  return {
-                    ...st,
-                    activeSwan: {
-                      ...st.activeSwan,
-                      developmentURL: ev.target.value || '',
-                    },
-                  }
-                })
+                activeSwan.developmentURL = ev.target.value
                 update()
               }}
             ></input>
@@ -56,15 +63,7 @@ export function SwanConfigurator({ swanID }) {
               className='bg-gray-200'
               defaultValue={activeSwan.developmentSlug}
               onChange={(ev) => {
-                useSwanProject.setState((st) => {
-                  return {
-                    ...st,
-                    activeSwan: {
-                      ...st.activeSwan,
-                      developmentSlug: ev.target.value || '',
-                    },
-                  }
-                })
+                activeSwan.developmentSlug = ev.target.value
                 update()
               }}
             ></input>
@@ -73,8 +72,35 @@ export function SwanConfigurator({ swanID }) {
         </>
       )}
 
-      <pre className='text-xs'>{JSON.stringify(activeSwan, null, '  ')}</pre>
+      <div className='relative h-96 w-96'>
+        <Canvas>
+          <group position={[0, 0, 0]}>
+            {/* Development */}
+            <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
+          </group>
+
+          <BG></BG>
+          <PerspectiveCamera fov={45} makeDefault position={[0, 0, 15]}></PerspectiveCamera>
+          <OrbitControls makeDefault position={[0, 0, 15]} target={[0, 0, 0]}></OrbitControls>
+
+          {/* <Environment files={``}></Environment> */}
+          {/* <color attach={'background'} args={['#cecece']}></color> */}
+        </Canvas>
+        <CommonSwanHTML></CommonSwanHTML>
+      </div>
+
+      {/* <pre className='text-xs'>{JSON.stringify(activeSwan, null, '  ')}</pre> */}
       {/*  */}
     </>
   )
+}
+
+function BG() {
+  let tex = useTexture(`/hdr/kiara_interior_8k.jpg`)
+  let scene = useThree((r) => r.scene)
+  tex.mapping = EquirectangularReflectionMapping
+  tex.encoding = sRGBEncoding
+  scene.background = tex
+  scene.environment = tex
+  return null
 }

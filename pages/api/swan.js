@@ -18,6 +18,11 @@ export default async function API(req, res) {
       let newItem = await Swan.create({
         title: payload.object.title || '',
         type: payload.object.type || '',
+
+        developmentURL: payload.object.developmentURL || '',
+        developmentSlug: payload.object.developmentSlug || '',
+        productionURL: payload.object.productionURL || '',
+        productionSlug: payload.object.productionSlug || '',
       })
 
       return res.json({

@@ -185,6 +185,8 @@ if (!mongoose.models.Swan) {
 
         productionURL: String,
         productionSlug: String,
+
+        //
         productionFiles: [{}],
 
         // unzip -> upload -> set dbSChemas

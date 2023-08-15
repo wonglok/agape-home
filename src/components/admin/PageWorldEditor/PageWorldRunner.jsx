@@ -3,6 +3,7 @@ import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
 import { useState } from 'react'
 import tunnel from 'tunnel-rat'
 import { AgapeEngine } from './Runner/AgapeEngine'
+import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
 export const tRunner = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {
@@ -24,6 +25,9 @@ export function PageWorldRunner({ isEditor = false }) {
           </>
         )}
 
+        <group position={[3, 5, -10]}>
+          <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
+        </group>
         <AgapeEngine tRunner={tRunner}></AgapeEngine>
 
         <group position={[0, 1, -5]}>
@@ -37,6 +41,7 @@ export function PageWorldRunner({ isEditor = false }) {
       </Canvas>
 
       <tRunner.Out></tRunner.Out>
+      <CommonSwanHTML></CommonSwanHTML>
     </div>
   )
 }

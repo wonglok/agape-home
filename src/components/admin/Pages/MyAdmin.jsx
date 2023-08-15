@@ -25,31 +25,6 @@ export function MyAdmin() {
       <AdminGate>
         <h1 className='daysfont mb-3 text-2xl'>Admin Portal</h1>
 
-        {/* <TestButton></TestButton> */}
-        {/* <CodeCompiler></CodeCompiler> */}
-        {/* <CodeCoreRunner></CodeCoreRunner> */}
-
-        {/* <PageURL></PageURL> */}
-        {/*
-        <div className='mr-3 inline-block'>
-          <Link href={`/admin/pages`}>
-            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>Pages</button>
-          </Link>
-        </div>
-
-        <div className='mr-3 inline-block'>
-          <Link href={`/admin/swan`}>
-            <button className='rounded-lg bg-gray-100 p-3 py-6 shadow-md shadow-slate-400'>Swan</button>
-          </Link>
-        </div> */}
-        {/* <div className='relative h-full w-full'>
-          <Canvas>
-            <Future></Future>
-          </Canvas>
-
-          <tt.Out></tt.Out>
-        </div> */}
-
         {/*  */}
       </AdminGate>
       <URLModalOut></URLModalOut>

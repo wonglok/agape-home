@@ -14,15 +14,15 @@ export default function Multi() {
         </group>
         <group position={[0, -1.5, 0]}>
           {/* App */}
-          <RunSwanDev origin={`http://localhost:8521`} appID={`my-swans/vending-machine`}></RunSwanDev>
+          <RunSwanDev origin={`http://localhost:8521`} appID={`my-swans/tj-swan`}></RunSwanDev>
         </group>
 
         <BG></BG>
-        <PerspectiveCamera fov={45} makeDefault position={[0, 0, 10]}></PerspectiveCamera>
+        <PerspectiveCamera fov={45} makeDefault position={[0, 0, 15]}></PerspectiveCamera>
         <OrbitControls
           makeDefault
-          position={[0, 0, 10 + 0.00001]}
-          target={[0, 0, 10 - 0.00001]}
+          position={[0, 0, 15 + 0.00001]}
+          target={[0, 0, 15 - 0.00001]}
           maxDistance={0.00001}
           rotateSpeed={-1}
         ></OrbitControls>

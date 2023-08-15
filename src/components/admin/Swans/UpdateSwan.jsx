@@ -111,6 +111,8 @@ export function UpdateSwan({ data }) {
                     }
                   }}
                 />
+
+                {/*  */}
                 <CountBySwanIDGate
                   fallback={
                     <Tooltip title='Please remove all sub-prototypes before deleting this one'>

@@ -1,6 +1,7 @@
 import { useGLTF } from '@react-three/drei'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
 
 export function SwansDetail() {
   let query = useRouter()?.query || {}
@@ -30,15 +31,16 @@ export function SwansDetail() {
       `,
         }}
       ></style>
+      <AdminGateNoLayout>
+        <div className='p-4 '>
+          <div className='daysfont text-2xl'>Welcome to Swan Lake 🦢 </div>
+          <div className='daysfont  text-sm text-gray-500'>
+            Your FullStack Integrated Development Envrionment for Swan Extensions
+          </div>
 
-      <div className='p-4 '>
-        <div className='daysfont text-2xl'>Welcome to Swan Lake 🦢 </div>
-        <div className='daysfont  text-sm text-gray-500'>
-          Your FullStack Integrated Development Envrionment for Swan Extensions
+          {swanID && <div className='text-sm text-gray-400'>SwanID: {swanID}</div>}
         </div>
-
-        {swanID && <div className='text-sm text-gray-400'>SwanID: {swanID}</div>}
-      </div>
+      </AdminGateNoLayout>
 
       {/*  */}
     </>

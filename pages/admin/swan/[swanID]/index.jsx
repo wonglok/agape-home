@@ -1,3 +1,3 @@
-export default function Yo() {
-  return <>FA</>
-}
+import { SwansDetail } from '@/components/admin/SwansDetail/SwansDetail'
+
+export default SwansDetail

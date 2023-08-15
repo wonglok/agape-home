@@ -12,5 +12,25 @@ export function SwanConfigurator({ swanID }) {
       })
   }, [swanID])
 
-  return <></>
+  let activeSwan = useSwanProject((r) => r.activeSwan)
+
+  let update = () => {
+    useSwanProject.getState().updateOne({ object: activeSwan })
+  }
+
+  //
+  return (
+    <>
+      {activeSwan && (
+        <>
+          {/*  */}
+
+          {/*  */}
+        </>
+      )}
+
+      <pre className='text-xs'>{JSON.stringify(activeSwan, null, '  ')}</pre>
+      {/*  */}
+    </>
+  )
 }

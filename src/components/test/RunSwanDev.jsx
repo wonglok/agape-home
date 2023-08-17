@@ -23,7 +23,6 @@ export function RunSwanDev({ origin, appID = `` }) {
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
 
-  let baseURL = `${origin}/${appID}`
   useEffect(() => {
     window['React'] = React
 
@@ -38,9 +37,11 @@ export function RunSwanDev({ origin, appID = `` }) {
     window.Globals['@react-three/xr'] = ReactThreeXR
     window.Globals['three-stdlib'] = THREESTDLIB
 
-    let run = async () => {
-      let loaderUtils = await getLoader()
+    let baseURL = `${origin}/${appID}`
 
+    let socket = io(`${origin}`, {})
+
+    let run = async ({ loaderUtils, socket }) => {
       let loadCode = (i = 0) => {
         loaderUtils.load(`${baseURL}/main.module.js?hash=${encodeURIComponent('_' + Math.random())}}`).then(
           (r) => {
@@ -65,22 +66,24 @@ export function RunSwanDev({ origin, appID = `` }) {
               )
             } else {
               if (i < 10) {
+                console.log('Retrying...' + i)
+
                 setTimeout(() => {
-                  loadCode(i++)
+                  i = i + 1
+                  loadCode(i)
                 }, 1000)
               }
             }
           },
           (err) => {
             console.log(err)
+            setInsertCTX(null)
+            setInsert3D(null)
+            setInsertHTML(null)
           },
         )
       }
 
-      if (process.env.NODE_ENV === 'development') {
-      }
-
-      let socket = io(`${origin}`, {})
       let ttt = 0
       socket.on('reload', (ev) => {
         clearTimeout(ttt)
@@ -92,9 +95,18 @@ export function RunSwanDev({ origin, appID = `` }) {
     }
 
     //
-    run()
+    getLoader().then((loaderUtils) => {
+      return run({ loaderUtils, socket })
+    })
+
+    // run()
     //
-  }, [baseURL, origin])
+
+    return () => {
+      socket.disconnect()
+      socket.close()
+    }
+  }, [origin, appID])
   return (
     <>
       {insertCTX}

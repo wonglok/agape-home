@@ -8,6 +8,8 @@ import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
 
 export function SwanConfigurator({ swanID }) {
   useEffect(() => {
+    useSwanProject.setState({ activeSwan: false })
+
     useSwanProject
       .getState()
       .findOne({ object: { _id: swanID } })
@@ -29,6 +31,7 @@ export function SwanConfigurator({ swanID }) {
         .updateOne({ object: activeSwan })
         .then((r) => {
           nprogress.done()
+          useSwanProject.setState({ activeSwan: { ...activeSwan } })
         })
     }, 100)
   }
@@ -39,7 +42,6 @@ export function SwanConfigurator({ swanID }) {
       {activeSwan && (
         <>
           {/*  */}
-
           <div className='flex'>
             <input
               className='bg-gray-200'
@@ -63,7 +65,7 @@ export function SwanConfigurator({ swanID }) {
               className='bg-gray-200'
               defaultValue={activeSwan.developmentSlug}
               onChange={(ev) => {
-                activeSwan.developmentSlug = ev.target.value
+                activeSwan.developmentSlug = ev.target.value || ''
                 update()
               }}
             ></input>
@@ -72,26 +74,35 @@ export function SwanConfigurator({ swanID }) {
         </>
       )}
 
-      <div className='relative h-96 w-96'>
-        <Canvas>
-          <group position={[0, 0, 0]}>
-            {/* Development */}
-            <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
-          </group>
-
-          <BG></BG>
-          <PerspectiveCamera fov={45} makeDefault position={[0, 0, 15]}></PerspectiveCamera>
-          <OrbitControls makeDefault position={[0, 0, 15]} target={[0, 0, 0]}></OrbitControls>
-
-          {/* <Environment files={``}></Environment> */}
-          {/* <color attach={'background'} args={['#cecece']}></color> */}
-        </Canvas>
-        <CommonSwanHTML></CommonSwanHTML>
-      </div>
+      <CanvasPreview activeSwan={activeSwan}></CanvasPreview>
 
       {/* <pre className='text-xs'>{JSON.stringify(activeSwan, null, '  ')}</pre> */}
       {/*  */}
     </>
+  )
+}
+
+function CanvasPreview({ activeSwan }) {
+  return (
+    <div className='relative h-96 w-96'>
+      Development Preview
+      {activeSwan.developmentURL}/{activeSwan.developmentSlug}
+      {/*  */}
+      <Canvas>
+        <group position={[0, 0, 0]}>
+          {/* Development */}
+          <RunSwanDev origin={activeSwan.developmentURL} appID={activeSwan.slug}></RunSwanDev>
+        </group>
+
+        <BG></BG>
+        <PerspectiveCamera fov={45} makeDefault position={[0, 0, 15]}></PerspectiveCamera>
+        <OrbitControls makeDefault position={[0, 0, 15]} target={[0, 0, 0]}></OrbitControls>
+
+        {/* <Environment files={``}></Environment> */}
+        {/* <color attach={'background'} args={['#cecece']}></color> */}
+      </Canvas>
+      <CommonSwanHTML></CommonSwanHTML>
+    </div>
   )
 }
 

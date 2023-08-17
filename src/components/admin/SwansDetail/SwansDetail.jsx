@@ -10,13 +10,6 @@ export function SwansDetail() {
   let query = useRouter()?.query || {}
   let swanID = query.swanID || false
 
-  useEffect(() => {
-    if (!swanID) {
-      return
-    }
-
-    useSwanProject.setState({ activeSwanID: swanID })
-  }, [swanID])
   return (
     <>
       {/*  */}

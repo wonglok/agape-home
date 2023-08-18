@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 export function FileUploader() {
   let [data, setData] = useState([])
   useEffect(() => {
-    const dropElem = document.querySelector('#drop')
     document.body.addEventListener('dragenter', function () {})
     document.body.addEventListener('dragexit', function () {})
     document.body.addEventListener(
@@ -70,10 +69,10 @@ export function FileUploader() {
     })
   }, [])
   return (
-    <div className='h-96 w-96'>
+    <div className=''>
       {/*  */}
-      <div id='drop' className='h-full w-full bg-gray-200'>
-        Drop Files here....
+      {` Drop Files here....`}
+      <div className='h-96 w-96 bg-gray-200 text-black'>
         {data.map((r, ridx) => {
           return <div key={r.name + ridx}>{r.name}</div>
         })}

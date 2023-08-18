@@ -1,4 +1,4 @@
-import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
+import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 import { PerspectiveCamera, useTexture } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'

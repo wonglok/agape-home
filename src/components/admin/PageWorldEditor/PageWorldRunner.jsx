@@ -3,7 +3,7 @@ import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
 import { useState } from 'react'
 import tunnel from 'tunnel-rat'
 import { AgapeEngine } from './Runner/AgapeEngine'
-import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
+import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 export const tRunner = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {

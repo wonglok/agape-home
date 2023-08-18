@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react'
 import { useSwanProject } from '../Swans/useSwanProject'
 import nprogress from 'nprogress'
 import { Canvas, useThree } from '@react-three/fiber'
-import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
 import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
+import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 
 export function CanvasPreview({ activeSwan }) {
   return (

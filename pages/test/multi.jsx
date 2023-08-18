@@ -1,4 +1,4 @@
-import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
+import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 import { Environment, PerspectiveCamera, Text, useTexture } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'

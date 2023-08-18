@@ -4,7 +4,6 @@ import nprogress from 'nprogress'
 import { CanvasPreview } from './SwanPreview'
 import { FileUploader } from './FileUploader'
 // import { Canvas, useThree } from '@react-three/fiber'
-// import { CommonSwanHTML, RunSwanDev } from '@/components/test/RunSwanDev'
 // import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 // import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
 

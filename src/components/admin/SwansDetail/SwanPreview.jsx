@@ -1,6 +1,3 @@
-import { useEffect, useRef } from 'react'
-import { useSwanProject } from '../Swans/useSwanProject'
-import nprogress from 'nprogress'
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
@@ -29,6 +26,7 @@ export function CanvasPreview({ activeSwan }) {
 
           {/* <Environment files={``}></Environment> */}
           {/* <color attach={'background'} args={['#cecece']}></color> */}
+          {/*  */}
         </Canvas>
         <CommonSwanHTML></CommonSwanHTML>
       </div>

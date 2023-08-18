@@ -39,6 +39,11 @@ export function FileUploader() {
     )
 
     async function unzipFile(file) {
+      setOptions({
+        useWorkers: true,
+        numWorkers: 4,
+      })
+
       const { entries } = await unzip(file)
 
       let array = []
@@ -63,10 +68,6 @@ export function FileUploader() {
       }
       setData(array)
     }
-
-    setOptions({
-      numWorkers: 4,
-    })
   }, [])
   return (
     <div className=''>

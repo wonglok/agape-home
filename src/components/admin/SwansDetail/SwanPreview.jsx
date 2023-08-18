@@ -18,7 +18,9 @@ export function CanvasPreview({ activeSwan }) {
         <Canvas>
           <group position={[0, 0, 0]}>
             {/* Development */}
-            <RunSwanDev origin={activeSwan.developmentURL} appID={activeSwan.slug}></RunSwanDev>
+            {activeSwan.developmentURL && (
+              <RunSwanDev origin={activeSwan.developmentURL} appID={activeSwan.slug}></RunSwanDev>
+            )}
           </group>
 
           <BG></BG>

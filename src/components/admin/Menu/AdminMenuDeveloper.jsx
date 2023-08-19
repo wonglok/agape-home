@@ -54,7 +54,9 @@ export function AdminMenuDeveloper() {
       {/*  */}
 
       {/*  */}
-      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>Developers</li>
+      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-2xl'>
+        Developer Portal
+      </li>
 
       {getMenuItemsAdminDev().map((it) => {
         return (

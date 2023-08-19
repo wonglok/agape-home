@@ -67,6 +67,9 @@ export function SwansDetail() {
             <div className='h-3'></div>
             <hr></hr>
             <div className='h-3'></div>
+
+            {/*  */}
+
             <div>
               <div className='daysfont text-xl'>Configure Swan Front End</div>
               <div>

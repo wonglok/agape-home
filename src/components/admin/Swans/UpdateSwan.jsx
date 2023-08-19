@@ -151,7 +151,7 @@ export function UpdateSwan({ data }) {
               <div>
                 <Link href={`/admin/swan/${data._id}`}>
                   <button className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-400 focus:outline-none'>
-                    Edit Project
+                    Edit Swan Project 🦢
                   </button>
                 </Link>
               </div>

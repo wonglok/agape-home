@@ -53,7 +53,7 @@ export function Menu() {
       {/*  */}
 
       {/*  */}
-      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>Admin Portal</li>
+      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-2xl'>Admin Portal</li>
 
       {getMenuItems().map((it) => {
         return (

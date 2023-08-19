@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { getMenuItems } from './MenuItems'
+// import { getMenuItems } from './MenuItems'
 import { useSwanProject } from '../Swans/useSwanProject'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
+import { getMenuItemsAdminDev } from './AdminMenuItemsDeveloper'
 // import { useSwanProject } from '../Swans/useSwanProject'
 
-export function Menu() {
+export function AdminMenuDeveloper() {
   let router = useRouter()
   useSwanProject((r) => r.swans)
 
@@ -53,9 +54,9 @@ export function Menu() {
       {/*  */}
 
       {/*  */}
-      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>Admin Portal</li>
+      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>Developers</li>
 
-      {getMenuItems().map((it) => {
+      {getMenuItemsAdminDev().map((it) => {
         return (
           <div key={it.id}>
             <li className={getLinkClass({ path: it.link }) + '  ' + (it.isSwan ? `ml-3 ` : ``)}>

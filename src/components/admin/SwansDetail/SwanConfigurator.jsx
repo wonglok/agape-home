@@ -9,6 +9,7 @@ import { FileUploader } from './FileUploader'
 
 export function SwanConfigurator({ swanID }) {
   useEffect(() => {
+    //
     useSwanProject.setState({ activeSwan: false })
 
     useSwanProject

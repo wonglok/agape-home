@@ -40,7 +40,7 @@ export function MenuDeveloper() {
       {/*  */}
 
       {/*  */}
-      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>Developer</li>
+      <li className='daysfont mb-2 flex items-center rounded-lg bg-gray-200 py-3 text-center text-3xl'>System</li>
 
       {MenuItems.map((it) => {
         return (

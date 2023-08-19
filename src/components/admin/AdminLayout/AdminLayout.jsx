@@ -2,6 +2,7 @@ import { signOut } from 'next-auth/react'
 import { Menu } from '../Menu/Menu'
 import { getMenuItems } from '../Menu/MenuItems'
 import { useRouter } from 'next/router'
+import { AdminMenuDeveloper } from '../Menu/AdminMenuDeveloper'
 
 export function AdminLayout({ user, children }) {
   let router = useRouter()
@@ -210,6 +211,8 @@ export function AdminLayout({ user, children }) {
               <div className='flex h-full'>
                 <div className='' style={{ width: `17rem` }}>
                   <Menu></Menu>
+                  <div className='mb-6'></div>
+                  <AdminMenuDeveloper></AdminMenuDeveloper>
                 </div>
                 <div className='ml-5 h-full' style={{ width: `calc(100% - 17rem)` }}>
                   <div className='h-full overflow-auto rounded-2xl bg-white p-4 shadow-xl'>{children}</div>

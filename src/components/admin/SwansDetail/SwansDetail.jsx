@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 // import { useEffect } from 'react'
 // import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
 import Link from 'next/link'
+import { AdminGate } from '../AdminLayout/AdminGate'
 // import { SwanConfigurator } from './SwanConfigurator'
 // import { useSwanProject } from '../Swans/useSwanProject'
 // import CRUD from 'pages/test/crud'
-import { AdminGate } from '../AdminLayout/AdminGate'
 
 export function SwansDetail() {
   let query = useRouter()?.query || {}

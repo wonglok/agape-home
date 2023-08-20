@@ -18,6 +18,11 @@ module.exports = {
   mode: 'jit',
   content: [
     //
+    './node_modules/flowbite-react/**/*.js',
+    './pages/**/*.{ts,tsx}',
+    './public/**/*.html',
+    './pages/**/*.{ts,tsx}',
+    './public/**/*.html',
     './app/**/*.{js,ts,jsx,tsx}',
     './src/**/*.{js,ts,jsx,tsx}',
   ], // remove unused styles in production
@@ -53,5 +58,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), require('flowbite/plugin')],
 }

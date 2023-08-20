@@ -389,7 +389,7 @@ const addDOMClass = ( dom, classList ) => {
 
 };
 
-var Utils = /*#__PURE__*/Object.freeze({
+let Utils = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	pointer: pointer,
 	draggableDOM: draggableDOM,
@@ -889,7 +889,7 @@ class Element extends Serializer {
 			if ( this.disconnectDOM === null ) {
 
 				this.disconnectDOM = document.createElement( 'f-disconnect' );
-				this.disconnectDOM.innerHTML = Styles.icons.unlink ? `<i class='${ Styles.icons.unlink }'></i>` : '✖';
+				this.disconnectDOM.innerHTML = Styles.icons.unlink ? `<i className='${ Styles.icons.unlink }'></i>` : '✖';
 
 				this.dom.append( this.disconnectDOM );
 
@@ -4826,7 +4826,7 @@ class TreeViewInput extends Input {
 
 }
 
-var Flow = /*#__PURE__*/Object.freeze({
+let Flow = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	Element: Element,
 	Input: Input,

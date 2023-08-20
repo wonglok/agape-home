@@ -5,6 +5,8 @@ import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
 import Link from 'next/link'
 import { SwanConfigurator } from './SwanConfigurator'
 import { useSwanProject } from '../Swans/useSwanProject'
+import CRUD from 'pages/test/crud'
+import { AdminGate } from '../AdminLayout/AdminGate'
 
 export function SwansDetail() {
   let query = useRouter()?.query || {}
@@ -35,9 +37,10 @@ export function SwansDetail() {
       `,
         }}
       ></style>
-      <AdminGateNoLayout>
+      <AdminGate>
         {swanID && (
-          <div className='m-4 '>
+          <div className='m-0 '>
+            <CRUD></CRUD>
             <div className='daysfont text-2xl'>Welcome to Swan Lake 🦢 </div>
             <div className='daysfont text-sm text-gray-500'>
               Your FullStack Integrated Development Envrionment for Swan Extensions
@@ -69,16 +72,17 @@ export function SwansDetail() {
             <div className='h-3'></div>
 
             {/*  */}
+            <div className='daysfont text-xl'>Open Development Simulator</div>
 
-            <div>
+            {/* <div>
               <div className='daysfont text-xl'>Configure Swan Front End</div>
               <div>
                 <SwanConfigurator swanID={swanID}></SwanConfigurator>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
-      </AdminGateNoLayout>
+      </AdminGate>
 
       {/*  */}
     </>

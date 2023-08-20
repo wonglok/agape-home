@@ -1,11 +1,11 @@
-import { useGLTF } from '@react-three/drei'
+// import { useGLTF } from '@react-three/drei'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
+// import { useEffect } from 'react'
+// import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
 import Link from 'next/link'
-import { SwanConfigurator } from './SwanConfigurator'
-import { useSwanProject } from '../Swans/useSwanProject'
-import CRUD from 'pages/test/crud'
+// import { SwanConfigurator } from './SwanConfigurator'
+// import { useSwanProject } from '../Swans/useSwanProject'
+// import CRUD from 'pages/test/crud'
 import { AdminGate } from '../AdminLayout/AdminGate'
 
 export function SwansDetail() {
@@ -40,7 +40,7 @@ export function SwansDetail() {
       <AdminGate>
         {swanID && (
           <div className='m-0 '>
-            <CRUD></CRUD>
+            {/* <CRUD></CRUD> */}
             <div className='daysfont text-2xl'>Welcome to Swan Lake 🦢 </div>
             <div className='daysfont text-sm text-gray-500'>
               Your FullStack Integrated Development Envrionment for Swan Extensions

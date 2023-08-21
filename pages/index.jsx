@@ -3,5 +3,5 @@
 // export default DynamicPage
 
 export default function Default() {
-  return <> home page </>
+  return <> home home home page </>
 }

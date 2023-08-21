@@ -18,10 +18,12 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwanDev({ origin, appID = `` }) {
+export function RunSwanDev({ productionURL, mode, appID, developmentURL }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
+  let isDev = mode === 'development'
+  let baseURL = isDev ? developmentURL : productionURL
 
   useEffect(() => {
     window['React'] = React
@@ -83,9 +85,7 @@ export function RunSwanDev({ origin, appID = `` }) {
       await Promise.all(res)
     }
 
-    let baseURL = `${origin}/${appID}`
-
-    let socket = io(`${origin}`, {})
+    let socket = isDev ? io(`${developmentURL}`, {}) : false
 
     let run = async ({ loaderUtils, socket }) => {
       let loadCode = (i = 0) => {
@@ -94,20 +94,21 @@ export function RunSwanDev({ origin, appID = `` }) {
             //
             if (
               r &&
-              typeof r.SwanPreload === 'function' &&
+              typeof r.Runtime === 'function' &&
               typeof r.SmartObject === 'function' &&
               typeof r.HTMLOverlay === 'function'
             ) {
               console.log('Refreshing...')
               setInsertCTX(
                 <React.Suspense fallback={null}>
-                  <r.SwanPreload
+                  <r.Runtime
                     baseURL={baseURL}
+                    appIID={appID}
                     onReady={() => {
                       setInsert3D(<r.SmartObject></r.SmartObject>)
                       setInsertHTML(<r.HTMLOverlay></r.HTMLOverlay>)
                     }}
-                  ></r.SwanPreload>
+                  ></r.Runtime>
                 </React.Suspense>,
               )
             } else {
@@ -130,13 +131,16 @@ export function RunSwanDev({ origin, appID = `` }) {
         )
       }
 
-      let ttt = 0
-      socket.on('reload', (ev) => {
-        clearTimeout(ttt)
-        ttt = setTimeout(() => {
-          loadCode()
-        }, 100)
-      })
+      if (socket) {
+        let ttt = 0
+        socket.on('reload', (ev) => {
+          clearTimeout(ttt)
+          ttt = setTimeout(() => {
+            loadCode()
+          }, 100)
+        })
+      }
+
       loadCode()
     }
 
@@ -158,10 +162,12 @@ export function RunSwanDev({ origin, appID = `` }) {
     //
 
     return () => {
-      socket.disconnect()
-      socket.close()
+      if (socket) {
+        socket.disconnect()
+        socket.close()
+      }
     }
-  }, [origin, appID])
+  }, [developmentURL, baseURL, appID, isDev])
   return (
     <>
       {insertCTX}

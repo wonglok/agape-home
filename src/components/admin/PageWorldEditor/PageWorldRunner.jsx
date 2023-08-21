@@ -25,9 +25,6 @@ export function PageWorldRunner({ isEditor = false }) {
           </>
         )}
 
-        <group position={[3, 5, -10]}>
-          <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
-        </group>
         <AgapeEngine tRunner={tRunner}></AgapeEngine>
 
         <group position={[0, 1, -5]}>

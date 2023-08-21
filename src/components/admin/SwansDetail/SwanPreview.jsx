@@ -7,16 +7,19 @@ export function CanvasPreview({ activeSwan }) {
   return (
     <>
       <div>Development Preview for URL:</div>
-      <div>
-        {activeSwan.developmentURL}/{activeSwan.developmentSlug}
-      </div>
+      <div>{activeSwan.developmentURL}</div>
       <div className='relative h-96 w-96'>
         {/*  */}
         <Canvas>
           <group position={[0, 0, 0]}>
             {/* Development */}
             {activeSwan.developmentURL && (
-              <RunSwanDev origin={activeSwan.developmentURL} appID={activeSwan.slug}></RunSwanDev>
+              <RunSwanDev
+                appID={`${activeSwan._id}}`}
+                mode={'development'}
+                productionURL={activeSwan.productionURL}
+                developmentURL={activeSwan.developmentURL}
+              ></RunSwanDev>
             )}
           </group>
 

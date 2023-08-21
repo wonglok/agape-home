@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 // import { AdminGateNoLayout } from '../AdminLayout/AdminGateNoLayout'
 import Link from 'next/link'
 import { AdminGate } from '../AdminLayout/AdminGate'
+import { SwanConfigurator } from './SwanConfigurator'
 // import { SwanConfigurator } from './SwanConfigurator'
 // import { useSwanProject } from '../Swans/useSwanProject'
 // import CRUD from 'pages/test/crud'
@@ -73,7 +74,7 @@ export function SwansDetail() {
 
             {/*  */}
             <div className='daysfont text-xl'>Open Development Simulator</div>
-
+            <SwanConfigurator swanID={swanID}></SwanConfigurator>
             {/* <div>
               <div className='daysfont text-xl'>Configure Swan Front End</div>
               <div>

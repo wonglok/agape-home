@@ -1,3 +1,7 @@
-import { DynamicPage } from '@/components/loader/DynamicPage'
+// import { DynamicPage } from '@/components/loader/DynamicPage'
 
-export default DynamicPage
+// export default DynamicPage
+
+export default function Default() {
+  return <> home page </>
+}

@@ -3,11 +3,9 @@ import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
 import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 
-export function CanvasPreview({ activeSwan }) {
+export function CanvasPreview({ mode = 'development', activeSwan }) {
   return (
     <>
-      <div>Development Preview for URL:</div>
-      <div>{activeSwan.developmentURL}</div>
       <div className='relative h-96 w-96'>
         {/*  */}
         <Canvas>
@@ -16,7 +14,7 @@ export function CanvasPreview({ activeSwan }) {
             {activeSwan.developmentURL && (
               <RunSwanDev
                 appID={`${activeSwan._id}}`}
-                mode={'development'}
+                mode={mode}
                 productionURL={activeSwan.productionURL}
                 developmentURL={activeSwan.developmentURL}
               ></RunSwanDev>

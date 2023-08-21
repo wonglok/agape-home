@@ -55,6 +55,7 @@ export function SwanConfigurator({ swanID }) {
             ></input>
           </div>
           <div className='flex'>
+            Development Server URL
             <input
               className='bg-gray-200'
               defaultValue={activeSwan.developmentURL}
@@ -63,11 +64,12 @@ export function SwanConfigurator({ swanID }) {
                 update()
               }}
             ></input>
+            Production URL
             <input
               className='bg-gray-200'
-              defaultValue={activeSwan.developmentSlug}
+              defaultValue={activeSwan.productionURL}
               onChange={(ev) => {
-                activeSwan.developmentSlug = ev.target.value || ''
+                activeSwan.productionURL = ev.target.value || ''
                 update()
               }}
             ></input>
@@ -76,7 +78,7 @@ export function SwanConfigurator({ swanID }) {
         </>
       )}
 
-      <CanvasPreview activeSwan={activeSwan}></CanvasPreview>
+      <CanvasPreview mode={'development'} activeSwan={activeSwan}></CanvasPreview>
 
       <FileUploader></FileUploader>
 

@@ -56,7 +56,7 @@ export const useDD = create((set, get) => {
         className: 'card',
         style: { backgroundColor: pickColor(0 / 5) },
       },
-      data: lorem.slice(0, Math.floor((0 / 5) * 150) + 30),
+      data: 'operations' + j,
     })),
 
     operationBlocks: generateItems((0).toFixed() + 5, (j) => ({

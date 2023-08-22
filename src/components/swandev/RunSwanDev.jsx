@@ -9,7 +9,7 @@
 
 import { useEffect } from 'react'
 import * as React from 'react'
-import { io } from 'socket.io-client'
+// import { io } from 'socket.io-client'
 import tunnel from 'tunnel-rat'
 
 let t = tunnel()
@@ -85,7 +85,7 @@ export function RunSwanDev({ productionURL, mode, appID, developmentURL }) {
       await Promise.all(res)
     }
 
-    let socket = isDev ? io(`${developmentURL}`, {}) : false
+    let socket = false
 
     let run = async ({ loaderUtils, socket }) => {
       let loadCode = (i = 0) => {
@@ -146,6 +146,9 @@ export function RunSwanDev({ productionURL, mode, appID, developmentURL }) {
 
     //
     getLoader().then(async (loaderUtils) => {
+      let io = await import('socket.io-client').then((r) => r.io)
+      socket = isDev ? io(`${developmentURL}`, {}) : false
+
       await loaderUtils
         .load(`${baseURL}/preload.module.js?hash=${encodeURIComponent('_' + Math.random())}}`)
         .then((mod) => {

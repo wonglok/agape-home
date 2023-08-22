@@ -6,7 +6,7 @@ import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
 export function CanvasPreview({ mode = 'development', activeSwan }) {
   return (
     <>
-      <div className='relative h-96 w-96'>
+      <div className='relative h-full w-full'>
         {/*  */}
         <Canvas>
           <group position={[0, 0, 0]}>

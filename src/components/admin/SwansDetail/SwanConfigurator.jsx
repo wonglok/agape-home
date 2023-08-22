@@ -3,6 +3,8 @@ import { useSwanProject } from '../Swans/useSwanProject'
 import nprogress from 'nprogress'
 import { CanvasPreview } from './SwanPreview'
 import { FileUploader } from './FileUploader'
+import Link from 'next/link'
+// import { SwanEndpointBuilder } from './SwanEndpointBuilder/SwanEndpointBuilder'
 // import { Canvas, useThree } from '@react-three/fiber'
 // import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 // import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
@@ -39,6 +41,8 @@ export function SwanConfigurator({ swanID }) {
   }
 
   //
+
+  //
   return (
     <>
       {activeSwan && (
@@ -64,6 +68,8 @@ export function SwanConfigurator({ swanID }) {
                 update()
               }}
             ></input>
+          </div>
+          <div className='flex'>
             Production URL
             <input
               className='bg-gray-200'
@@ -74,11 +80,16 @@ export function SwanConfigurator({ swanID }) {
               }}
             ></input>
           </div>
-          {/*  */}
+
+          <Link href={`/admin/swan/${activeSwan._id}/endpoints`}>
+            <button className='bg-gray-200 p-2'>Build REST Endpoints</button>
+          </Link>
         </>
       )}
 
-      <CanvasPreview mode={'development'} activeSwan={activeSwan}></CanvasPreview>
+      <div className='h-96'>
+        <CanvasPreview mode={'development'} activeSwan={activeSwan}></CanvasPreview>
+      </div>
 
       <FileUploader></FileUploader>
 

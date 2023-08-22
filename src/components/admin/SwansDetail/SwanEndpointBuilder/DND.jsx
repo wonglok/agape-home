@@ -21,7 +21,7 @@ import { v4 } from 'uuid'
 //   }
 // }
 
-function Operations({ data = false, behaviour = 'move', list, onSave }) {
+function Operations({ onDrag = () => {}, behaviour = 'move', list, onSave }) {
   return (
     <>
       <Container
@@ -31,10 +31,16 @@ function Operations({ data = false, behaviour = 'move', list, onSave }) {
         onDragStart={(e) => console.log('drag started', e)}
         onDragEnd={(e) => console.log('drag end', e)}
         onDrop={(e) => {
+          console.log('drop', e)
           onSave({ list: applyDrag([...list], e) })
         }}
         getChildPayload={(index) => {
           return list[index]
+        }}
+        onDrag={() => {
+          //
+          console.log('dragging')
+          onDrag()
         }}
         // dragClass='card-ghost'
         // dropClass='card-ghost-drop'
@@ -57,7 +63,7 @@ function Operations({ data = false, behaviour = 'move', list, onSave }) {
         {list.map((card) => {
           //booleanLogic
           return (
-            <Draggable className='h-full w-full' key={card._id}>
+            <Draggable key={card._id}>
               <div className='mb-1 bg-gray-200 p-2'>
                 <div className='px-4 py-3'>{card.method}</div>
 
@@ -81,12 +87,6 @@ function Operations({ data = false, behaviour = 'move', list, onSave }) {
             </Draggable>
           )
         })}
-
-        {data.type === 'booleanLogic' && (
-          <>
-            <Container dropPlaceholder></Container>
-          </>
-        )}
       </Container>
     </>
   )
@@ -123,6 +123,9 @@ export function DND() {
                           onSave={({ list }) => {
                             useDD.setState({ activeOperations: list })
                           }}
+                          onDrag={(e) => {
+                            console.log('onDrag', e)
+                          }}
                         ></Operations>
                       </>
                     )}
@@ -158,6 +161,9 @@ export function DND() {
                           list={operationBlocks}
                           onSave={({ list }) => {
                             useDD.setState({ operationBlocks: list })
+                          }}
+                          onDrag={(e) => {
+                            console.log('onDragRight', e)
                           }}
                         ></Operations>
                       </>

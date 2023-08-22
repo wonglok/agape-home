@@ -66,16 +66,16 @@ export const useDD = create((set, get) => {
         className: 'card',
         style: { backgroundColor: pickColor(0 / 5) },
       },
-      data: lorem.slice(0, Math.floor((0 / 5) * 150) + 10),
+      data: 'operation unit',
 
-      children: generateItems((0).toFixed() + 2, (j) => ({
+      children: generateItems(3, (j) => ({
         type: 'draggable',
         id: `003${j}`,
         props: {
           className: 'card',
           style: { backgroundColor: pickColor(0 / 5) },
         },
-        data: lorem.slice(0, Math.floor((0 / 5) * 150) + 10),
+        data: 'sub operations ' + j,
       })),
     })),
 

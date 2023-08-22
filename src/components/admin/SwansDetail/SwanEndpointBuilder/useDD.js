@@ -1,110 +1,72 @@
 import { create } from 'zustand'
 import { applyDrag, generateItems } from './util'
-
-const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-
-const columnNames = ['Lorem', 'Ipsum', 'Consectetur', 'Eiusmod']
-
-const cardColors = [
-  'azure',
-  'beige',
-  'bisque',
-  'blanchedalmond',
-  'burlywood',
-  'cornsilk',
-  'gainsboro',
-  'ghostwhite',
-  'ivory',
-  'khaki',
-]
-const pickColor = (e) => {
-  let rand = Math.floor(e * 10)
-  return cardColors[rand]
-}
+import { v4 } from 'uuid'
 
 export const useDD = create((set, get) => {
   return {
-    //
+    activeOperations: [],
 
-    // operationBlocks: [
-    //   {
-    //     id: `column000`,
-    //     type: 'container',
-    //     name: 'name000',
-    //     props: {
-    //       orientation: 'vertical',
-    //       className: 'card-container',
-    //     },
-    //     children: generateItems((0).toFixed() + 5, (j) => ({
-    //       type: 'draggable',
-    //       id: `000${j}`,
-    //       props: {
-    //         className: 'card',
-    //         style: { backgroundColor: pickColor(0 / 5) },
-    //       },
-    //       data: lorem.slice(0, Math.floor((0 / 5) * 150) + 30),
-    //     })),
-    //   },
-    // ],
+    // operationBlocksOld: generateItems((0).toFixed() + 5, (j) => ({
+    //   _id: v4(),
+    //   type: 'ops',
+    //   method: 'operation unit',
 
-    activeOperations: generateItems((0).toFixed() + 5, (j) => ({
-      type: 'draggable',
-      id: `001${j}`,
-      props: {
-        className: 'card',
-        style: { backgroundColor: pickColor(0 / 5) },
+    //   children: generateItems(3, (j) => ({
+    //     _id: v4(),
+    //     groupName: 'ops',
+    //     method: 'sub operations ' + j,
+    //   })),
+    // })),
+
+    operationBlocks: [
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'createDatabaseDocument',
+        args: [],
       },
-      data: 'operations' + j,
-    })),
 
-    operationBlocks: generateItems((0).toFixed() + 5, (j) => ({
-      type: 'draggable',
-      id: `002${j}`,
-      props: {
-        className: 'card',
-        style: { backgroundColor: pickColor(0 / 5) },
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'readDatabaseDocument',
+        args: [],
       },
-      data: 'operation unit',
 
-      children: generateItems(3, (j) => ({
-        type: 'draggable',
-        id: `003${j}`,
-        props: {
-          className: 'card',
-          style: { backgroundColor: pickColor(0 / 5) },
-        },
-        data: 'sub operations ' + j,
-      })),
-    })),
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'udpateDatabaseDocument',
+        args: [],
+      },
 
-    getCardPayload(columnId, index) {
-      return get().board.children.filter((p) => p.id === columnId)[0].children[index]
-    },
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'deleteDatabaseDocument',
+        args: [],
+      },
 
-    onColumnDrop(dropResult) {
-      const board = Object.assign({}, get().board)
-      board.children = applyDrag(board.children, dropResult)
-      set({
-        board,
-      })
-    },
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'listAllDatabaseDocument',
+        args: [],
+      },
 
-    onCardDrop(columnId, dropResult) {
-      if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-        const board = Object.assign({}, get().board)
-        const column = board.children.filter((p) => p.id === columnId)[0]
-        const columnIndex = board.children.indexOf(column)
+      {
+        _id: v4(),
+        type: 'database',
+        method: 'queryDatabaseDocument',
+        args: [],
+      },
 
-        const newColumn = Object.assign({}, column)
-        newColumn.children = applyDrag(newColumn.children, dropResult)
-        board.children.splice(columnIndex, 1, newColumn)
-
-        set({
-          board,
-        })
-      }
-    },
+      {
+        _id: v4(),
+        type: 'booleanLogic',
+        method: 'booleanLogic',
+        args: [],
+      },
+    ],
   }
 })

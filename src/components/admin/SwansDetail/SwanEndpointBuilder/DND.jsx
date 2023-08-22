@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { useDD } from './useDD'
 import { applyDrag } from './util'
+import { v4 } from 'uuid'
 
 // class Cards extends Component {
 //   constructor({ ...props }) {
@@ -20,12 +21,13 @@ import { applyDrag } from './util'
 //   }
 // }
 
-function Operations({ behaviour = 'move', list, onSave }) {
+function Operations({ data = false, behaviour = 'move', list, onSave }) {
   return (
     <>
       <Container
+        groupName={'col'}
+        className='h-full w-full bg-gray-200'
         behaviour={behaviour}
-        groupName='col'
         onDragStart={(e) => console.log('drag started', e)}
         onDragEnd={(e) => console.log('drag end', e)}
         onDrop={(e) => {
@@ -46,22 +48,27 @@ function Operations({ behaviour = 'move', list, onSave }) {
         dropPlaceholder={{
           animationDuration: 150,
           showOnTop: true,
-          className: 'drop-preview',
+          className: 'bg-gray-300 w-full h-full',
         }}
+        dropClass='w-full bg-yellow-100'
+        dragClass='w-full bg-yellow-100'
         dropPlaceholderAnimationDuration={200}
       >
         {list.map((card) => {
+          //booleanLogic
           return (
-            <Draggable key={card.id}>
-              <div className=''>
-                <p>{card.data}</p>
+            <Draggable className='h-full w-full' key={card._id}>
+              <div className='mb-1 bg-gray-200 p-2'>
+                <div className='px-4 py-3'>{card.method}</div>
 
-                <div className='ml-2'>
+                <div className=''>
                   {card.children && (
                     <>
                       <Operations
+                        canDrag={card.canDrag}
                         behaviour={behaviour}
                         list={card.children}
+                        data={card}
                         onSave={({ list: sublist }) => {
                           card.children = [...sublist]
                           onSave({ list: [...list] })
@@ -74,6 +81,12 @@ function Operations({ behaviour = 'move', list, onSave }) {
             </Draggable>
           )
         })}
+
+        {data.type === 'booleanLogic' && (
+          <>
+            <Container dropPlaceholder></Container>
+          </>
+        )}
       </Container>
     </>
   )
@@ -100,11 +113,12 @@ export function DND() {
             <div className='bg-gray-200' style={{ width: `calc((100% - 280px) / 2)`, height: `calc(100%)` }}>
               <div className='' style={{ height: `100%`, width: `100%` }}>
                 <div className='bg-gray-100' style={{ width: `100%`, height: `calc(100%)` }}>
-                  <div className='h-full w-full bg-gray-50'>
+                  <div className='h-full w-full bg-white'>
                     {activeOperations && (
                       <>
                         <Operations
                           behaviour={'move'}
+                          groupName='ops'
                           list={activeOperations}
                           onSave={({ list }) => {
                             useDD.setState({ activeOperations: list })
@@ -135,23 +149,19 @@ export function DND() {
                   </div>
                 </div>
                 <div className='' style={{ height: `calc(100% - 28px)`, width: `100%` }}>
-                  <div className='h-full w-full bg-gray-100  text-sm'>
+                  <div className='h-full w-full bg-gray-100  p-1 text-sm'>
                     {operationBlocks && (
                       <>
-                        {operationBlocks && (
-                          <>
-                            <Operations
-                              behaviour={'copy'}
-                              list={operationBlocks}
-                              onSave={({ list }) => {
-                                useDD.setState({ operationBlocks: list })
-                              }}
-                            ></Operations>
-                          </>
-                        )}
+                        <Operations
+                          behaviour={'copy'}
+                          groupName='ops'
+                          list={operationBlocks}
+                          onSave={({ list }) => {
+                            useDD.setState({ operationBlocks: list })
+                          }}
+                        ></Operations>
                       </>
                     )}
-
                     {/*  */}
                     {/* <div className='mr-2 inline-flex cursor-grab bg-gray-200 px-5 py-2 text-xs'>Read DB</div>
                     <div className='mr-2 inline-flex cursor-grab bg-gray-200 px-5 py-2 text-xs'>Read DB</div>

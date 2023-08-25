@@ -18,7 +18,7 @@ export function CommonSwanHTML() {
   return <t.Out></t.Out>
 }
 
-export function RunSwanDev({ productionURL, mode, appID, developmentURL }) {
+export function RemoteSwan({ productionURL, mode, appID, developmentURL }) {
   let [insertCTX, setInsertCTX] = React.useState(null)
   let [insert3D, setInsert3D] = React.useState(null)
   let [insertHTML, setInsertHTML] = React.useState(null)
@@ -182,7 +182,10 @@ export function RunSwanDev({ productionURL, mode, appID, developmentURL }) {
 
 export const DefaultSetting = {
   onFetch: ({ url, options }) => {
-    return fetch(url, options)
+    return fetch(url, {
+      ...options,
+      mode: 'cors',
+    })
   },
   onResolve: ({ id, parentUrl, resolve }) => {
     if (parentUrl.indexOf('blob:') === 0) {
@@ -273,3 +276,5 @@ export const getLoader = async ({ onResolve = () => {}, onFetch = () => {} } = D
     })
   })
 }
+
+//

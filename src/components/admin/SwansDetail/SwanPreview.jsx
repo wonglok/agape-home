@@ -1,7 +1,7 @@
 import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
-import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
+import { CommonSwanHTML, RemoteSwan } from '@/components/swandev/RemoteSwan'
 
 export function CanvasPreview({ mode = 'development', activeSwan }) {
   return (
@@ -12,12 +12,12 @@ export function CanvasPreview({ mode = 'development', activeSwan }) {
           <group position={[0, 0, 0]}>
             {/* Development */}
             {activeSwan.developmentURL && (
-              <RunSwanDev
+              <RemoteSwan
                 appID={`${activeSwan._id}}`}
                 mode={mode}
                 productionURL={activeSwan.productionURL}
                 developmentURL={activeSwan.developmentURL}
-              ></RunSwanDev>
+              ></RemoteSwan>
             )}
           </group>
 

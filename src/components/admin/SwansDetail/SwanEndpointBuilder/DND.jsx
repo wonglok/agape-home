@@ -13,84 +13,82 @@ import { v4 } from 'uuid'
 //     this.getCardPayload = this.getCardPayload.bind(this)
 //     this.state = {}
 //   }
-
 //   render() {
 //     return (
-
 //     )
 //   }
 // }
 
-function Operations({ onDrag = () => {}, behaviour = 'move', list, onSave }) {
-  return (
-    <>
-      <Container
-        groupName={'col'}
-        className='h-full w-full bg-gray-200'
-        behaviour={behaviour}
-        onDragStart={(e) => console.log('drag started', e)}
-        onDragEnd={(e) => console.log('drag end', e)}
-        onDrop={(e) => {
-          console.log('drop', e)
-          onSave({ list: applyDrag([...list], e) })
-        }}
-        getChildPayload={(index) => {
-          return list[index]
-        }}
-        onDrag={() => {
-          //
-          console.log('dragging')
-          onDrag()
-        }}
-        // dragClass='card-ghost'
-        // dropClass='card-ghost-drop'
-        onDragEnter={() => {
-          // console.log('drag enter:', block.id)
-        }}
-        onDragLeave={() => {
-          // console.log('drag leave:', block.id)
-        }}
-        onDropReady={(p) => console.log('Drop ready: ', p)}
-        dropPlaceholder={{
-          animationDuration: 150,
-          showOnTop: true,
-          className: 'bg-gray-300 w-full h-full',
-        }}
-        dropClass='w-full bg-yellow-100'
-        dragClass='w-full bg-yellow-100'
-        dropPlaceholderAnimationDuration={200}
-      >
-        {list.map((card) => {
-          //booleanLogic
-          return (
-            <Draggable key={card._id}>
-              <div className='mb-1 bg-gray-200 p-2'>
-                <div className='px-4 py-3'>{card.method}</div>
+// function Operations({ onDrag = () => {}, behaviour = 'move', list, onSave }) {
+//   return (
+//     <>
+//       <Container
+//         groupName={'col'}
+//         className='h-full w-full bg-gray-200'
+//         behaviour={behaviour}
+//         onDragStart={(e) => console.log('drag started', e)}
+//         onDragEnd={(e) => console.log('drag end', e)}
+//         onDrop={(e) => {
+//           console.log('drop', e)
+//           onSave({ list: applyDrag([...list], e) })
+//         }}
+//         getChildPayload={(index) => {
+//           return list[index]
+//         }}
+//         onDrag={() => {
+//           //
+//           console.log('dragging')
+//           onDrag()
+//         }}
+//         // dragClass='card-ghost'
+//         // dropClass='card-ghost-drop'
+//         onDragEnter={() => {
+//           // console.log('drag enter:', block.id)
+//         }}
+//         onDragLeave={() => {
+//           // console.log('drag leave:', block.id)
+//         }}
+//         onDropReady={(p) => console.log('Drop ready: ', p)}
+//         dropPlaceholder={{
+//           animationDuration: 150,
+//           showOnTop: true,
+//           className: 'bg-gray-300 w-full h-full',
+//         }}
+//         dropClass='w-full bg-yellow-100'
+//         dragClass='w-full bg-yellow-100'
+//         dropPlaceholderAnimationDuration={200}
+//       >
+//         {list.map((card) => {
+//           //booleanLogic
+//           return (
+//             <Draggable key={card._id}>
+//               <div className='mb-1 bg-gray-200 p-2'>
+//                 <div className='px-4 py-3'>{card.method}</div>
 
-                <div className=''>
-                  {card.children && (
-                    <>
-                      <Operations
-                        canDrag={card.canDrag}
-                        behaviour={behaviour}
-                        list={card.children}
-                        data={card}
-                        onSave={({ list: sublist }) => {
-                          card.children = [...sublist]
-                          onSave({ list: [...list] })
-                        }}
-                      ></Operations>
-                    </>
-                  )}
-                </div>
-              </div>
-            </Draggable>
-          )
-        })}
-      </Container>
-    </>
-  )
-}
+//                 <div className=''>
+//                   {card.children && (
+//                     <>
+//                       <Operations
+//                         canDrag={card.canDrag}
+//                         behaviour={behaviour}
+//                         list={card.children}
+//                         data={card}
+//                         onSave={({ list: sublist }) => {
+//                           card.children = [...sublist]
+//                           onSave({ list: [...list] })
+//                         }}
+//                       ></Operations>
+//                     </>
+//                   )}
+//                 </div>
+//               </div>
+//             </Draggable>
+//           )
+//         })}
+//       </Container>
+//     </>
+//   )
+// }
 
 export function DND() {
   // let board = useDD((s) => s.board)
@@ -114,7 +112,7 @@ export function DND() {
               <div className='' style={{ height: `100%`, width: `100%` }}>
                 <div className='bg-gray-100' style={{ width: `100%`, height: `calc(100%)` }}>
                   <div className='h-full w-full bg-white'>
-                    {activeOperations && (
+                    {/* {activeOperations && (
                       <>
                         <Operations
                           behaviour={'move'}
@@ -128,7 +126,7 @@ export function DND() {
                           }}
                         ></Operations>
                       </>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -153,7 +151,7 @@ export function DND() {
                 </div>
                 <div className='' style={{ height: `calc(100% - 28px)`, width: `100%` }}>
                   <div className='h-full w-full bg-gray-100  p-1 text-sm'>
-                    {operationBlocks && (
+                    {/* {operationBlocks && (
                       <>
                         <Operations
                           behaviour={'copy'}
@@ -167,7 +165,7 @@ export function DND() {
                           }}
                         ></Operations>
                       </>
-                    )}
+                    )} */}
                     {/*  */}
                     {/* <div className='mr-2 inline-flex cursor-grab bg-gray-200 px-5 py-2 text-xs'>Read DB</div>
                     <div className='mr-2 inline-flex cursor-grab bg-gray-200 px-5 py-2 text-xs'>Read DB</div>

@@ -1,4 +1,4 @@
-import { CommonSwanHTML, RunSwanDev } from '@/components/swandev/RunSwanDev'
+import { CommonSwanHTML, RemoteSwan } from '@/components/swandev/RemoteSwan'
 import { PerspectiveCamera, useTexture } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three'
@@ -46,12 +46,12 @@ html.lenis {
           <group position={[0, 1.5, 0]}>
             {/* Development */}
 
-            <RunSwanDev origin={`http://localhost:8521`} appID={``}></RunSwanDev>
+            <RemoteSwan origin={`http://localhost:8521`} appID={``}></RemoteSwan>
           </group>
 
           <group position={[0, -1.5, 0]}>
             {/* App */}
-            <RunSwanDev origin={`http://localhost:8521`} appID={`my-swans/tj-swan`}></RunSwanDev>
+            <RemoteSwan origin={`http://localhost:8521`} appID={`my-swans/tj-swan`}></RemoteSwan>
           </group>
 
           <BG></BG>

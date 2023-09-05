@@ -34,6 +34,7 @@ export const authOptions = {
           if (!userInDB) {
             return null
           }
+
           let result = await new Promise((resolve, reject) => {
             bcrypt.compare(credentials.password, userInDB.passwordHash, function (err, result) {
               if (err) {

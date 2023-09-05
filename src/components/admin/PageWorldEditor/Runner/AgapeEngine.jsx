@@ -2,17 +2,17 @@ import { Background, Joystick, PPSwitch } from 'agape-sdk'
 import { GameModeAdapter } from './GameModeAdapter'
 import { useAgapeStore } from './useAgapeStore'
 
-export function AgapeEngine({ tRunner }) {
+export function AgapeEngine({ tunnelRun }) {
   return (
     <>
       <GameModeAdapter useStore={useAgapeStore}></GameModeAdapter>
       <Background useStore={useAgapeStore}></Background>
       <PPSwitch useStore={useAgapeStore}></PPSwitch>
 
-      <tRunner.In>
+      <tunnelRun.In>
         <div id='guilayer'></div>
         <JoyStickHTML useStore={useAgapeStore}></JoyStickHTML>
-      </tRunner.In>
+      </tunnelRun.In>
     </>
   )
 }

@@ -1,11 +1,11 @@
 import { Canvas } from '@react-three/fiber'
-import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
+// import { AppRunner } from '../AppsEditor/AppBrowser/AppRunner'
 import { Suspense, useState } from 'react'
 import tunnel from 'tunnel-rat'
 import { AgapeEngine } from './Runner/AgapeEngine'
 import { CommonSwanHTML, RemoteSwan } from '@/components/swandev/RemoteSwan'
 import { SwanRemoteHTMLGen2, SwanRemoteRuntimeGen2 } from './SwanLoader/SwanRemoteRuntimeGen2'
-export const tRunner = tunnel()
+export const tunnelRun = tunnel()
 
 export function PageWorldRunner({ isEditor = false }) {
   return (
@@ -21,7 +21,6 @@ export function PageWorldRunner({ isEditor = false }) {
         ) : (
           <>
             {/*  */}
-
             {/*  */}
           </>
         )}
@@ -29,13 +28,11 @@ export function PageWorldRunner({ isEditor = false }) {
         <group position={[5, 5, 0]}>
           {process.env.NODE_ENV === 'development' ? (
             <Suspense fallback={null}>
-              {
-                <SwanRemoteRuntimeGen2
-                  baseURL={`http://localhost:8521`}
-                  swanPath={`swan-build`}
-                  socketURL={'http://localhost:8521'}
-                ></SwanRemoteRuntimeGen2>
-              }
+              <SwanRemoteRuntimeGen2
+                baseURL={`http://localhost:3001`}
+                swanPath={`swan-build`}
+                socketURL={'http://localhost:8521'}
+              ></SwanRemoteRuntimeGen2>
             </Suspense>
           ) : (
             <Suspense fallback={null}>
@@ -48,7 +45,15 @@ export function PageWorldRunner({ isEditor = false }) {
           )}
         </group>
 
-        <AgapeEngine tRunner={tRunner}></AgapeEngine>
+        {/* <Suspense fallback={null}>
+          <SwanRemoteRuntimeGen2
+            baseURL={`https://agape-swan-gen2.vercel.app`}
+            swanPath={`swan-build`}
+            socketURL={false}
+          ></SwanRemoteRuntimeGen2>
+        </Suspense> */}
+
+        <AgapeEngine tunnelRun={tunnelRun}></AgapeEngine>
 
         {/* <group position={[0, 1, -5]}>
           <group position={[-1, 0, 0]}>
@@ -60,7 +65,7 @@ export function PageWorldRunner({ isEditor = false }) {
         </group> */}
       </Canvas>
 
-      <tRunner.Out></tRunner.Out>
+      <tunnelRun.Out></tunnelRun.Out>
       <CommonSwanHTML></CommonSwanHTML>
       <SwanRemoteHTMLGen2></SwanRemoteHTMLGen2>
     </div>
